@@ -9,7 +9,6 @@ const db = config.get('mongoURI');
 // connecting db promise-based
 const connectDB = async () =>{
     try{
-        
         // connecting, returns a promise
         // we should send some params to server
         await mongoose.connect(db, {
