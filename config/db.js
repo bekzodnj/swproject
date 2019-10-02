@@ -13,7 +13,8 @@ const connectDB = async () =>{
         // we should send some params to server
         await mongoose.connect(db, {
             useNewUrlParser: true,
-            useUnifiedTopology: true
+            useUnifiedTopology: true,
+            useCreateIndex: true
         });
 
         console.log("Database connected...");
