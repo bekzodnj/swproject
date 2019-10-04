@@ -1,3 +1,4 @@
 {
-    "mongoURI": "mongodb+srv://bekzodjon:aplle2@swproject-r7fuy.mongodb.net/test?retryWrites=true&w=majority"
+    "mongoURI": "mongodb://bekzodjon:zzome.ru@swproject-shard-00-00-r7fuy.mongodb.net:27017,swproject-shard-00-01-r7fuy.mongodb.net:27017,swproject-shard-00-02-r7fuy.mongodb.net:27017/admin?ssl=true&replicaSet=swproject-shard-0&authSource=admin&retryWrites=true&w=majoritymongodb://bekzodjon:<password>@swproject-shard-00-00-r7fuy.mongodb.net:27017,swproject-shard-00-01-r7fuy.mongodb.net:27017,swproject-shard-00-02-r7fuy.mongodb.net:27017/admin?ssl=true&replicaSet=swproject-shard-0&authSource=admin&retryWrites=true&w=majority",
+    "jwtSecret": "mysecrettoken"
 }
