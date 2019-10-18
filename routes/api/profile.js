@@ -3,7 +3,7 @@ const auth = require('../../middleware/auth');
 const Profile = require('../../models/Profile');
 const User = require('../../models/User');
 const router = express.Router();
-
+const { check, validationResult } = require('express-validator/check');
 
 // @route   GET api/profle/me
 // @desc    Get current users profile
@@ -22,6 +22,20 @@ router.get('/me', auth, async (req, res)=> {
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server error');
+    }
+});
+
+// @route   GET api/profle/
+// @desc    Create or update user profile
+// @access  Priate
+router.post('/', [auth, [
+    check('status', 'Status is required').not().isEmpty(),
+    check('skills', 'Skills is required').not().isEmpty()
+] ] , async (req, res) =>{
+    const errors = validationResult(req);
+
+    if(!errors.isEmpty()){
+        return res.status(400).json({errors: errors.array() }); 
     }
 });
 
