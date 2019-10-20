@@ -16,18 +16,19 @@ export const register = ({name, email, password}) => async dispatch =>{
     const body = JSON.stringify({name, email, password});
 
     try {
-        const res = await axios.post('api/users', config, body);
+        const res = await axios.post('/api/users', body, config);
 
         dispatch({
             type: REGISTER_SUCCESS,
             payload: res.data
         });
+
     } catch (err) {
 
         const errors = err.response.data.erorrs;
 
         if(errors){
-            erorrs.forEach(el => dispatch(setAlert(el.msg, 'danger')));
+            errors.forEach(el => dispatch(setAlert(el.msg, 'danger')));
         }
 
         dispatch({
