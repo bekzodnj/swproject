@@ -15,7 +15,7 @@ const Experience = ({ experience, deleteExperience }) => {
         {el.to === null ? " Now" : <Moment format="YYYY/MM/DD">{el.to}</Moment>}
       </td>
       <td className="btn btn-danger" onClick={() => deleteExperience(el._id)}>
-        Danger
+        Delete
       </td>
     </tr>
   ));
@@ -29,7 +29,7 @@ const Experience = ({ experience, deleteExperience }) => {
             <th>Company</th>
             <th>Title</th>
             <th>Years</th>
-            <th>Delete</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>{experiences}</tbody>
@@ -43,4 +43,7 @@ Experience.propTypes = {
   deleteExperience: PropTypes.func.isRequired
 };
 
-export default connect()(Experience);
+export default connect(
+  null,
+  { deleteExperience }
+)(Experience);
