@@ -1,7 +1,7 @@
 import axios from "axios";
 import { setAlert } from "./alert";
 
-import { GET_PROFILE, PROFILE_ERROR } from "./types";
+import { GET_PROFILE, PROFILE_ERROR, UPDATE_PROFILE } from "./types";
 
 // get current users profile
 export const getCurrentProfile = () => async dispatch => {
@@ -59,7 +59,7 @@ export const createProfile = (
 };
 
 // calling /profile/experience api
-export const addExperience = (formData, history) = async dispatch =>{
+export const addExperience = (formData, history) => async dispatch => {
   try {
     const config = {
       headers: {
@@ -74,10 +74,9 @@ export const addExperience = (formData, history) = async dispatch =>{
       payload: res.data
     });
 
-
     history.push("/dashboard");
 
-    dispatch(setAlert('Experience added', 'success'));
+    dispatch(setAlert("Experience added", "success"));
   } catch (err) {
     const errors = err.response.data.erorrs;
 
@@ -90,11 +89,11 @@ export const addExperience = (formData, history) = async dispatch =>{
       payload: { msg: err.response.statusText, status: err.response.status }
     });
   }
-}
+};
 
 // adding Education
 // calling /profile/experience api
-export const addEducation = (formData, history) = async dispatch =>{
+export const addEducation = (formData, history) => async dispatch => {
   try {
     const config = {
       headers: {
@@ -109,10 +108,9 @@ export const addEducation = (formData, history) = async dispatch =>{
       payload: res.data
     });
 
-
     history.push("/dashboard");
 
-    dispatch(setAlert('Education added', 'success'));
+    dispatch(setAlert("Education added", "success"));
   } catch (err) {
     const errors = err.response.data.erorrs;
 
@@ -125,4 +123,4 @@ export const addEducation = (formData, history) = async dispatch =>{
       payload: { msg: err.response.statusText, status: err.response.status }
     });
   }
-}
+};
