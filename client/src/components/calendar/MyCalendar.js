@@ -8,7 +8,7 @@ import { getEvents, updateEvents } from "../../actions/events";
 
 import PropTypes from "prop-types";
 
-const MyCalendar = ({ events1, updateEvents, getEvents }) => {
+const MyCalendar = ({ events1, updateEvents, getEvents, editable = false }) => {
   const [events, addEvents] = useState([]);
 
   useEffect(() => {
@@ -34,7 +34,7 @@ const MyCalendar = ({ events1, updateEvents, getEvents }) => {
   return (
     <div className="mt4">
       <Calendar
-        selectable
+        selectable={editable}
         localizer={localizer}
         events={events1}
         defaultView={"week"}

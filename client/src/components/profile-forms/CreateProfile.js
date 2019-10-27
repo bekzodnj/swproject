@@ -48,8 +48,7 @@ const CreateProfile = ({ createProfile, history }) => {
     <Fragment>
       <h1 className="large text-primary">Create Your Profile</h1>
       <p className="lead">
-        <i className="fas fa-user"></i> Let's get some information to make your
-        profile stand out
+        <i className="fas fa-user"></i> Let's get some information
       </p>
       <small>* = required field</small>
       <form className="form" onSubmit={e => onSubmit(e)}>
@@ -114,7 +113,8 @@ const CreateProfile = ({ createProfile, history }) => {
             onChange={e => onChange(e)}
           />
           <small className="form-text">
-            Please use comma separated values (eg. HTML,CSS,JavaScript,PHP)
+            Please use comma separated values skills (eg.
+            HTML,CSS,JavaScript,PHP)
           </small>
         </div>
         <div className="form-group">
