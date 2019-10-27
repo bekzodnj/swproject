@@ -11,8 +11,10 @@ import CreateProfile from "./components/profile-forms/CreateProfile";
 import EditProfile from "./components/profile-forms/EditProfile";
 import AddExperience from "./components/profile-forms/AddExperience";
 import AddEducation from "./components/profile-forms/AddEducation";
+import AddClass from "./components/calendar/AddClass";
 
 import "./App.css";
+import "tachyons";
 import { loadUser } from "./actions/auth";
 import setAuthToken from "./utils/setAuthToken";
 //Redux
@@ -62,6 +64,7 @@ const App = () => {
                 path="/add-education"
                 component={AddEducation}
               />
+              <PrivateRoute exact path="/add-class" component={AddClass} />
             </Switch>
           </section>
         </Fragment>

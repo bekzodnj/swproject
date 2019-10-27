@@ -14,9 +14,13 @@ export const LOGOUT = "LOGOUT";
 
 //Profile
 export const GET_PROFILE = "GET_PROFILE";
+export const GET_PROFILES = "GET_PROFILES";
 export const UPDATE_PROFILE = "UPDATE_PROFILE";
 
 export const CLEAR_PROFILE = "CLEAR_PROFILE";
 export const PROFILE_ERROR = "PROFILE_ERROR";
 
 export const ACCOUNT_DELETED = "ACCOUNT_DELETED";
+
+export const GET_EVENTS = "GET_EVENTS";
+export const UPDATE_EVENTS = "UPDATE_EVENTS";

@@ -7,6 +7,7 @@ import Spinner from "../layout/Spinner";
 import DashboardActions from "../dashboard/DashboardActions";
 import Experience from "../dashboard/Experience";
 import Education from "../dashboard/Education";
+import MyCalendar from "../calendar/MyCalendar";
 
 const Dashboard = ({
   getCurrentProfile,
@@ -22,14 +23,27 @@ const Dashboard = ({
     <Spinner />
   ) : (
     <Fragment>
-      <h1 className="large text-primary">Dashboard</h1>
-      <p className="lead">
-        <i className="fas fa-user"> Welcome, {user && user.name} </i>
-      </p>
+      <h1 className="f2">Dashboard Teacher</h1>
+      <div className="lead">
+        <div className="">
+          {profile != null && (
+            <img
+              src={profile.user.avatar}
+              className="br-100 pa1 ba b--black-10 h3 w3"
+              alt="avatar"
+            />
+          )}
+        </div>
+
+        <span className="f2 fw1 mt2">Welcome, {user && user.name}</span>
+      </div>
 
       {profile !== null ? (
         <Fragment>
           <DashboardActions />
+          <div className="f2 lh-title fw1 mt4 bt pt4">Your schedule</div>
+          <MyCalendar editable={false} />
+          <div className="mt4 bb pt4"></div>
           <Experience experience={profile.experience} />
           <Education education={profile.education} />
 
