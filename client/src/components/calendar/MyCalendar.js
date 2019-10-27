@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Calendar, Views, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
@@ -8,51 +8,48 @@ import { getEvents, updateEvents } from "../../actions/events";
 
 import PropTypes from "prop-types";
 
-class MyCalendar extends React.Component {
-  constructor(...args) {
-    super(...args);
+const MyCalendar = ({ events1, updateEvents, getEvents }) => {
+  const [events, addEvents] = useState([]);
 
-    this.state = { events: [] };
-  }
+  useEffect(() => {
+    getEvents();
+  }, []);
+  // handleSelect = ({ start, end }) => {
+  //   const title = window.prompt("New Event name");
+  //   if (title)
+  //     this.setState({
+  //       events: [
+  //         ...this.state.events,
+  //         {
+  //           start,
+  //           end,
+  //           title
+  //         }
+  //       ]
+  //     });
+  // };
 
-  handleSelect = ({ start, end }) => {
-    const title = window.prompt("New Event name");
-    if (title)
-      this.setState({
-        events: [
-          ...this.state.events,
-          {
-            start,
-            end,
-            title
-          }
-        ]
-      });
-    console.log(start, end);
-    updateEvents(start, end);
-  };
-  render() {
-    const { events1, getEvents, updateEvents } = this.props;
+  const localizer = momentLocalizer(moment);
 
-    const localizer = momentLocalizer(moment);
-    console.log(this.state.events);
-    return (
-      <div className="mt4">
-        <Calendar
-          selectable
-          localizer={localizer}
-          events={this.state.events}
-          defaultView={"week"}
-          defaultDate={new Date()}
-          onSelectEvent={event => alert(event.title)}
-          onSelectSlot={this.handleSelect}
-          style={{ height: "400px" }}
-          step={15}
-        />
-      </div>
-    );
-  }
-}
+  return (
+    <div className="mt4">
+      <Calendar
+        selectable
+        localizer={localizer}
+        events={events1}
+        defaultView={"week"}
+        defaultDate={new Date()}
+        onSelectEvent={event => alert(event.title)}
+        onSelectSlot={({ start, end }) => {
+          updateEvents(start, end);
+          // addEvents([...events, { title: "hello", start, end }]);
+        }}
+        style={{ height: "400px" }}
+        step={15}
+      />
+    </div>
+  );
+};
 
 const mapStateToProps = state => ({
   events1: state.events
