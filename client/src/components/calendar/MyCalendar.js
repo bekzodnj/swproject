@@ -14,6 +14,7 @@ const MyCalendar = ({ events1, updateEvents, getEvents, editable = false }) => {
   useEffect(() => {
     getEvents();
   }, []);
+
   // handleSelect = ({ start, end }) => {
   //   const title = window.prompt("New Event name");
   //   if (title)
