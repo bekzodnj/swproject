@@ -32,6 +32,18 @@ const MyCalendar = ({ events1, updateEvents, getEvents, editable = false }) => {
 
   const localizer = momentLocalizer(moment);
 
+  // starting time for a calendar 8:00am morning
+  const min_time = new Date();
+  min_time.setHours(8);
+  min_time.setMinutes(0);
+  min_time.setSeconds(0);
+
+  // starting time for a calendar 8:00am morning
+  const max_time = new Date();
+  max_time.setHours(22);
+  max_time.setMinutes(0);
+  max_time.setSeconds(0);
+
   return (
     <div className="mt4">
       <Calendar
@@ -43,10 +55,13 @@ const MyCalendar = ({ events1, updateEvents, getEvents, editable = false }) => {
         onSelectEvent={event => alert(event.title)}
         onSelectSlot={({ start, end }) => {
           updateEvents(start, end);
-          // addEvents([...events, { title: "hello", start, end }]);
         }}
         style={{ height: "400px" }}
         step={15}
+        popup={true}
+        min={min_time}
+        min={min_time}
+        dayLayoutAlgorithm={"no-overlap"}
       />
     </div>
   );
