@@ -60,7 +60,6 @@ const MyCalendar = ({ events1, updateEvents, getEvents, editable = false }) => {
         step={15}
         popup={true}
         min={min_time}
-        min={min_time}
         dayLayoutAlgorithm={"no-overlap"}
       />
     </div>

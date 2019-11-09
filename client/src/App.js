@@ -14,6 +14,7 @@ import AddEducation from "./components/profile-forms/AddEducation";
 import AddClass from "./components/calendar/AddClass";
 
 import "./App.css";
+import "./bootstrap.min.css";
 import "tachyons";
 import { loadUser } from "./actions/auth";
 import setAuthToken from "./utils/setAuthToken";
