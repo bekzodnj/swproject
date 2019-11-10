@@ -5,9 +5,15 @@ const EventSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "user"
   },
-  event_name: {
+  title: {
     type: String,
     required: true
+  },
+  start: {
+    type: Date
+  },
+  end: {
+    type: Date
   },
   logo: {
     type: String
@@ -15,9 +21,6 @@ const EventSchema = mongoose.Schema({
   category: {
     type: String,
     required: true
-  },
-  grouping: {
-    type: Number
   },
   payment_type: {
     type: String
@@ -41,9 +44,6 @@ const EventSchema = mongoose.Schema({
     type: String
   },
   cost: {
-    type: Number
-  },
-  discount: {
     type: Number
   },
   valid_from: {

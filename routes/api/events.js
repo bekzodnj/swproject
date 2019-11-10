@@ -13,7 +13,7 @@ router.post(
   [
     auth,
     [
-      check("event_name", "Event name is required")
+      check("title", "Title is required")
         .not()
         .isEmpty(),
       check("category", "Category is required")
@@ -29,46 +29,44 @@ router.post(
     }
 
     const {
-      event_name,
+      title,
       logo,
       category,
-      grouping,
       payment_type,
       min_no_of_students,
       max_no_of_students,
       event_type,
       no_of_repetitions,
-      duration,
       address,
       cost,
-      discount,
       valid_from,
       expiry_date,
       info,
-      detailed_info
+      detailed_info,
+      start,
+      end
     } = req.body;
 
     const eventFields = {};
 
     eventFields.user = req.user.id;
 
-    if (event_name) eventFields.event_name = event_name;
+    if (title) eventFields.title = title;
     if (logo) eventFields.logo = logo;
     if (category) eventFields.category = category;
-    if (grouping) eventFields.grouping = grouping;
     if (payment_type) eventFields.payment_type = payment_type;
     if (min_no_of_students) eventFields.min_no_of_students = min_no_of_students;
     if (max_no_of_students) eventFields.max_no_of_students = max_no_of_students;
     if (event_type) eventFields.event_type = event_type;
     if (no_of_repetitions) eventFields.no_of_repetitions = no_of_repetitions;
-    if (duration) eventFields.duration = duration;
     if (address) eventFields.address = address;
     if (cost) eventFields.cost = cost;
-    if (discount) eventFields.discount = discount;
     if (valid_from) eventFields.valid_from = valid_from;
     if (expiry_date) eventFields.expiry_date = expiry_date;
     if (info) eventFields.info = info;
     if (detailed_info) eventFields.detailed_info = detailed_info;
+    if (start) eventFields.start = start;
+    if (end) eventFields.end = end;
 
     try {
       event = new Event(eventFields);

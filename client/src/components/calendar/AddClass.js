@@ -1,16 +1,77 @@
-import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, withRouter } from "react-router-dom";
 import MyCalendar from "./MyCalendar";
 import { connect } from "react-redux";
 import moment from "moment";
-import { getEvents } from "../../actions/events";
+import {
+  getEvents,
+  getNewEvents,
+  updateNewEvents,
+  updateEvents
+} from "../../actions/events";
 
-const AddClass = ({ events, getEvents }) => {
+const AddClass = ({
+  events,
+  new_events,
+  getEvents,
+  updateEvents,
+  getNewEvents,
+  updateNewEvents
+}) => {
   useEffect(() => {
     getEvents();
+    getNewEvents();
   }, []);
 
-  const classes = events.map(el => (
+  // local state for storing form data
+  const [formData, setFormData] = useState({
+    title: "",
+    logo: "",
+    category: "",
+    payment_type: "",
+    min_no_of_students: 0,
+    max_no_of_students: 20,
+    event_type: "",
+    no_of_repetitions: 1,
+    address: "",
+    cost: "",
+    valid_from: "",
+    expiry_date: "",
+    info: "",
+    detailed_info: ""
+  });
+
+  const {
+    title,
+    logo,
+    category,
+    payment_type,
+    min_no_of_students,
+    max_no_of_students,
+    event_type,
+    no_of_repetitions,
+    address,
+    cost,
+    valid_from,
+    expiry_date,
+    info,
+    detailed_info
+  } = formData;
+
+  const onSubmit = e => {
+    e.preventDefault();
+
+    //console.log("New", new_events[0].start, new_events[0].end);
+    //console.log(formData);
+
+    updateEvents(formData, new_events[0].start, new_events[0].end);
+  };
+
+  const onChange = e => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const classes = new_events.map(el => (
     <article className="mw5 bg-white br3 pa4 mv2 ba b--black-10">
       <div className="">
         <h1 className="f3 mb2">{el.title}</h1>
@@ -33,14 +94,15 @@ const AddClass = ({ events, getEvents }) => {
       </Link>
       <h1 className="display-5">Add new event</h1>
 
-      <form>
+      <form onSubmit={e => onSubmit(e)}>
         <div className="form-group">
-          <label htmlFor="event_name">Enter event name</label>
+          <label htmlFor="title">Enter event name</label>
           <input
             type="text"
             className="form-control"
             placeholder="Event name"
-            name="event-name"
+            name="title"
+            onChange={e => onChange(e)}
           />
         </div>
 
@@ -51,12 +113,17 @@ const AddClass = ({ events, getEvents }) => {
             className="form-control"
             placeholder="logo"
             name="logo"
+            onChange={e => onChange(e)}
           />
         </div>
 
         <div className="form-group">
           <label htmlFor="category">Category of event</label>
-          <select name="category" className="form-control">
+          <select
+            name="category"
+            className="form-control"
+            onChange={e => onChange(e)}
+          >
             <option value="0">Choose category of the event...</option>
             <option value="consultation">Consultation</option>
             <option value="lecture">Lecture</option>
@@ -65,8 +132,12 @@ const AddClass = ({ events, getEvents }) => {
         </div>
 
         <div className="form-group">
-          <label htmlFor="type">Type of the event</label>
-          <select name="type" className="form-control">
+          <label htmlFor="event_type">Type of the event</label>
+          <select
+            name="event_type"
+            className="form-control"
+            onChange={e => onChange(e)}
+          >
             <option value="0">Choose type of the event...</option>
             <option value="one-time">One-time</option>
             <option value="duplicate">Duplicate</option>
@@ -74,58 +145,65 @@ const AddClass = ({ events, getEvents }) => {
           </select>
         </div>
 
-        <p className="text-primary">
-          Choose a suitable day from calendar &darr;
-        </p>
-        <MyCalendar editable />
-
         <div className="form-group mt-5">
-          <label htmlFor="payment">Payment type</label>
-          <select name="payment" className="form-control">
+          <label htmlFor="payment_type">Payment type</label>
+          <select
+            name="payment_type"
+            className="form-control"
+            onChange={e => onChange(e)}
+          >
             <option value="0">Choose payment type...</option>
-            <option value="prepaymnet">Prepayment Only</option>
+            <option value="prepayment">Prepayment Only</option>
             <option value="postpayment">Post payment</option>
             <option value="cashonly">Cash Only</option>
           </select>
         </div>
 
         <div className="form-group">
-          <label htmlFor="min_number">Minimum number of participants</label>
+          <label htmlFor="min_no_of_students">
+            Minimum number of participants
+          </label>
           <input
             className="form-control"
             type="number"
             placeholder="Minimum number of participants"
-            name="min_number"
+            name="min_no_of_students"
+            onChange={e => onChange(e)}
           />
         </div>
 
         <div className="form-group">
-          <label htmlFor="max_number">Maximum number of participants</label>
+          <label htmlFor="max_no_of_students">
+            Maximum number of participants
+          </label>
           <input
             className="form-control"
             type="number"
             placeholder="Maximum number of participants"
-            name="max_number"
+            name="max_no_of_students"
+            onChange={e => onChange(e)}
           />
         </div>
 
         <div className="form-group">
-          <label htmlFor="repetitions">Number of repetitions</label>
+          <label htmlFor="no_of_repetitions">Number of repetitions</label>
           <input
             className="form-control"
             type="number"
             placeholder="Number of repetitions"
-            name="repetitions"
+            name="no_of_repetitions"
+            onChange={e => onChange(e)}
           />
         </div>
 
         <div className="form-group">
-          <label htmlFor="adress">Adress</label>
+          <label htmlFor="address">Address</label>
           <input
             type="text"
             className="form-control"
             placeholder="Adress of the event"
-            name="adress"
+            name="address"
+            onChange={e => onChange(e)}
           />
         </div>
 
@@ -136,16 +214,18 @@ const AddClass = ({ events, getEvents }) => {
             className="form-control"
             placeholder="Event cost"
             name="cost"
+            onChange={e => onChange(e)}
           />
         </div>
 
         <div className="form-group">
-          <label htmlFor="valid_date">Valid from</label>
+          <label htmlFor="valid_from">Valid from</label>
           <input
             type="date"
             className="form-control"
             placeholder="Valid from"
-            name="valid_date"
+            name="valid_from"
+            onChange={e => onChange(e)}
           />
         </div>
 
@@ -156,16 +236,18 @@ const AddClass = ({ events, getEvents }) => {
             className="form-control"
             placeholder="Expiry date"
             name="expiry_date"
+            onChange={e => onChange(e)}
           />
         </div>
 
         <div className="form-group">
-          <label htmlFor="brief_info">Brief information about the event</label>
+          <label htmlFor="info">Brief information about the event</label>
           <input
             type="text"
             className="form-control"
             placeholder="Brief information"
-            name="brief_info"
+            name="info"
+            onChange={e => onChange(e)}
           />
         </div>
 
@@ -175,6 +257,7 @@ const AddClass = ({ events, getEvents }) => {
             className="form-control"
             placeholder="Detailed information"
             name="detailed_info"
+            onChange={e => onChange(e)}
           ></textarea>
         </div>
 
@@ -183,19 +266,25 @@ const AddClass = ({ events, getEvents }) => {
           <input type="file" placeholder="Event materials" name="materials" />
         </div>
 
-        <input type="submit" className="btn btn-primary" />
-      </form>
+        <p className="text-primary">
+          Choose a suitable day from calendar &darr;
+        </p>
+        <MyCalendar editable />
 
+        <input type="submit" className="btn btn-primary mt-4" value="Submit" />
+      </form>
+      <h2 className="mt2">Preview</h2>
       <div className="bt pt3 mt3">{classes}</div>
     </div>
   );
 };
 
 const mapStateToProps = state => ({
-  events: state.events
+  events: state.events,
+  new_events: state.new_events
 });
 
 export default connect(
   mapStateToProps,
-  { getEvents }
-)(AddClass);
+  { getEvents, updateEvents, getNewEvents, updateNewEvents }
+)(withRouter(AddClass));
