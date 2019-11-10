@@ -56,6 +56,9 @@ export const updateEvents = (
         payload: res.data
       });
 
+      history.push("/dashboard");
+      dispatch(setAlert("Event created", "success"));
+
       dispatch({
         type: CLEAR_NEW_EVENTS
       });
@@ -63,9 +66,6 @@ export const updateEvents = (
       dispatch({
         type: GET_EVENTS
       });
-
-      history.push("/dashboard");
-      dispatch(setAlert("Event created", "success"));
     }
   } catch (err) {
     const errors = err.response.data.errors;

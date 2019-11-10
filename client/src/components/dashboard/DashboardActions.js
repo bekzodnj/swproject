@@ -15,7 +15,7 @@ const DashboardActions = props => {
           <i className="fas fa-graduation-cap text-primary"></i> Add Education
         </Link>
         <Link to="/add-class" className="btn btn-light">
-          <i className="fas fa-graduation-cap text-primary"></i> Edit Schedule
+          <i className="fas fa-graduation-cap text-primary"></i> Add New Event
         </Link>
       </div>
     </div>

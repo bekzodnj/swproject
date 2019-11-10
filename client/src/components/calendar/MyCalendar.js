@@ -51,7 +51,7 @@ const MyCalendar = ({
 
   // in db dates stored as strings
   // converted each date property: start, end
-  // to the js date object 
+  // to the js date object
   // in order to make them work in calendar
   let newEv = [];
   if (events !== undefined && events.length > 0) {
@@ -71,7 +71,7 @@ const MyCalendar = ({
           events={newEv}
           defaultView={"week"}
           defaultDate={new Date()}
-          onSelectEvent={event => alert(event.title)}
+          onSelectEvent={event => alert(event._id)}
           onSelectSlot={({ start, end }) => {
             updateNewEvents(start, end);
           }}
