@@ -1,4 +1,4 @@
-import { GET_EVENTS, UPDATE_EVENTS, SAVE_EVENT } from "../actions/types";
+import { GET_EVENTS, UPDATE_EVENTS } from "../actions/types";
 
 const initialState = [];
 

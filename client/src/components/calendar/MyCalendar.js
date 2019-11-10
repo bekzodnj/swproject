@@ -49,37 +49,19 @@ const MyCalendar = ({
   min_time.setMinutes(0);
   min_time.setSeconds(0);
 
-  let newObj = {};
-  let arr = [];
-  // if (events === undefined || events.length == 0) {
-  // } else {
-  //   const { title, start, end } = events[0];
-
+  // in db dates stored as strings
+  // converted each date property: start, end
+  // to the js date object 
+  // in order to make them work in calendar
   let newEv = [];
-
   if (events !== undefined && events.length > 0) {
-    // console.log(events[0]);
-    // var mydate = new Date(events[0].start);
-    // console.log("mydate", mydate.toDateString());
-
-    newEv = [
-      {
-        ...events[0],
-        start: new Date(events[0].start),
-        end: new Date(events[0].end)
-      }
-    ];
+    newEv = events.map(el => ({
+      ...el,
+      start: new Date(el.start),
+      end: new Date(el.end)
+    }));
   }
 
-  // newEv = [
-  //   {
-  //     id: 6,
-  //     title: "Meeting",
-  //     start: new Date(2019, 11, 12, 10, 30, 0, 0),
-  //     end: new Date(2019, 11, 12, 12, 30, 0, 0),
-  //     desc: "Pre-meeting meeting, to prepare for the meeting"
-  //   }
-  // ];
   return (
     <div className="mt4">
       {events != undefined && events.length > 0 && (

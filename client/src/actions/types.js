@@ -28,3 +28,4 @@ export const UPDATE_EVENTS = "UPDATE_EVENTS";
 export const SAVE_EVENTS = "SAVE_EVENTS";
 export const GET_NEW_EVENTS = "GET_NEW_EVENTS";
 export const UPDATE_NEW_EVENTS = "UPDATE_NEW_EVENTS";
+export const CLEAR_NEW_EVENTS = "CLEAR_NEW_EVENTS";

@@ -1,7 +1,7 @@
 import {
   GET_NEW_EVENTS,
   UPDATE_NEW_EVENTS,
-  SAVE_EVENT
+  CLEAR_NEW_EVENTS
 } from "../actions/types";
 
 const initialState = [];
@@ -15,6 +15,9 @@ export default function(state = initialState, action) {
 
     case UPDATE_NEW_EVENTS:
       return [...state, payload];
+
+    case CLEAR_NEW_EVENTS:
+      return [];
 
     default:
       return state;

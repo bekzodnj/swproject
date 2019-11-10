@@ -3,7 +3,7 @@ import { setAlert } from "./alert";
 import {
   GET_EVENTS,
   UPDATE_EVENTS,
-  SAVE_EVENTS,
+  CLEAR_NEW_EVENTS,
   GET_NEW_EVENTS,
   UPDATE_NEW_EVENTS
 } from "./types";
@@ -17,11 +17,22 @@ export const getEvents = () => async dispatch => {
       type: GET_EVENTS,
       payload: res.data
     });
-  } catch (err) {}
+  } catch (err) {
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach(el => dispatch(setAlert(el.msg, "danger")));
+    }
+  }
 };
 
 // update events object
-export const updateEvents = (formData, start, end) => async dispatch => {
+export const updateEvents = (
+  formData,
+  start,
+  end,
+  history
+) => async dispatch => {
   try {
     // const title = window.prompt("New Event name");
 
@@ -42,14 +53,27 @@ export const updateEvents = (formData, start, end) => async dispatch => {
 
       dispatch({
         type: UPDATE_EVENTS,
-        payload: res
+        payload: res.data
+      });
+
+      dispatch({
+        type: CLEAR_NEW_EVENTS
       });
 
       dispatch({
         type: GET_EVENTS
       });
+
+      history.push("/dashboard");
+      dispatch(setAlert("Event created", "success"));
     }
-  } catch (err) {}
+  } catch (err) {
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach(el => dispatch(setAlert(el.msg, "danger")));
+    }
+  }
 };
 
 //

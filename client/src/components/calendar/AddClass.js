@@ -16,7 +16,8 @@ const AddClass = ({
   getEvents,
   updateEvents,
   getNewEvents,
-  updateNewEvents
+  updateNewEvents,
+  history
 }) => {
   useEffect(() => {
     getEvents();
@@ -64,7 +65,7 @@ const AddClass = ({
     //console.log("New", new_events[0].start, new_events[0].end);
     //console.log(formData);
 
-    updateEvents(formData, new_events[0].start, new_events[0].end);
+    updateEvents(formData, new_events[0].start, new_events[0].end, history);
   };
 
   const onChange = e => {
