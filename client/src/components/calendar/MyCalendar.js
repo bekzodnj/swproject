@@ -60,28 +60,28 @@ const MyCalendar = ({
       start: new Date(el.start),
       end: new Date(el.end)
     }));
+  } else {
+    // newEv = [{ title: "Hello" }];
   }
 
   return (
     <div className="mt4">
-      {events != undefined && events.length > 0 && (
-        <Calendar
-          selectable={editable}
-          localizer={localizer}
-          events={newEv}
-          defaultView={"week"}
-          defaultDate={new Date()}
-          onSelectEvent={event => alert(event._id)}
-          onSelectSlot={({ start, end }) => {
-            updateNewEvents(start, end);
-          }}
-          style={{ height: "400px" }}
-          step={15}
-          popup={true}
-          min={min_time}
-          dayLayoutAlgorithm={"no-overlap"}
-        />
-      )}
+      <Calendar
+        selectable={editable}
+        localizer={localizer}
+        events={newEv}
+        defaultView={"week"}
+        defaultDate={new Date()}
+        onSelectEvent={event => alert(event._id)}
+        onSelectSlot={({ start, end }) => {
+          updateNewEvents(start, end);
+        }}
+        style={{ height: "400px" }}
+        step={15}
+        popup={true}
+        min={min_time}
+        dayLayoutAlgorithm={"no-overlap"}
+      />
     </div>
   );
 };
