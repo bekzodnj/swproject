@@ -5,7 +5,8 @@ import {
   UPDATE_EVENTS,
   CLEAR_NEW_EVENTS,
   GET_NEW_EVENTS,
-  UPDATE_NEW_EVENTS
+  UPDATE_NEW_EVENTS,
+  EDIT_EVENTS
 } from "./types";
 
 // get all events
@@ -26,7 +27,7 @@ export const getEvents = () => async dispatch => {
   }
 };
 
-// update events object
+// Create an event=update events object
 export const updateEvents = (
   formData,
   start,
@@ -58,6 +59,57 @@ export const updateEvents = (
 
       history.push("/dashboard");
       dispatch(setAlert("Event created", "success"));
+
+      dispatch({
+        type: CLEAR_NEW_EVENTS
+      });
+
+      dispatch({
+        type: GET_EVENTS
+      });
+    }
+  } catch (err) {
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach(el => dispatch(setAlert(el.msg, "danger")));
+    }
+  }
+};
+
+export const editEvents = (
+  formData,
+  start,
+  end,
+  event_id,
+  history
+) => async dispatch => {
+  try {
+    if (formData.title) {
+      const data = {
+        ...formData,
+        start,
+        end
+      };
+      const config = {
+        headers: {
+          "Content-Type": "application/json"
+        }
+      };
+
+      const res = await axios.post(
+        `/api/events/edit/${event_id}`,
+        data,
+        config
+      );
+
+      dispatch({
+        type: GET_EVENTS,
+        payload: res.data
+      });
+
+      history.push("/dashboard");
+      dispatch(setAlert("Event edited", "success"));
 
       dispatch({
         type: CLEAR_NEW_EVENTS

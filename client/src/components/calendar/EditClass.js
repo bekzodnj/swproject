@@ -7,7 +7,8 @@ import {
   getEvents,
   getNewEvents,
   updateNewEvents,
-  updateEvents
+  updateEvents,
+  editEvents
 } from "../../actions/events";
 
 const EditClass = ({
@@ -17,6 +18,7 @@ const EditClass = ({
   updateEvents,
   getNewEvents,
   updateNewEvents,
+  editEvents,
   history,
   match
 }) => {
@@ -26,52 +28,57 @@ const EditClass = ({
     logo: "",
     category: "",
     payment_type: "",
-    min_no_of_students: 0,
-    max_no_of_students: 20,
+    min_no_of_students: 1,
+    max_no_of_students: 2,
     event_type: "",
     no_of_repetitions: 1,
     address: "",
-    cost: "",
+    cost: 0,
     valid_from: "",
     expiry_date: "",
     info: "",
     detailed_info: ""
   });
 
-  // getting id from URL
-  // getting properties of event
   const event_id = match.params.event_id;
   const selectedEvent = events.filter(el => el._id == event_id);
-  console.log(selectedEvent[0]);
+  // console.log(selectedEvent[0]);
 
-  const event = selectedEvent[0];
-  let loading = true;
+  const event = { ...selectedEvent[0] };
 
-  if (events !== undefined && events.length > 0) {
-    if (event !== undefined) loading = false;
-  } else {
-    loading = true;
-  }
+  //let loading = true;
+  // if (events !== undefined && events.length > 0) {
+  //   if (event !== undefined) {
+  //     loading = false;
+  //   }
+  // } else {
+  //   loading = true;
+  // }
 
   useEffect(() => {
     getEvents();
     getNewEvents();
 
     setFormData({
-      title: loading || !event.title ? "" : event.title,
-      logo: loading || !event.logo ? "" : event.logo,
-      category: loading || !event.category ? "" : event.category,
-      payment_type: loading || !event.payment_type ? "" : event.payment_type,
-      no_of_repetitions:
-        loading || !event.no_of_repetitions ? "" : event.no_of_repetitions,
-      address: loading || !event.address ? "" : event.address,
-      cost: loading || !event.cost ? "" : event.cost,
-      valid_from: loading || !event.valid_from ? "" : event.valid_from,
-      expiry_date: loading || !event.expiry_date ? "" : event.expiry_date,
-      info: loading || !event.info ? "" : event.info,
-      detailed_info: loading || !event.detailed_info ? "" : event.detailed_info
+      title: !event.title ? "" : event.title,
+      logo: !event.logo ? "" : event.logo,
+      category: !event.category ? "" : event.category,
+      payment_type: !event.payment_type ? "" : event.payment_type,
+      no_of_repetitions: !event.no_of_repetitions ? 1 : event.no_of_repetitions,
+      address: !event.address ? "" : event.address,
+      cost: !event.cost ? 0 : event.cost,
+      valid_from: !event.valid_from ? "" : event.valid_from,
+      expiry_date: !event.expiry_date ? "" : event.expiry_date,
+      info: !event.info ? "" : event.info,
+      detailed_info: !event.detailed_info ? "" : event.detailed_info,
+      min_no_of_students: !event.min_no_of_students
+        ? 1
+        : event.min_no_of_students,
+      max_no_of_students: !event.max_no_of_students
+        ? 2
+        : event.max_no_of_students
     });
-  }, [loading]);
+  }, []);
 
   const {
     title,
@@ -96,7 +103,13 @@ const EditClass = ({
     //console.log("New", new_events[0].start, new_events[0].end);
     //console.log(formData);
 
-    updateEvents(formData, new_events[0].start, new_events[0].end, history);
+    editEvents(
+      formData,
+      new_events[0].start,
+      new_events[0].end,
+      event_id,
+      history
+    );
   };
 
   const onChange = e => {
@@ -124,7 +137,7 @@ const EditClass = ({
       <Link className="btn btn-outline-secondary" to="/dashboard">
         &larr; Go Back
       </Link>
-      <h1 className="display-5">Add new event</h1>
+      <h1 className="display-5">Edit Event: {event.title}</h1>
 
       <form onSubmit={e => onSubmit(e)}>
         <div className="form-group">
@@ -319,11 +332,10 @@ const EditClass = ({
         <MyCalendar editable />
 
         <h2 className="mt2">Preview</h2>
+        <div className="bt pt3 mt3">{classes}</div>
 
         <input type="submit" className="btn btn-primary mt-4" value="Save" />
       </form>
-
-      <div className="bt pt3 mt3">{classes}</div>
     </div>
   );
 };
@@ -337,5 +349,6 @@ export default connect(mapStateToProps, {
   getEvents,
   updateEvents,
   getNewEvents,
-  updateNewEvents
+  updateNewEvents,
+  editEvents
 })(withRouter(EditClass));

@@ -184,7 +184,7 @@ router.post(
 );
 
 // @route   POST api/events/edit/:event_id
-// @desc    Create or update user profile
+// @desc    Edit an event with id
 // @access  Private
 router.post(
   "/edit/:event_id",
