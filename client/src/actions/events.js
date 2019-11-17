@@ -117,7 +117,28 @@ export const editEvents = (formData, event_id, history) => async dispatch => {
   }
 };
 
-//
+// delete event
+export const deleteEvent = (id, history) => async dispatch => {
+  try {
+    const res = await axios.delete(`/api/events/${id}`);
+
+    dispatch({
+      type: GET_EVENTS,
+      payload: res.data
+    });
+
+    history.push("/dashboard");
+    dispatch(setAlert("Event deleted", "success"));
+  } catch (err) {
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach(el => dispatch(setAlert(el.msg, "danger")));
+    }
+  }
+};
+
+// temp buffer events in calendar
 export const getNewEvents = () => async dispatch => {
   try {
     dispatch({
@@ -126,7 +147,7 @@ export const getNewEvents = () => async dispatch => {
   } catch (err) {}
 };
 
-//
+// temporary buffer events in calendar
 export const updateNewEvents = (start, end) => async dispatch => {
   try {
     const title = "New Event";

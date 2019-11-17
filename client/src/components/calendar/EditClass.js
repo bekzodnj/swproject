@@ -8,7 +8,8 @@ import {
   getNewEvents,
   updateNewEvents,
   updateEvents,
-  editEvents
+  editEvents,
+  deleteEvent
 } from "../../actions/events";
 
 const EditClass = ({
@@ -19,6 +20,7 @@ const EditClass = ({
   getNewEvents,
   updateNewEvents,
   editEvents,
+  deleteEvent,
   history,
   match
 }) => {
@@ -139,7 +141,19 @@ const EditClass = ({
       <Link className="btn btn-outline-secondary" to="/dashboard">
         &larr; Go Back
       </Link>
-      <h1 className="display-5">Edit Event: </h1>
+      <div className="d-flex justify-content-between">
+        <h1 className="display-5">Edit Event: </h1>
+        <button
+          className="btn btn-outline-danger"
+          onClick={() => {
+            const reply = window.confirm("Are you sure?");
+
+            if (reply) deleteEvent(event_id, history);
+          }}
+        >
+          Delete Event &times;
+        </button>
+      </div>
 
       <form onSubmit={e => onSubmit(e)}>
         <div className="form-group">
@@ -352,5 +366,6 @@ export default connect(mapStateToProps, {
   updateEvents,
   getNewEvents,
   updateNewEvents,
-  editEvents
+  editEvents,
+  deleteEvent
 })(withRouter(EditClass));
