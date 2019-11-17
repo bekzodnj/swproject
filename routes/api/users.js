@@ -17,6 +17,12 @@ router.post(
     check("name", "Name is required")
       .not()
       .isEmpty(),
+    check("secretQuestion", "Secret question is required")
+      .not()
+      .isEmpty(),
+    check("secretAnswer", "Secret answer is required")
+      .not()
+      .isEmpty(),
     check("email", "Please enter a valid email").isEmail(),
     check(
       "password",
@@ -29,7 +35,7 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { name, email, password } = req.body;
+    const { name, email, password, secretQuestion, secretAnswer } = req.body;
 
     try {
       // check if user/email exists
@@ -49,7 +55,9 @@ router.post(
         name,
         email,
         avatar,
-        password
+        password,
+        secretQuestion,
+        secretAnswer
       });
 
       // hash the password

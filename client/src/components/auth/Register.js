@@ -1,98 +1,141 @@
-import React, {Fragment, useState} from 'react';
-import { Link, Redirect } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { setAlert } from '../../actions/alert';
-import { register } from '../../actions/auth';
-import PropTypes from 'prop-types'
+import React, { Fragment, useState } from "react";
+import { Link, Redirect } from "react-router-dom";
+import { connect } from "react-redux";
+import { setAlert } from "../../actions/alert";
+import { register } from "../../actions/auth";
+import PropTypes from "prop-types";
 
+const Register = ({ setAlert, register, isAuthenticated }) => {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    password2: "",
+    secretQuestion: "",
+    secretAnswer: ""
+  });
 
-const Register = ({setAlert, register, isAuthenticated}) => {
+  const {
+    name,
+    email,
+    password,
+    password2,
+    secretQuestion,
+    secretAnswer
+  } = formData;
 
-    const [formData, setFormData] = useState({
-        name: '',
-        email: '',
-        password: '',
-        password2: ''
-    });
+  const onChange = e =>
+    setFormData({ ...formData, [e.target.name]: e.target.value });
 
-    const { name, email, password, password2 } = formData; 
+  const onSubmit = async e => {
+    e.preventDefault();
 
-    const onChange = (e) => setFormData({...formData, [e.target.name]: e.target.value});
-
-    const onSubmit = async e => {
-        e.preventDefault();
-
-        if(password !== password2){
-            setAlert('Passwords do not match', 'danger');
-        }else{
-            register({name, email, password});
-        }
+    if (password !== password2) {
+      setAlert("Passwords do not match", "danger");
+    } else {
+      register({ name, email, password, secretQuestion, secretAnswer });
     }
+  };
 
-    if(isAuthenticated){
-        return <Redirect to="/dashboard"/>
-    }
+  if (isAuthenticated) {
+    return <Redirect to="/dashboard" />;
+  }
 
-    
-    return(
-        <Fragment>
-            <h1 className="large text-primary">Sign Up</h1>
-                <p className="lead"><i className="fas fa-user"></i> Create Your Account</p>
-                <form className="form" onSubmit={e => onSubmit(e)}>
-                    <div className="form-group">
-                    <input type="text" placeholder="Name" name="name"
-                     required 
-                     value={name} 
-                     onChange={e => onChange(e)}
-                     />
-                    </div>
-                    <div className="form-group">
-                    <input type="email" placeholder="Email Address" 
-                        name="email"
-                        value={email} 
-                        onChange={e => onChange(e)} />
-                    <small className="form-text"
-                        >This site uses Gravatar so if you want a profile image, use a
-                        Gravatar email</small>
-                    
-                    </div>
-                    <div className="form-group">
-                    <input
-                        type="password"
-                        placeholder="Password"
-                        name="password"
-                        minLength="6"
-                        value={password} 
-                        onChange={e => onChange(e)}
-                    />
-                    </div>
-                    <div className="form-group">
-                    <input
-                        type="password"
-                        placeholder="Confirm Password"
-                        name="password2"
-                        minLength="6"
-                        value={password2} 
-                        onChange={e => onChange(e)}
-                    />
-                    </div>
-                    <input type="submit" className="btn btn-primary" value="Register" />
-                </form>
-                <p className="my-1">
-                    Already have an account? <Link to="/login">Sign In</Link>
-                </p>
-        </Fragment>
-    );
-}
+  return (
+    <Fragment>
+      <h1 className="large text-primary">Sign Up</h1>
+      <p className="lead">
+        <i className="fas fa-user"></i> Create Your Account
+      </p>
+      <form className="form" onSubmit={e => onSubmit(e)}>
+        <div className="form-group">
+          <input
+            type="text"
+            placeholder="Name"
+            name="name"
+            required
+            value={name}
+            onChange={e => onChange(e)}
+          />
+        </div>
+        <div className="form-group">
+          <input
+            type="email"
+            placeholder="Email Address"
+            name="email"
+            value={email}
+            onChange={e => onChange(e)}
+          />
+          <small className="form-text">
+            This site uses Gravatar so if you want a profile image, use a
+            Gravatar email
+          </small>
+        </div>
+        <div className="form-group">
+          <input
+            type="password"
+            placeholder="Password"
+            name="password"
+            minLength="6"
+            value={password}
+            onChange={e => onChange(e)}
+          />
+        </div>
+        <div className="form-group">
+          <input
+            type="password"
+            placeholder="Confirm Password"
+            name="password2"
+            minLength="6"
+            value={password2}
+            onChange={e => onChange(e)}
+          />
+        </div>
+
+        <div className="form-group">
+          <small className="form-text">
+            In order to recovery your password, provide answers for questionaire
+          </small>
+          <select
+            name="secretQuestion"
+            className="form-control"
+            onChange={e => onChange(e)}
+            value={secretQuestion}
+          >
+            <option>Custom secret answer</option>
+            <option>Your favourite author/book</option>
+            <option>Your favourite music artist</option>
+            <option>School you went </option>
+            <option>Your hometown</option>
+          </select>
+        </div>
+        <div className="form-group">
+          <input
+            type="text"
+            placeholder="Type secret answer"
+            name="secretAnswer"
+            onChange={e => onChange(e)}
+            value={secretAnswer}
+          />
+        </div>
+
+        <input type="submit" className="btn btn-primary" value="Register" />
+      </form>
+      <p className="my-1">
+        Already have an account? <Link to="/login">Sign In</Link>
+      </p>
+    </Fragment>
+  );
+};
 
 Register.propTypes = {
-    setAlert: PropTypes.func.isRequired,
-    register: PropTypes.func.isRequired,
-    isAuthenticated: PropTypes.bool
-}
+  setAlert: PropTypes.func.isRequired,
+  register: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool
+};
 
-const mapStateToProps = state =>({
-    isAuthenticated: state.auth.isAuthenticated 
+const mapStateToProps = state => ({
+  isAuthenticated: state.auth.isAuthenticated
 });
 
-export default connect(mapStateToProps, {setAlert, register})(Register);
+export default connect(mapStateToProps, { setAlert, register })(Register);
