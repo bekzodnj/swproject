@@ -7,6 +7,8 @@ const config = require("config");
 const jwt = require("jsonwebtoken");
 const User = require("../../models/User");
 
+const nodemailer = require("nodemailer");
+
 // @route   GET api/auth
 // @desc    Test Route
 // @access  Public
@@ -82,7 +84,7 @@ router.post(
 );
 
 // @route   POST api/auth/recovery
-// @desc    Password Recover
+// @desc    Password Recovery
 // @access  Public
 router.post(
   "/recovery",
@@ -120,6 +122,29 @@ router.post(
           .status(400)
           .json({ errors: [{ msg: "Incorrect credentials" }] });
       }
+
+      var transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: "bekzodlev@gmail.com",
+          pass: "zzome.ru"
+        }
+      });
+
+      var mailOptions = {
+        from: "bekzodlev@gmail.com",
+        to: "bekzodnx@gmail.com",
+        subject: "Sending a pilot email :)",
+        text: "<h1>Password Recovery</h1><p>Your password is: </p>!"
+      };
+
+      transporter.sendMail(mailOptions, function(error, info) {
+        if (error) {
+          console.log(error);
+        } else {
+          console.log("Email sent: " + info.response);
+        }
+      });
 
       res.json("Email sent");
     } catch (error) {
