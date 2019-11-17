@@ -77,20 +77,9 @@ export const updateEvents = (
   }
 };
 
-export const editEvents = (
-  formData,
-  start,
-  end,
-  event_id,
-  history
-) => async dispatch => {
+export const editEvents = (formData, event_id, history) => async dispatch => {
   try {
     if (formData.title) {
-      const data = {
-        ...formData,
-        start,
-        end
-      };
       const config = {
         headers: {
           "Content-Type": "application/json"
@@ -99,7 +88,7 @@ export const editEvents = (
 
       const res = await axios.post(
         `/api/events/edit/${event_id}`,
-        data,
+        formData,
         config
       );
 

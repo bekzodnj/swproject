@@ -41,19 +41,14 @@ const EditClass = ({
   });
 
   const event_id = match.params.event_id;
-  const selectedEvent = events.filter(el => el._id == event_id);
-  // console.log(selectedEvent[0]);
 
-  const event = { ...selectedEvent[0] };
-
-  //let loading = true;
-  // if (events !== undefined && events.length > 0) {
-  //   if (event !== undefined) {
-  //     loading = false;
-  //   }
-  // } else {
-  //   loading = true;
-  // }
+  let event = {};
+  if (events !== undefined && events.length > 0) {
+    const selectedEvent = events.filter(el => el._id == event_id);
+    // console.log(selectedEvent[0]);
+    event = { ...selectedEvent[0] };
+  } else {
+  }
 
   useEffect(() => {
     getEvents();
@@ -102,14 +97,21 @@ const EditClass = ({
 
     //console.log("New", new_events[0].start, new_events[0].end);
     //console.log(formData);
+    let start, end;
+    if (new_events !== undefined && new_events.length > 0) {
+      start = new_events[0].start;
+      end = new_events[0].end;
+    } else {
+      start = null;
+      end = null;
+    }
 
-    editEvents(
-      formData,
-      new_events[0].start,
-      new_events[0].end,
-      event_id,
-      history
-    );
+    const formData1 = {
+      ...formData,
+      start,
+      end
+    };
+    editEvents(formData1, event_id, history);
   };
 
   const onChange = e => {
@@ -137,7 +139,7 @@ const EditClass = ({
       <Link className="btn btn-outline-secondary" to="/dashboard">
         &larr; Go Back
       </Link>
-      <h1 className="display-5">Edit Event: {event.title}</h1>
+      <h1 className="display-5">Edit Event: </h1>
 
       <form onSubmit={e => onSubmit(e)}>
         <div className="form-group">
