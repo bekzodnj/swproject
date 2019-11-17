@@ -12,6 +12,8 @@ import EditProfile from "./components/profile-forms/EditProfile";
 import AddExperience from "./components/profile-forms/AddExperience";
 import AddEducation from "./components/profile-forms/AddEducation";
 import AddClass from "./components/calendar/AddClass";
+import EditClass from "./components/calendar/EditClass";
+import EditEvent from "./components/calendar/EditEvent";
 
 import "./App.css";
 import "./bootstrap.min.css";
@@ -66,6 +68,16 @@ const App = () => {
                 component={AddEducation}
               />
               <PrivateRoute exact path="/add-class" component={AddClass} />
+              <PrivateRoute
+                exact
+                path="/edit-class/:event_id"
+                component={EditClass}
+              />
+              <PrivateRoute
+                exact
+                path="/editEvent/:event_id"
+                component={EditEvent}
+              />
             </Switch>
           </section>
         </Fragment>

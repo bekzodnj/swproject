@@ -18,7 +18,7 @@ const EditClass = ({
   getNewEvents,
   updateNewEvents,
   history,
-  profile: { loading }
+  match
 }) => {
   // local state for storing form data
   const [formData, setFormData] = useState({
@@ -38,23 +38,38 @@ const EditClass = ({
     detailed_info: ""
   });
 
+  // getting id from URL
+  // getting properties of event
+  const event_id = match.params.event_id;
+  const selectedEvent = events.filter(el => el._id == event_id);
+  console.log(selectedEvent[0]);
+
+  const event = selectedEvent[0];
+  let loading = true;
+
+  if (events !== undefined && events.length > 0) {
+    if (event !== undefined) loading = false;
+  } else {
+    loading = true;
+  }
+
   useEffect(() => {
     getEvents();
     getNewEvents();
 
     setFormData({
-      company: loading || !profile.company ? "" : profile.company,
-      website: loading || !profile.website ? "" : profile.website,
-      location: loading || !profile.location ? "" : profile.location,
-      status: loading || !profile.status ? "" : profile.status,
-      skills: loading || !profile.skills ? "" : profile.skills,
-      githubusername:
-        loading || !profile.githubusername ? "" : profile.githubusername,
-      bio: loading || !profile.bio ? "" : profile.bio,
-      twitter: loading || !profile.social ? "" : profile.social.twitter,
-      facebook: loading || !profile.social ? "" : profile.social.facebook,
-      youtube: loading || !profile.social ? "" : profile.social.youtube,
-      instagram: loading || !profile.social ? "" : profile.social.instagram
+      title: loading || !event.title ? "" : event.title,
+      logo: loading || !event.logo ? "" : event.logo,
+      category: loading || !event.category ? "" : event.category,
+      payment_type: loading || !event.payment_type ? "" : event.payment_type,
+      no_of_repetitions:
+        loading || !event.no_of_repetitions ? "" : event.no_of_repetitions,
+      address: loading || !event.address ? "" : event.address,
+      cost: loading || !event.cost ? "" : event.cost,
+      valid_from: loading || !event.valid_from ? "" : event.valid_from,
+      expiry_date: loading || !event.expiry_date ? "" : event.expiry_date,
+      info: loading || !event.info ? "" : event.info,
+      detailed_info: loading || !event.detailed_info ? "" : event.detailed_info
     });
   }, [loading]);
 
@@ -120,6 +135,7 @@ const EditClass = ({
             placeholder="Event name"
             name="title"
             onChange={e => onChange(e)}
+            value={title}
           />
         </div>
 
@@ -131,6 +147,7 @@ const EditClass = ({
             placeholder="logo"
             name="logo"
             onChange={e => onChange(e)}
+            value={logo}
           />
         </div>
 
@@ -140,6 +157,7 @@ const EditClass = ({
             name="category"
             className="form-control"
             onChange={e => onChange(e)}
+            value={category}
           >
             <option value="0">Choose category of the event...</option>
             <option value="consultation">Consultation</option>
@@ -154,6 +172,7 @@ const EditClass = ({
             name="event_type"
             className="form-control"
             onChange={e => onChange(e)}
+            value={event_type}
           >
             <option value="0">Choose type of the event...</option>
             <option value="one-time">One-time</option>
@@ -168,6 +187,7 @@ const EditClass = ({
             name="payment_type"
             className="form-control"
             onChange={e => onChange(e)}
+            value={payment_type}
           >
             <option value="0">Choose payment type...</option>
             <option value="prepayment">Prepayment Only</option>
@@ -186,6 +206,7 @@ const EditClass = ({
             placeholder="Minimum number of participants"
             name="min_no_of_students"
             onChange={e => onChange(e)}
+            value={min_no_of_students}
           />
         </div>
 
@@ -199,6 +220,7 @@ const EditClass = ({
             placeholder="Maximum number of participants"
             name="max_no_of_students"
             onChange={e => onChange(e)}
+            value={max_no_of_students}
           />
         </div>
 
@@ -210,6 +232,7 @@ const EditClass = ({
             placeholder="Number of repetitions"
             name="no_of_repetitions"
             onChange={e => onChange(e)}
+            value={no_of_repetitions}
           />
         </div>
 
@@ -221,6 +244,7 @@ const EditClass = ({
             placeholder="Adress of the event"
             name="address"
             onChange={e => onChange(e)}
+            value={address}
           />
         </div>
 
@@ -232,6 +256,7 @@ const EditClass = ({
             placeholder="Event cost"
             name="cost"
             onChange={e => onChange(e)}
+            value={cost}
           />
         </div>
 
@@ -243,6 +268,7 @@ const EditClass = ({
             placeholder="Valid from"
             name="valid_from"
             onChange={e => onChange(e)}
+            value={valid_from}
           />
         </div>
 
@@ -254,6 +280,7 @@ const EditClass = ({
             placeholder="Expiry date"
             name="expiry_date"
             onChange={e => onChange(e)}
+            value={expiry_date}
           />
         </div>
 
@@ -265,6 +292,7 @@ const EditClass = ({
             placeholder="Brief information"
             name="info"
             onChange={e => onChange(e)}
+            value={info}
           />
         </div>
 
@@ -275,6 +303,7 @@ const EditClass = ({
             placeholder="Detailed information"
             name="detailed_info"
             onChange={e => onChange(e)}
+            value={detailed_info}
           ></textarea>
         </div>
 
@@ -286,11 +315,14 @@ const EditClass = ({
         <p className="text-primary">
           Choose a suitable day from calendar &darr;
         </p>
+
         <MyCalendar editable />
 
-        <input type="submit" className="btn btn-primary mt-4" value="Submit" />
+        <h2 className="mt2">Preview</h2>
+
+        <input type="submit" className="btn btn-primary mt-4" value="Save" />
       </form>
-      <h2 className="mt2">Preview</h2>
+
       <div className="bt pt3 mt3">{classes}</div>
     </div>
   );

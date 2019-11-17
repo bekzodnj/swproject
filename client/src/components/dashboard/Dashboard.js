@@ -13,7 +13,8 @@ const Dashboard = ({
   getCurrentProfile,
   deleteAccount,
   auth: { user },
-  profile: { profile, loading }
+  profile: { profile, loading },
+  history
 }) => {
   useEffect(() => {
     getCurrentProfile();
@@ -42,7 +43,12 @@ const Dashboard = ({
         <Fragment>
           <DashboardActions />
           <div className="f2 lh-title fw1 mt4 bt pt4">Your schedule</div>
-          <MyCalendar editable={false} />
+
+          <MyCalendar
+            editable={false}
+            onEventClick={event => history.push(`/edit-class/${event._id}`)}
+          />
+
           <div className="mt4 bb pt4"></div>
           <Experience experience={profile.experience} />
           <Education education={profile.education} />
@@ -78,7 +84,6 @@ const mapStateToProps = state => ({
   profile: state.profile
 });
 
-export default connect(
-  mapStateToProps,
-  { getCurrentProfile, deleteAccount }
-)(Dashboard);
+export default connect(mapStateToProps, { getCurrentProfile, deleteAccount })(
+  Dashboard
+);

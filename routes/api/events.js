@@ -310,7 +310,11 @@ router.delete("/:event_id", auth, async (req, res) => {
     res.json({ msg: "Event deleted" });
   } catch (err) {
     console.error(err.message);
-    res.status(500).send("Server Error");
+
+    if (err.kind == "ObjectId") {
+      return res.status(404).json({ msg: "Post is not found" });
+    }
+    res.status(500).send("Server error");
   }
 });
 

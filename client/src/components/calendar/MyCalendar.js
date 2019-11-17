@@ -19,7 +19,8 @@ const MyCalendar = ({
   updateEvents,
   updateNewEvents,
   getEvents,
-  editable = false
+  editable = false,
+  onEventClick
 }) => {
   useEffect(() => {
     getEvents();
@@ -72,7 +73,7 @@ const MyCalendar = ({
         events={newEv}
         defaultView={"week"}
         defaultDate={new Date()}
-        onSelectEvent={event => alert(event._id)}
+        onSelectEvent={onEventClick}
         onSelectSlot={({ start, end }) => {
           updateNewEvents(start, end);
         }}
@@ -91,7 +92,9 @@ const mapStateToProps = state => ({
   new_events: state.new_events
 });
 
-export default connect(
-  mapStateToProps,
-  { getEvents, updateEvents, getNewEvents, updateNewEvents }
-)(MyCalendar);
+export default connect(mapStateToProps, {
+  getEvents,
+  updateEvents,
+  getNewEvents,
+  updateNewEvents
+})(MyCalendar);
