@@ -17,13 +17,9 @@ const EditClass = ({
   updateEvents,
   getNewEvents,
   updateNewEvents,
-  history
+  history,
+  profile: { loading }
 }) => {
-  useEffect(() => {
-    getEvents();
-    getNewEvents();
-  }, []);
-
   // local state for storing form data
   const [formData, setFormData] = useState({
     title: "",
@@ -41,6 +37,26 @@ const EditClass = ({
     info: "",
     detailed_info: ""
   });
+
+  useEffect(() => {
+    getEvents();
+    getNewEvents();
+
+    setFormData({
+      company: loading || !profile.company ? "" : profile.company,
+      website: loading || !profile.website ? "" : profile.website,
+      location: loading || !profile.location ? "" : profile.location,
+      status: loading || !profile.status ? "" : profile.status,
+      skills: loading || !profile.skills ? "" : profile.skills,
+      githubusername:
+        loading || !profile.githubusername ? "" : profile.githubusername,
+      bio: loading || !profile.bio ? "" : profile.bio,
+      twitter: loading || !profile.social ? "" : profile.social.twitter,
+      facebook: loading || !profile.social ? "" : profile.social.facebook,
+      youtube: loading || !profile.social ? "" : profile.social.youtube,
+      instagram: loading || !profile.social ? "" : profile.social.instagram
+    });
+  }, [loading]);
 
   const {
     title,
@@ -285,7 +301,9 @@ const mapStateToProps = state => ({
   new_events: state.new_events
 });
 
-export default connect(
-  mapStateToProps,
-  { getEvents, updateEvents, getNewEvents, updateNewEvents }
-)(withRouter(EditClass));
+export default connect(mapStateToProps, {
+  getEvents,
+  updateEvents,
+  getNewEvents,
+  updateNewEvents
+})(withRouter(EditClass));
