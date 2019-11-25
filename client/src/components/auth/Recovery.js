@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { pass_recovery } from "../../actions/auth";
 
-const Recovery = ({ pass_recovery, isAuthenticated }) => {
+const Recovery = ({ pass_recovery, isAuthenticated, history }) => {
   const [formData, setFormData] = useState({
     email: "",
     secretQuestion: "",
@@ -18,7 +18,7 @@ const Recovery = ({ pass_recovery, isAuthenticated }) => {
 
   const onSubmit = async e => {
     e.preventDefault();
-    pass_recovery(email, secretQuestion, secretAnswer);
+    pass_recovery(email, secretQuestion, secretAnswer, history);
   };
 
   if (isAuthenticated) {

@@ -109,11 +109,12 @@ export const login = (email, password) => async dispatch => {
   }
 };
 
-// login user
+// password recovery
 export const pass_recovery = (
   email,
   secretQuestion,
-  secretAnswer
+  secretAnswer,
+  history
 ) => async dispatch => {
   const config = {
     headers: {
@@ -126,6 +127,7 @@ export const pass_recovery = (
   try {
     const res = await axios.post("/api/auth/recovery", body, config);
 
+    history.push("/recovery/reset");
     dispatch(setAlert(res.data, "success"));
   } catch (err) {
     const errors = err.response.data.errors;
@@ -134,6 +136,40 @@ export const pass_recovery = (
       errors.forEach(el => dispatch(setAlert(el.msg, "danger")));
     }
 
+    dispatch({
+      type: LOGIN_FAIL
+    });
+  }
+};
+
+// reset password
+export const reset_password = (
+  hash,
+  new_password,
+  confirm_new_password,
+  history
+) => async dispatch => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  };
+
+  const body = JSON.stringify({ hash, new_password, confirm_new_password });
+
+  try {
+    const res = await axios.post("/api/auth/recovery/set", body, config);
+
+    history.push("/dashboard");
+    dispatch(setAlert(res.data, "success"));
+  } catch (err) {
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach(el => dispatch(setAlert(el.msg, "danger")));
+    }
+
+    // todo create reset reducer name
     dispatch({
       type: LOGIN_FAIL
     });

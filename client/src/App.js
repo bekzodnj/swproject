@@ -6,6 +6,7 @@ import Alert from "./components/layout/Alert";
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
 import Recovery from "./components/auth/Recovery";
+import Reset_Password from "./components/auth/Reset_Password";
 
 import PrivateRoute from "./components/routing/PrivateRoute";
 import Dashboard from "./components/dashboard/Dashboard";
@@ -49,6 +50,7 @@ const App = () => {
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
               <Route exact path="/recovery" component={Recovery} />
+              <Route exact path="/recovery/reset" component={Reset_Password} />
               <PrivateRoute exact path="/dashboard" component={Dashboard} />
               <PrivateRoute
                 exact
