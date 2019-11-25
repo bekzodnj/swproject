@@ -103,7 +103,7 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { email, password, secretQuestion, secretAnswer } = req.body;
+    const { email, secretQuestion, secretAnswer } = req.body;
 
     try {
       // check if user/email exists
@@ -131,11 +131,14 @@ router.post(
         }
       });
 
+      const message_text = `<h2>You requested password recovery.</h2>
+      <br>Here is the password (hash): <b>${user.password}</b>`;
+
       var mailOptions = {
         from: "bekzodlev@gmail.com",
-        to: "bekzodnx@gmail.com",
-        subject: "Sending a pilot email :)",
-        text: "<h1>Password Recovery</h1><p>Your password is: </p>!"
+        to: email,
+        subject: "Password Recovery",
+        html: message_text
       };
 
       transporter.sendMail(mailOptions, function(error, info) {
@@ -147,6 +150,64 @@ router.post(
       });
 
       res.json("Email sent");
+    } catch (error) {
+      console.error(error.message);
+      res.status(500).send("Server error");
+    }
+  }
+);
+
+// @route   POST api/auth/recovery/set
+// @desc    Password Setting new password
+// @access  Public
+router.post(
+  "/recovery/set",
+  [
+    check("hash", "Please enter a valid hash value")
+      .not()
+      .isEmpty(),
+    check("new_password", "New password is required")
+      .not()
+      .isEmpty(),
+    check("confirm_new_password", "Confirmation is required")
+      .not()
+      .isEmpty()
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { hash, new_password, confirm_new_password } = req.body;
+
+    if (new_password !== confirm_new_password) {
+      return res
+        .status(400)
+        .json({ errors: [{ msg: "Passwords does not match" }] });
+    }
+
+    try {
+      // check if hash exists
+      let user = await User.findOne({ password: hash });
+
+      if (!user) {
+        return res
+          .status(400)
+          .json({ errors: [{ msg: "This hash do not exist" }] });
+      }
+
+      // updating one sample
+      // user = await User.updateOne({ password: hash }, { name: "Bekzodjon" });
+
+      // hash the password
+      // and save new password
+      const salt = await bcrypt.genSalt(10);
+      user.password = await bcrypt.hash(new_password, salt);
+
+      await user.save();
+
+      res.json("Success");
     } catch (error) {
       console.error(error.message);
       res.status(500).send("Server error");

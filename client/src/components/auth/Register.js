@@ -93,9 +93,10 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
         </div>
 
         <div className="form-group">
-          <small className="form-text">
-            In order to recovery your password, provide answers for questionaire
-          </small>
+          <h3 className="form-text text-secondary">
+            In order to be able to recover your password, provide answer for
+            questionaire
+          </h3>
           <select
             name="secretQuestion"
             className="form-control"

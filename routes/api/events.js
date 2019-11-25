@@ -256,7 +256,7 @@ router.post(
         const event2 = await Event.findOneAndUpdate(
           { user: req.user.id, _id: req.params.event_id },
           { $set: eventFields },
-          { neew: true }
+          { new: true }
         );
 
         return res.json(event2);

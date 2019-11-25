@@ -109,6 +109,37 @@ export const login = (email, password) => async dispatch => {
   }
 };
 
+// login user
+export const pass_recovery = (
+  email,
+  secretQuestion,
+  secretAnswer
+) => async dispatch => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  };
+
+  const body = JSON.stringify({ email, secretQuestion, secretAnswer });
+
+  try {
+    const res = await axios.post("/api/auth/recovery", body, config);
+
+    dispatch(setAlert(res.data, "success"));
+  } catch (err) {
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach(el => dispatch(setAlert(el.msg, "danger")));
+    }
+
+    dispatch({
+      type: LOGIN_FAIL
+    });
+  }
+};
+
 // Logout / Clear Profile
 export const logout = () => dispatch => {
   dispatch({ type: CLEAR_PROFILE });

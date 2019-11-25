@@ -2,22 +2,23 @@ import React, { Fragment, useState } from "react";
 import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { login } from "../../actions/auth";
+import { pass_recovery } from "../../actions/auth";
 
-const Login = ({ login, isAuthenticated }) => {
+const Recovery = ({ pass_recovery, isAuthenticated }) => {
   const [formData, setFormData] = useState({
     email: "",
-    password: ""
+    secretQuestion: "",
+    secretAnswer: ""
   });
 
-  const { email, password } = formData;
+  const { email, secretQuestion, secretAnswer } = formData;
 
   const onChange = e =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const onSubmit = async e => {
     e.preventDefault();
-    login(email, password);
+    pass_recovery(email, secretQuestion, secretAnswer);
   };
 
   if (isAuthenticated) {
@@ -26,9 +27,10 @@ const Login = ({ login, isAuthenticated }) => {
 
   return (
     <Fragment>
-      <h1 className="large text-primary">Login</h1>
+      <h1 className="large text-primary">Recover your password</h1>
       <p className="lead">
-        <i className="fas fa-user"></i> Sign Into Your Account
+        <i className="fas fa-user"></i> After filling the form you'll recieve an
+        email for instructions
       </p>
       <form className="form" onSubmit={e => onSubmit(e)}>
         <div className="form-group">
@@ -41,13 +43,29 @@ const Login = ({ login, isAuthenticated }) => {
           />
         </div>
         <div className="form-group">
-          <input
-            type="password"
-            placeholder="Password"
-            name="password"
-            minLength="6"
-            value={password}
+          <small className="form-text">
+            In order to recover your password, provide answer for questionaire
+          </small>
+          <select
+            name="secretQuestion"
+            className="form-control"
             onChange={e => onChange(e)}
+            value={secretQuestion}
+          >
+            <option>Custom secret answer</option>
+            <option>Your favourite author/book</option>
+            <option>Your favourite music artist</option>
+            <option>School you went </option>
+            <option>Your hometown</option>
+          </select>
+        </div>
+        <div className="form-group">
+          <input
+            type="text"
+            placeholder="Type secret answer"
+            name="secretAnswer"
+            onChange={e => onChange(e)}
+            value={secretAnswer}
           />
         </div>
         <input type="submit" className="btn btn-primary" value="Login" />
@@ -55,14 +73,11 @@ const Login = ({ login, isAuthenticated }) => {
       <p className="my-1">
         Do not have an account? <Link to="/register">Sign Up</Link>
       </p>
-      <p className="my-1">
-        Forgot your password? <Link to="/recovery">Password Recovery</Link>
-      </p>
     </Fragment>
   );
 };
 
-Login.propTypes = {
+Recovery.propTypes = {
   login: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool
 };
@@ -71,4 +86,4 @@ const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated
 });
 
-export default connect(mapStateToProps, { login })(Login);
+export default connect(mapStateToProps, { pass_recovery })(Recovery);
