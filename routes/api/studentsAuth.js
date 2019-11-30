@@ -5,12 +5,11 @@ const bcrypt = require("bcryptjs");
 const { check, validationResult } = require("express-validator");
 const config = require("config");
 const jwt = require("jsonwebtoken");
-const User = require("../../models/User");
 const Student = require("../../models/Student");
 
 const nodemailer = require("nodemailer");
 
-// @route   GET api/auth
+// @route   GET api/studentsAuth
 // @desc    Test Route
 // @access  Public
 router.get("/", auth, async (req, res) => {
@@ -23,7 +22,7 @@ router.get("/", auth, async (req, res) => {
   }
 });
 
-// @route   POST api/auth
+// @route   POST api/studentsAuth
 // @desc    Login user
 // @access  Public
 router.post(
@@ -42,7 +41,7 @@ router.post(
 
     try {
       // check if user/email exists
-      let user = await User.findOne({ email });
+      let user = await Student.findOne({ email });
 
       if (!user) {
         return res
@@ -84,7 +83,7 @@ router.post(
   }
 );
 
-// @route   POST api/auth/recovery
+// @route   POST api/studentsAuth/recovery
 // @desc    Password Recovery
 // @access  Public
 router.post(
@@ -108,105 +107,49 @@ router.post(
 
     try {
       // check if user/email exists
-
-      /*
-      let user = await User.findOne({ email });
+      let user = await Student.findOne({ email });
 
       if (!user) {
         return res
           .status(400)
           .json({ errors: [{ msg: "This user do not exist" }] });
       }
-      */
 
-      const isTeacher = await User.find({ email }).countDocuments();
-      const isStudent = await Student.find({ email }).countDocuments();
-
-      if (isTeacher || isStudent) {
-        if (isTeacher) {
-          // res.json("Teacher");
-
-          //then check if entered info is correct
-          user = await User.findOne({ email, secretQuestion, secretAnswer });
-          if (!user) {
-            return res
-              .status(400)
-              .json({ errors: [{ msg: "Incorrect credentials" }] });
-          }
-
-          var transporter = nodemailer.createTransport({
-            service: "gmail",
-            auth: {
-              user: "bekzodlev@gmail.com",
-              pass: "zzome.ru"
-            }
-          });
-
-          const message_text = `<h2>Dear Teacher, You requested password recovery.</h2>
-        <br>Here is the password (hash):</br> <b>${user.password}</b>`;
-
-          var mailOptions = {
-            from: "bekzodlev@gmail.com",
-            to: email,
-            subject: "Password Recovery",
-            html: message_text
-          };
-
-          transporter.sendMail(mailOptions, function(error, info) {
-            if (error) {
-              console.log(error);
-            } else {
-              console.log("Email sent: " + info.response);
-            }
-          });
-
-          res.json("Email sent");
-        } else if (isStudent) {
-          //res.json("Student");
-
-          //then check if entered info is correct
-          user = await Student.findOne({ email, secretQuestion, secretAnswer });
-          if (!user) {
-            return res
-              .status(400)
-              .json({ errors: [{ msg: "Incorrect credentials" }] });
-          }
-
-          var transporter = nodemailer.createTransport({
-            service: "gmail",
-            auth: {
-              user: "bekzodlev@gmail.com",
-              pass: "zzome.ru"
-            }
-          });
-
-          const message_text = `<h2>Dear Student, You requested password recovery.</h2>
-        <br>Here is the password (hash):</br> <b>${user.password}</b>`;
-
-          var mailOptions = {
-            from: "bekzodlev@gmail.com",
-            to: email,
-            subject: "Password Recovery",
-            html: message_text
-          };
-
-          transporter.sendMail(mailOptions, function(error, info) {
-            if (error) {
-              console.log(error);
-            } else {
-              console.log("Email sent: " + info.response);
-            }
-          });
-
-          res.json("Email sent");
-        }
-
-        //res.json("Email sent");
-      } else {
+      //then check if entered info is correct
+      user = await Student.findOne({ email, secretQuestion, secretAnswer });
+      if (!user) {
         return res
           .status(400)
-          .json({ errors: [{ msg: "This user do not exist" }] });
+          .json({ errors: [{ msg: "Incorrect credentials" }] });
       }
+
+      var transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: "bekzodlev@gmail.com",
+          pass: "zzome.ru"
+        }
+      });
+
+      const message_text = `<h2>You requested password recovery.</h2>
+      <br>Here is the password (hash): <b>${user.password}</b>`;
+
+      var mailOptions = {
+        from: "bekzodlev@gmail.com",
+        to: email,
+        subject: "Password Recovery",
+        html: message_text
+      };
+
+      transporter.sendMail(mailOptions, function(error, info) {
+        if (error) {
+          console.log(error);
+        } else {
+          console.log("Email sent: " + info.response);
+        }
+      });
+
+      res.json("Email sent");
     } catch (error) {
       console.error(error.message);
       res.status(500).send("Server error");
@@ -214,7 +157,7 @@ router.post(
   }
 );
 
-// @route   POST api/auth/recovery/set
+// @route   POST api/studentsAuth/recovery/set
 // @desc    Password Setting new password
 // @access  Public
 router.post(
@@ -246,7 +189,7 @@ router.post(
 
     try {
       // check if hash exists
-      let user = await User.findOne({ password: hash });
+      let user = await Student.findOne({ password: hash });
 
       if (!user) {
         return res

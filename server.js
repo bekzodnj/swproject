@@ -19,6 +19,8 @@ app.use("/api/auth", require("./routes/api/auth"));
 app.use("/api/profile", require("./routes/api/profile"));
 app.use("/api/posts", require("./routes/api/posts"));
 app.use("/api/events", require("./routes/api/events"));
+app.use("/api/students", require("./routes/api/studentRegister"));
+app.use("/api/studentsAuth", require("./routes/api/studentsAuth"));
 
 // get deployment port or default
 const PORT = process.env.PORT || 5000;
