@@ -143,7 +143,7 @@ router.post(
           });
 
           const message_text = `<h2>Dear Teacher, You requested password recovery.</h2>
-        <br>Here is the password (hash):</br> <b>${user.password}</b>`;
+        <br>Here is the password (hash):<br> <b>${user.password}</b>`;
 
           var mailOptions = {
             from: "bekzodlev@gmail.com",

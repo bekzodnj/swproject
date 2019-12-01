@@ -1,18 +1,18 @@
 const express = require("express");
 const auth = require("../../middleware/auth");
 const Profile = require("../../models/Profile");
-const User = require("../../models/User");
+const StudentProfile = require("../../models/StudentProfile");
 const Post = require("../../models/Post");
 const router = express.Router();
 const { check, validationResult } = require("express-validator");
 
-// @route   GET api/profle/me
+// @route   GET api/studentProfile/me
 // @desc    Get current users profile
 // @access  Private
 router.get("/me", auth, async (req, res) => {
   try {
-    const profile = await Profile.findOne({
-      user: req.user.id
+    const profile = await StudentProfile.findOne({
+      student: req.user.id
     }).populate("user", ["name", "avatar"]);
 
     if (!profile) {
@@ -26,7 +26,7 @@ router.get("/me", auth, async (req, res) => {
   }
 });
 
-// @route   POST api/profle/
+// @route   POST api/studentProfile/
 // @desc    Create or update user profile
 // @access  Private
 router.post(
@@ -34,10 +34,13 @@ router.post(
   [
     auth,
     [
-      check("status", "Status is required")
+      check("lastname", "Last name is required")
         .not()
         .isEmpty(),
-      check("skills", "Skills is required")
+      check("name", "Name is required")
+        .not()
+        .isEmpty(),
+      check("type", "Student type is required")
         .not()
         .isEmpty()
     ]
@@ -50,33 +53,34 @@ router.post(
     }
 
     const {
-      company,
-      website,
-      location,
-      bio,
-      status,
-      githubusername,
-      skills,
+      lastname,
+      name,
+      billing_address,
+      preferred_lang,
+      date_of_birth,
+      type,
+      place_of_study,
+      is_prepayment,
       youtube,
       facebook,
       twitter,
       instagram,
-      linkedin
+      linkedin,
+      date
     } = req.body;
 
     const profileFields = {};
-    profileFields.user = req.user.id;
+    profileFields.student = req.user.id;
 
-    if (company) profileFields.company = company;
-    if (website) profileFields.website = website;
-    if (location) profileFields.location = location;
-    if (bio) profileFields.bio = bio;
-    if (status) profileFields.status = status;
-    if (githubusername) profileFields.githubusername = githubusername;
-
-    if (skills) {
-      profileFields.skills = skills.split(",").map(el => el.trim());
-    }
+    if (lastname) profileFields.lastname = lastname;
+    if (name) profileFields.name = name;
+    if (billing_address) profileFields.billing_address = billing_address;
+    if (preferred_lang) profileFields.preferred_lang = preferred_lang;
+    if (date_of_birth) profileFields.date_of_birth = date_of_birth;
+    if (type) profileFields.type = type;
+    if (place_of_study) profileFields.place_of_study = place_of_study;
+    if (is_prepayment) profileFields.is_prepayment = is_prepayment;
+    if (date) profileFields.date = date;
 
     profileFields.social = {};
     if (youtube) profileFields.social.youtube = youtube;
@@ -86,12 +90,12 @@ router.post(
     if (instagram) profileFields.social.instagram = instagram;
 
     try {
-      let profile = await Profile.findOne({ user: req.user.id });
+      let profile = await StudentProfile.findOne({ student: req.user.id });
 
       //if exists update
       if (profile) {
-        profile = await Profile.findOneAndUpdate(
-          { user: req.user.id },
+        profile = await StudentProfile.findOneAndUpdate(
+          { student: req.user.id },
           { $set: profileFields },
           { new: true }
         );
@@ -100,7 +104,7 @@ router.post(
       }
 
       // create a new profile
-      profile = new Profile(profileFields);
+      profile = new StudentProfile(profileFields);
 
       await profile.save();
       res.json(profile);
@@ -111,12 +115,15 @@ router.post(
   }
 );
 
-// @route   GET api/profile/
+// @route   GET api/studentProfile/
 // @desc    get users profile
 // @access  Public
 router.get("/", async (req, res) => {
   try {
-    const profiles = await Profile.find().populate("user", ["name", "avatar"]);
+    const profiles = await StudentProfile.find().populate("user", [
+      "name",
+      "avatar"
+    ]);
     res.json(profiles);
   } catch (err) {
     console.error(err.message);
@@ -124,16 +131,16 @@ router.get("/", async (req, res) => {
   }
 });
 
-// @route   GET api/profle/user/:user_id
-// @desc    get users profile
+// @route   GET api/studentProfile/student/:student_id
+// @desc    get students profile by id
 // @access  Public
-router.get("/user/:user_id", async (req, res) => {
+router.get("/student/:student_id", async (req, res) => {
   try {
-    const profile = await Profile.find({
-      user: req.params.user_id
-    }).populate("user", ["name", "avatar"]);
+    const profile = await StudentProfile.find({
+      student: req.params.student_id
+    }).populate("students", ["name", "avatar"]);
 
-    if (!profile) return res.status(400).json({ msg: "User is not found" });
+    if (!profile) return res.status(400).json({ msg: "Student is not found" });
 
     res.json(profile);
   } catch (err) {
