@@ -6,39 +6,48 @@ import { logout } from "../../actions/auth";
 
 const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
   const authLinks = (
-    <ul>
-      <li>
-        <Link to="/dashboard">
-          <i className="fas fa-user"></i> Dashboard
-        </Link>
-      </li>
-      <li>
-        <a onClick={logout} href="#!">
-          <i className="fas fa-sign-out-alt"></i> <span>Logout</span>
-        </a>
-      </li>
+    <ul
+      className="d-flex my-2 my-md-0 mr-md-3
+      list-unstyled text-white ml-md-auto"
+    >
+      <Link to="/dashboard" className="p-2 text-white">
+        <i className="fas fa-user"></i> Dashboard
+      </Link>
+
+      <a onClick={logout} href="#!" className="p-2 text-white">
+        <i className="fas fa-sign-out-alt"></i> <span>Logout</span>
+      </a>
     </ul>
   );
 
   const guestLinks = (
-    <ul>
-      <li>
-        <a href="#!">News</a>
-      </li>
-      <li>
-        <Link to="/register">Register</Link>
-      </li>
-      <li>
-        <Link to="/login">Login</Link>
-      </li>
+    <ul
+      className="d-flex my-2 my-md-0 mr-md-3
+    list-unstyled text-white ml-md-auto"
+    >
+      <a href="#!" className="p-2 text-white">
+        News
+      </a>
+
+      <Link to="/register" className="p-2 text-white">
+        Register
+      </Link>
+
+      <Link to="/login" className="p-2 text-white">
+        Login
+      </Link>
     </ul>
   );
 
   return (
-    <nav className="navbar bg-dark">
+    <nav
+      className="d-flex flex-column 
+    flex-md-row align-items-center p-3 
+    px-md-4 mb-3 bg-dark border-bottom shadow-sm"
+    >
       <h1>
-        <Link to="/">
-          <i className="fas fa-code"></i> Management
+        <Link to="/" className="text-white my-0 font-weight-normal">
+          <i className="fas fa-book"></i>
         </Link>
       </h1>
       {!loading && (
@@ -57,7 +66,4 @@ const mapStateToProps = state => ({
   auth: state.auth
 });
 
-export default connect(
-  mapStateToProps,
-  { logout }
-)(Navbar);
+export default connect(mapStateToProps, { logout })(Navbar);

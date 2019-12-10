@@ -15,6 +15,12 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
     secretAnswer: ""
   });
 
+  const [userRole, setUserRole] = useState("");
+
+  const handleRadioChange = e => {
+    setUserRole(e.target.value);
+  };
+
   const {
     name,
     email,
@@ -47,7 +53,34 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
       <p className="lead">
         <i className="fas fa-user"></i> Create Your Account
       </p>
-      <form className="form" onSubmit={e => onSubmit(e)}>
+
+      <h2>You are:</h2>
+      <div className="form-check">
+        <input
+          className="form-check-input"
+          type="radio"
+          name="role"
+          value="student"
+          onChange={e => handleRadioChange(e)}
+        />
+        <label class="form-check-label" for="gridRadios1">
+          Student
+        </label>
+      </div>
+      <div className="form-check">
+        <input
+          className="form-check-input"
+          type="radio"
+          name="role"
+          value="teacher"
+          onChange={e => handleRadioChange(e)}
+        />
+        <label class="form-check-label" for="gridRadios1">
+          Teacher
+        </label>
+      </div>
+      <form className="form mt-2" onSubmit={e => onSubmit(e)}>
+        <h1>You are {userRole}</h1>
         <div className="form-group">
           <input
             type="text"

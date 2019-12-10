@@ -25,8 +25,9 @@ import AddClass from "./components/calendar/AddClass";
 import EditClass from "./components/calendar/EditClass";
 import EditEvent from "./components/calendar/EditEvent";
 
-import "./App.css";
-import "./bootstrap.min.css";
+// import "./App.css";
+// import "./bootstrap.min.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 import "tachyons";
 import { loadUser } from "./actions/auth";
 import setAuthToken from "./utils/setAuthToken";

@@ -7,8 +7,13 @@ const Landing = ({ isAuthenticated }) => {
   if (isAuthenticated) {
     return (
       <section className="landing">
-        <div className="dark-overlay">
-          <div className="landing-inner">
+        <div
+          className="d-flex flex-column justify-content-center align-items-center"
+          style={{
+            height: "100vh"
+          }}
+        >
+          <div style={{ marginTop: "-200px" }}>
             <h1 className="x-large">Management Tool</h1>
             <p className="lead">Welcome</p>
             <div className="buttons">
@@ -23,15 +28,20 @@ const Landing = ({ isAuthenticated }) => {
   }
   return (
     <section className="landing">
-      <div className="dark-overlay">
-        <div className="landing-inner">
-          <h1 className="x-large">Management Tool</h1>
+      <div
+        className="d-flex flex-column justify-content-center align-items-center"
+        style={{
+          height: "100vh"
+        }}
+      >
+        <div style={{ marginTop: "-200px" }}>
+          <h1 className="display-4">Management Tool</h1>
           <p className="lead">
             Create a profile, see events & join events, discuss the material and
             so on
           </p>
-          <div className="buttons">
-            <Link to="/register" className="btn btn-primary">
+          <div className="d-flex justify-content-center">
+            <Link to="/register" className="btn btn-primary mr-2">
               Sign Up
             </Link>
             <Link to="/login" className="btn btn-light">
