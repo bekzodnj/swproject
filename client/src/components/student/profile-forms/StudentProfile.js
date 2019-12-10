@@ -1,18 +1,18 @@
 import React, { Fragment, useState } from "react";
 import PropTypes from "prop-types";
 import { Link, withRouter } from "react-router-dom";
-import { createProfile } from "../../actions/profile";
+import { createProfile } from "../../../actions/student/profile";
 import { connect } from "react-redux";
 
-const CreateProfile = ({ createProfile, history }) => {
+const StudentProfile = ({ createProfile, history }) => {
   const [formData, setFormData] = useState({
-    company: "",
-    website: "",
-    location: "",
-    status: "",
-    skills: "",
-    githubusername: "",
-    bio: "",
+    lastname: "",
+    name: "",
+    billing_address: "",
+    preferred_lang: "",
+    date_of_birth: "",
+    type: "",
+    place_of_study: "",
     twitter: "",
     facebook: "",
     linkedin: "",
@@ -23,13 +23,13 @@ const CreateProfile = ({ createProfile, history }) => {
   const [displaySocialInputs, toggleSocialInputs] = useState(false);
 
   const {
-    company,
-    website,
-    location,
-    status,
-    skills,
-    githubusername,
-    bio,
+    lastname,
+    name,
+    billing_address,
+    preferred_lang,
+    date_of_birth,
+    type,
+    place_of_study,
     twitter,
     facebook,
     linkedin,
@@ -53,91 +53,80 @@ const CreateProfile = ({ createProfile, history }) => {
       <small>* = required field</small>
       <form className="form" onSubmit={e => onSubmit(e)}>
         <div className="form-group">
-          <select name="status" value={status} onChange={e => onChange(e)}>
-            <option value="0">* Select Professional Status</option>
-            <option value="Developer">Developer</option>
-            <option value="Junior Developer">Junior Developer</option>
-            <option value="Senior Developer">Senior Developer</option>
-            <option value="Manager">Manager</option>
-            <option value="Student or Learning">Student or Learning</option>
-            <option value="Instructor">Instructor or Teacher</option>
-            <option value="Intern">Intern</option>
-            <option value="Other">Other</option>
+          <input
+            type="text"
+            placeholder="Last Name"
+            name="lastname"
+            value={lastname}
+            onChange={e => onChange(e)}
+          />
+        </div>
+        <div className="form-group">
+          <input
+            type="text"
+            placeholder="Name"
+            name="name"
+            value={name}
+            onChange={e => onChange(e)}
+          />
+        </div>
+        <div className="form-group">
+          <input
+            type="text"
+            placeholder="Billing address"
+            name="billing_address"
+            value={billing_address}
+            onChange={e => onChange(e)}
+          />
+          <small className="form-text">Type billing address</small>
+        </div>
+
+        <div className="form-group">
+          <select
+            name="preferred_lang"
+            value={preferred_lang}
+            onChange={e => onChange(e)}
+          >
+            <option value="0">* Select preferred language</option>
+            <option value="English">English</option>
+            <option value="Russian">Russian</option>
+            <option value="Hungarian">Hungarian</option>
+          </select>
+          <small className="form-text">Your language preference</small>
+        </div>
+
+        <div className="form-group">
+          <input
+            type="date"
+            placeholder="Date of birth"
+            name="date_of_birth"
+            value={date_of_birth}
+            className="form-control"
+            onChange={e => onChange(e)}
+          />
+        </div>
+
+        <div className="form-group">
+          <select name="type" value={type} onChange={e => onChange(e)}>
+            <option value="0">* Select Student Status</option>
+            <option value="School Student">School Student</option>
+            <option value="College Student">College Student</option>
+            <option value="University Student">University Student</option>
           </select>
           <small className="form-text">
-            Give us an idea of where you are at in your career
+            Give us an idea of where you are at in your education
           </small>
         </div>
+
         <div className="form-group">
           <input
             type="text"
-            placeholder="Company"
-            name="company"
-            value={company}
+            placeholder="Place of study"
+            name="place_of_study"
+            value={place_of_study}
+            className="form-control"
             onChange={e => onChange(e)}
           />
-          <small className="form-text">
-            Could be your own company or one you work for
-          </small>
-        </div>
-        <div className="form-group">
-          <input
-            type="text"
-            placeholder="Website"
-            name="website"
-            value={website}
-            onChange={e => onChange(e)}
-          />
-          <small className="form-text">
-            Could be your own or a company website
-          </small>
-        </div>
-        <div className="form-group">
-          <input
-            type="text"
-            placeholder="Location"
-            name="location"
-            value={location}
-            onChange={e => onChange(e)}
-          />
-          <small className="form-text">
-            City & state suggested (eg. Boston, MA)
-          </small>
-        </div>
-        <div className="form-group">
-          <input
-            type="text"
-            placeholder="* Skills"
-            name="skills"
-            value={skills}
-            onChange={e => onChange(e)}
-          />
-          <small className="form-text">
-            Please use comma separated values skills (eg.
-            HTML,CSS,JavaScript,PHP)
-          </small>
-        </div>
-        <div className="form-group">
-          <input
-            type="text"
-            placeholder="Github Username"
-            name="githubusername"
-            value={githubusername}
-            onChange={e => onChange(e)}
-          />
-          <small className="form-text">
-            If you want your latest repos and a Github link, include your
-            username
-          </small>
-        </div>
-        <div className="form-group">
-          <textarea
-            placeholder="A short bio of yourself"
-            name="bio"
-            value={bio}
-            onChange={e => onChange(e)}
-          ></textarea>
-          <small className="form-text">Tell us a little about yourself</small>
         </div>
 
         <div className="my-2">
@@ -219,8 +208,8 @@ const CreateProfile = ({ createProfile, history }) => {
   );
 };
 
-CreateProfile.propTypes = {
+StudentProfile.propTypes = {
   createProfile: PropTypes.func.isRequired
 };
 
-export default connect(null, { createProfile })(withRouter(CreateProfile));
+export default connect(null, { createProfile })(withRouter(StudentProfile));

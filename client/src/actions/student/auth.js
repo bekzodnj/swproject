@@ -1,20 +1,18 @@
 import axios from "axios";
-import { setAlert } from "./alert";
+import { setAlert } from "../alert";
 
 import {
-  REGISTER_SUCCESS,
-  REGISTER_FAIL,
-  USER_LOADED,
-  AUTH_ERROR,
-  LOGIN_SUCCESS,
-  LOGIN_FAIL,
-  LOGOUT,
-  CLEAR_PROFILE,
-  CLEAR_EVENTS,
-  CLEAR_NEW_EVENTS
-} from "./types";
+  STUDENT_REGISTER_SUCCESS,
+  STUDENT_REGISTER_FAIL,
+  STUDENT_USER_LOADED,
+  STUDENT_AUTH_ERROR,
+  STUDENT_LOGIN_SUCCESS,
+  STUDENT_LOGIN_FAIL,
+  STUDENT_LOGOUT,
+  STUDENT_CLEAR_PROFILE
+} from "../student/types";
 
-import setAuthToken from "../utils/setAuthToken";
+import setAuthToken from "../../utils/setAuthToken";
 
 //
 export const loadUser = () => async dispatch => {
@@ -23,15 +21,15 @@ export const loadUser = () => async dispatch => {
   }
 
   try {
-    const res = await axios.get("api/auth");
+    const res = await axios.get("/api/studentsAuth");
 
     dispatch({
-      type: USER_LOADED,
+      type: STUDENT_USER_LOADED,
       payload: res.data
     });
   } catch (err) {
     dispatch({
-      type: AUTH_ERROR
+      type: STUDENT_AUTH_ERROR
     });
   }
 };
@@ -59,10 +57,10 @@ export const register = ({
   });
 
   try {
-    const res = await axios.post("/api/users", body, config);
+    const res = await axios.post("/api/students", body, config);
 
     dispatch({
-      type: REGISTER_SUCCESS,
+      type: STUDENT_REGISTER_SUCCESS,
       payload: res.data
     });
 
@@ -75,7 +73,7 @@ export const register = ({
     }
 
     dispatch({
-      type: REGISTER_FAIL
+      type: STUDENT_REGISTER_FAIL
     });
   }
 };
@@ -91,10 +89,10 @@ export const login = (email, password) => async dispatch => {
   const body = JSON.stringify({ email, password });
 
   try {
-    const res = await axios.post("/api/auth", body, config);
+    const res = await axios.post("/api/studentsAuth", body, config);
 
     dispatch({
-      type: LOGIN_SUCCESS,
+      type: STUDENT_LOGIN_SUCCESS,
       payload: res.data
     });
 
@@ -107,7 +105,7 @@ export const login = (email, password) => async dispatch => {
     }
 
     dispatch({
-      type: LOGIN_FAIL
+      type: STUDENT_LOGIN_FAIL
     });
   }
 };
@@ -140,7 +138,7 @@ export const pass_recovery = (
     }
 
     dispatch({
-      type: LOGIN_FAIL
+      type: STUDENT_LOGIN_FAIL
     });
   }
 };
@@ -174,15 +172,13 @@ export const reset_password = (
 
     // todo create reset reducer name
     dispatch({
-      type: LOGIN_FAIL
+      type: STUDENT_LOGIN_FAIL
     });
   }
 };
 
 // Logout / Clear Profile
 export const logout = () => dispatch => {
-  dispatch({ type: CLEAR_PROFILE });
-  dispatch({ type: CLEAR_EVENTS });
-  dispatch({ type: CLEAR_NEW_EVENTS });
-  dispatch({ type: LOGOUT });
+  dispatch({ type: STUDENT_CLEAR_PROFILE });
+  dispatch({ type: STUDENT_LOGOUT });
 };

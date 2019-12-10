@@ -13,7 +13,7 @@ router.get("/me", auth, async (req, res) => {
   try {
     const profile = await StudentProfile.findOne({
       student: req.user.id
-    }).populate("user", ["name", "avatar"]);
+    }).populate("student", ["name", "avatar"]);
 
     if (!profile) {
       return res.status(400).json({ msg: "There is no profile for this user" });
@@ -116,7 +116,7 @@ router.post(
 );
 
 // @route   GET api/studentProfile/
-// @desc    get users profile
+// @desc    get student profiles
 // @access  Public
 router.get("/", async (req, res) => {
   try {

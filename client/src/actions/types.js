@@ -24,6 +24,7 @@ export const ACCOUNT_DELETED = "ACCOUNT_DELETED";
 
 export const GET_EVENTS = "GET_EVENTS";
 export const UPDATE_EVENTS = "UPDATE_EVENTS";
+export const CLEAR_EVENTS = "CLEAR_EVENTS";
 
 export const SAVE_EVENTS = "SAVE_EVENTS";
 export const GET_NEW_EVENTS = "GET_NEW_EVENTS";
