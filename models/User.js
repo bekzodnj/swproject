@@ -23,6 +23,10 @@ const UserSchema = new mongoose.Schema({
   secretAnswer: {
     type: String
   },
+  role: {
+    type: String,
+    required: true
+  },
   date: {
     type: Date,
     default: Date.now

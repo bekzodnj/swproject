@@ -44,7 +44,8 @@ export const register = ({
   email,
   password,
   secretQuestion,
-  secretAnswer
+  secretAnswer,
+  role
 }) => async dispatch => {
   const config = {
     headers: {
@@ -57,7 +58,8 @@ export const register = ({
     email,
     password,
     secretQuestion,
-    secretAnswer
+    secretAnswer,
+    role
   });
 
   try {

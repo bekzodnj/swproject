@@ -23,6 +23,9 @@ router.post(
     check("secretAnswer", "Secret answer is required")
       .not()
       .isEmpty(),
+    check("role", "User role is required")
+      .not()
+      .isEmpty(),
     check("email", "Please enter a valid email").isEmail(),
     check(
       "password",
@@ -35,14 +38,23 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { name, email, password, secretQuestion, secretAnswer } = req.body;
+    const {
+      name,
+      email,
+      password,
+      secretQuestion,
+      secretAnswer,
+      role
+    } = req.body;
 
     try {
       // check if user/email exists
       let user = await User.findOne({ email });
 
       if (user) {
-        res.status(400).json({ errors: [{ msg: "User already exists" }] });
+        return res
+          .status(400)
+          .json({ errors: [{ msg: "User already exists" }] });
       }
 
       const avatar = gravatar.url(email, {
@@ -57,7 +69,8 @@ router.post(
         avatar,
         password,
         secretQuestion,
-        secretAnswer
+        secretAnswer,
+        role
       });
 
       // hash the password

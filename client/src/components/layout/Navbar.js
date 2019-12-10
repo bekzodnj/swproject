@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { logout } from "../../actions/auth";
 
-const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
+const Navbar = ({ auth: { isAuthenticated, loading }, logout, user }) => {
   const authLinks = (
     <ul
       className="d-flex my-2 my-md-0 mr-md-3
@@ -12,6 +12,32 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
     >
       <Link to="/dashboard" className="p-2 text-white">
         <i className="fas fa-user"></i> Dashboard
+      </Link>
+
+      <a onClick={logout} href="#!" className="p-2 text-white">
+        <i className="fas fa-sign-out-alt"></i> <span>Logout</span>
+      </a>
+    </ul>
+  );
+
+  let isTeacher = true;
+  if (isAuthenticated) {
+    if (user !== null) {
+      if (user.role == "teacher") {
+        isTeacher = true;
+      } else if (user.role == "student") {
+        isTeacher = false;
+      }
+    }
+  }
+
+  const studentLinks = (
+    <ul
+      className="d-flex my-2 my-md-0 mr-md-3
+      list-unstyled text-white ml-md-auto"
+    >
+      <Link to="/student-dashboard" className="p-2 text-white">
+        <i className="fas fa-user"></i> My Dashboard
       </Link>
 
       <a onClick={logout} href="#!" className="p-2 text-white">
@@ -51,7 +77,13 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
         </Link>
       </h1>
       {!loading && (
-        <Fragment>{isAuthenticated ? authLinks : guestLinks}</Fragment>
+        <Fragment>
+          {isAuthenticated
+            ? isTeacher
+              ? authLinks
+              : studentLinks
+            : guestLinks}
+        </Fragment>
       )}
     </nav>
   );
@@ -63,7 +95,8 @@ Navbar.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+  user: state.auth.user
 });
 
 export default connect(mapStateToProps, { logout })(Navbar);
