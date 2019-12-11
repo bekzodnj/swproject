@@ -60,9 +60,9 @@ const Register = ({ setAlert, register, isAuthenticated, user }) => {
 
   return (
     <div className="row">
-      <div className="col-md-7 col-12">
+      <div className="col-md-7 col-12 my-3 p-5 bg-white rounded shadow-lg">
         <h1 className="large text-primary">Sign Up</h1>
-        <p className="lead">
+        <p className="text-muted">
           <i className="fas fa-user"></i> Create Your Account
         </p>
 
@@ -92,7 +92,6 @@ const Register = ({ setAlert, register, isAuthenticated, user }) => {
           </label>
         </div>
         <form className="form mt-2" onSubmit={e => onSubmit(e)}>
-          <h1>You are {role}</h1>
           <div className="form-group">
             <input
               type="text"
@@ -113,10 +112,6 @@ const Register = ({ setAlert, register, isAuthenticated, user }) => {
               value={email}
               onChange={e => onChange(e)}
             />
-            <small className="form-text">
-              This site uses Gravatar so if you want a profile image, use a
-              Gravatar email
-            </small>
           </div>
           <div className="form-group">
             <input
@@ -141,11 +136,11 @@ const Register = ({ setAlert, register, isAuthenticated, user }) => {
             />
           </div>
 
-          <div className="form-group">
-            <h3 className="form-text text-secondary">
+          <div className="form-group mt-2">
+            <p className="form-text text-secondary text-muted">
               In order to be able to recover your password, provide answer for
               questionaire
-            </h3>
+            </p>
             <select
               name="secretQuestion"
               className="form-control"

@@ -46,7 +46,7 @@ const App = () => {
   useEffect(() => {
     store.dispatch(loadUser());
   }, []);
-
+  document.body.classList.add("bg-light");
   return (
     <Provider store={store}>
       <Router>
@@ -69,7 +69,7 @@ const App = () => {
               <PrivateRoute exact path="/dashboard" component={Dashboard} />
               <PrivateRoute
                 exact
-                path="/studentDashboard"
+                path="/student-dashboard"
                 component={StudentDashboard}
               />
               <PrivateRoute

@@ -34,10 +34,13 @@ router.post(
   [
     auth,
     [
-      check("status", "Status is required")
+      check("lastname", "Lastname is required")
         .not()
         .isEmpty(),
-      check("skills", "Skills is required")
+      check("phone", "Phone number is required")
+        .not()
+        .isEmpty(),
+      check("date_of_birth", "Date of birth  is required")
         .not()
         .isEmpty()
     ]
@@ -50,13 +53,16 @@ router.post(
     }
 
     const {
-      company,
-      website,
-      location,
+      lastname,
+      phone,
+      date_of_birth,
       bio,
-      status,
-      githubusername,
-      skills,
+      ac_degree,
+      ac_title,
+      place_of_work,
+      ac_activities,
+      ac_works,
+      general_info,
       youtube,
       facebook,
       twitter,
@@ -67,16 +73,16 @@ router.post(
     const profileFields = {};
     profileFields.user = req.user.id;
 
-    if (company) profileFields.company = company;
-    if (website) profileFields.website = website;
-    if (location) profileFields.location = location;
+    if (lastname) profileFields.lastname = lastname;
+    if (phone) profileFields.phone = phone;
+    if (date_of_birth) profileFields.date_of_birth = date_of_birth;
     if (bio) profileFields.bio = bio;
-    if (status) profileFields.status = status;
-    if (githubusername) profileFields.githubusername = githubusername;
-
-    if (skills) {
-      profileFields.skills = skills.split(",").map(el => el.trim());
-    }
+    if (ac_degree) profileFields.ac_degree = ac_degree;
+    if (ac_title) profileFields.ac_title = ac_title;
+    if (ac_activities) profileFields.ac_activities = ac_activities;
+    if (ac_works) profileFields.ac_works = ac_works;
+    if (general_info) profileFields.general_info = general_info;
+    if (place_of_work) profileFields.place_of_work = place_of_work;
 
     profileFields.social = {};
     if (youtube) profileFields.social.youtube = youtube;
