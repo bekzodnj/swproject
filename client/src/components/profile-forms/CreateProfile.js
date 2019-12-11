@@ -51,7 +51,7 @@ const CreateProfile = ({ createProfile, history }) => {
     createProfile(formData, history);
   };
   return (
-    <Fragment>
+    <div className="">
       <h1 className="large text-primary">Create Your Profile</h1>
       <p className="lead text-muted">
         <i className="fas fa-user"></i> Let's get some information
@@ -142,6 +142,7 @@ const CreateProfile = ({ createProfile, history }) => {
           <textarea
             placeholder="A short bio of yourself"
             name="bio"
+            className="form-control"
             value={bio}
             onChange={e => onChange(e)}
           ></textarea>
@@ -152,6 +153,7 @@ const CreateProfile = ({ createProfile, history }) => {
           <textarea
             placeholder="General Information"
             name="general_info"
+            className="form-control"
             value={general_info}
             onChange={e => onChange(e)}
           ></textarea>
@@ -161,7 +163,7 @@ const CreateProfile = ({ createProfile, history }) => {
           <button
             type="button"
             onClick={() => toggleSocialInputs(!displaySocialInputs)}
-            className="btn btn-light"
+            className="btn btn-outline-primary"
           >
             Add Social Network Links
           </button>
@@ -232,7 +234,7 @@ const CreateProfile = ({ createProfile, history }) => {
           Go Back
         </a>
       </form>
-    </Fragment>
+    </div>
   );
 };
 

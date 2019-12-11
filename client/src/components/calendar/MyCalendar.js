@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Calendar, Views, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
+
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
 import { connect } from "react-redux";
@@ -10,8 +11,6 @@ import {
   updateEvents,
   updateNewEvents
 } from "../../actions/events";
-
-import PropTypes from "prop-types";
 
 const MyCalendar = ({
   events,
@@ -25,7 +24,7 @@ const MyCalendar = ({
   useEffect(() => {
     getEvents();
     getNewEvents();
-  }, []);
+  }, [getEvents]);
 
   // handleSelect = ({ start, end }) => {
   //   const title = window.prompt("New Event name");

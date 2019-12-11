@@ -18,13 +18,13 @@ const Dashboard = ({
 }) => {
   useEffect(() => {
     getCurrentProfile();
-  }, []);
+  }, [getCurrentProfile]);
 
   return loading && profile === null ? (
     <Spinner />
   ) : (
     <Fragment>
-      <h1 className="f2">Dashboard Teacher</h1>
+      <h3 className="">Welcome, {user && user.name}</h3>
       <div className="lead">
         <div className="">
           {profile != null && (
@@ -35,8 +35,6 @@ const Dashboard = ({
             />
           )}
         </div>
-
-        <span className="f2 fw1 mt2">Welcome, {user && user.name}</span>
       </div>
 
       {profile !== null ? (
@@ -50,15 +48,6 @@ const Dashboard = ({
           />
 
           <div className="mt4 bb pt4"></div>
-          <Experience experience={profile.experience} />
-          <Education education={profile.education} />
-
-          <div className="my-2">
-            <button className="btn btn-danger" onClick={() => deleteAccount()}>
-              <i className="fas fa-user-minus"></i>
-              Delete my account
-            </button>
-          </div>
         </Fragment>
       ) : (
         <Fragment>

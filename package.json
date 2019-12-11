@@ -12,6 +12,7 @@
   "author": "Bekzod",
   "license": "ISC",
   "dependencies": {
+    "@material-ui/pickers": "^3.2.8",
     "bcryptjs": "^2.4.3",
     "bootstrap": "^4.4.1",
     "config": "^3.2.2",
@@ -19,9 +20,12 @@
     "express-validator": "^6.2.0",
     "gravatar": "^1.8.0",
     "jsonwebtoken": "^8.5.1",
+    "material-ui": "^0.20.2",
+    "moment": "^2.24.0",
     "mongoose": "^5.7.5",
     "nodemailer": "^6.3.1",
     "react-bootstrap": "^1.0.0-beta.16",
+    "react-datepicker": "^2.10.1",
     "request": "^2.88.0",
     "tachyons": "^4.11.1"
   },

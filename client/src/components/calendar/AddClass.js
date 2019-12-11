@@ -22,7 +22,7 @@ const AddClass = ({
   useEffect(() => {
     getEvents();
     getNewEvents();
-  }, []);
+  }, [getEvents]);
 
   // local state for storing form data
   const [formData, setFormData] = useState({
@@ -285,7 +285,9 @@ const mapStateToProps = state => ({
   new_events: state.new_events
 });
 
-export default connect(
-  mapStateToProps,
-  { getEvents, updateEvents, getNewEvents, updateNewEvents }
-)(withRouter(AddClass));
+export default connect(mapStateToProps, {
+  getEvents,
+  updateEvents,
+  getNewEvents,
+  updateNewEvents
+})(withRouter(AddClass));
