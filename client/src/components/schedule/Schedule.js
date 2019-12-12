@@ -44,25 +44,32 @@ const Schedule = ({
 
   const [startDate2, setStartDate2] = useState(null);
   const [endDate2, setEndDate2] = useState(null);
+  const [isShown2, setIsShown2] = useState(false);
 
   const [startDate3, setStartDate3] = useState(null);
   const [endDate3, setEndDate3] = useState(null);
+  const [isShown3, setIsShown3] = useState(false);
 
   const [startDate4, setStartDate4] = useState(null);
   const [endDate4, setEndDate4] = useState(null);
+  const [isShown4, setIsShown4] = useState(false);
 
   const [startDate5, setStartDate5] = useState(null);
   const [endDate5, setEndDate5] = useState(null);
+  const [isShown5, setIsShown5] = useState(false);
 
   const [startDate6, setStartDate6] = useState(null);
   const [endDate6, setEndDate6] = useState(null);
+  const [isShown6, setIsShown6] = useState(false);
 
   const [startDate7, setStartDate7] = useState(null);
   const [endDate7, setEndDate7] = useState(null);
+  const [isShown7, setIsShown7] = useState(false);
 
   const [inputDay, setInputDay] = useState(1);
+  const [isHidden, setIsHidden] = useState("");
 
-  const newEv = [
+  let newEv = [
     {
       start: startDate,
       end: endDate
@@ -93,8 +100,11 @@ const Schedule = ({
     }
   ];
 
+  newEv = newEv.filter(el => el.start !== null && el.end !== null);
+
   const onClickHandler = e => {
-    console.log(e);
+    // console.log(e.target.name);
+    setIsHidden(e.target.name);
   };
 
   let isRecurring = false;
@@ -117,7 +127,7 @@ const Schedule = ({
         <div className="row">
           <div className="col-md-4 col-12" style={{ minHeight: "150px" }}>
             <div className="picker">
-              <p>
+              <div>
                 Start:
                 <DatePicker
                   localizer
@@ -130,9 +140,9 @@ const Schedule = ({
                   timeCaption="time"
                   dateFormat="MMMM d, yyyy h:mm"
                 />
-              </p>
+              </div>
 
-              <p>
+              <div>
                 End:{" "}
                 <DatePicker
                   selected={endDate}
@@ -144,14 +154,14 @@ const Schedule = ({
                   timeCaption="time"
                   dateFormat="MMMM d, yyyy h:mm"
                 />
-              </p>
+              </div>
 
               <hr />
             </div>
 
-            {inputDay >= 2 && (
+            {inputDay >= 2 && isShown2 && (
               <div className="picker">
-                <p>
+                <div>
                   Start:
                   <DatePicker
                     selected={startDate2}
@@ -163,9 +173,9 @@ const Schedule = ({
                     timeCaption="time"
                     dateFormat="MMMM d, yyyy h:mm"
                   />
-                </p>
+                </div>
 
-                <p>
+                <div>
                   End:{" "}
                   <DatePicker
                     selected={endDate2}
@@ -180,19 +190,24 @@ const Schedule = ({
                   <button
                     className="btn btn-sm btn-outline-danger ml-2"
                     name="btn2"
-                    onClick={e => onClickHandler(e)}
+                    onClick={() => {
+                      setIsShown2(false);
+                      setStartDate2(null);
+                      setEndDate2(null);
+                      setInputDay(inputDay - 1);
+                    }}
                   >
                     &times;
                   </button>
-                </p>
+                </div>
 
                 <hr />
               </div>
             )}
 
-            {inputDay >= 3 && (
+            {inputDay >= 3 && isShown3 && (
               <div className="picker">
-                <p>
+                <div>
                   Start:
                   <DatePicker
                     selected={startDate3}
@@ -204,9 +219,9 @@ const Schedule = ({
                     timeCaption="time"
                     dateFormat="MMMM d, yyyy h:mm"
                   />
-                </p>
+                </div>
 
-                <p>
+                <div>
                   End:{" "}
                   <DatePicker
                     selected={endDate3}
@@ -218,15 +233,27 @@ const Schedule = ({
                     timeCaption="time"
                     dateFormat="MMMM d, yyyy h:mm"
                   />
-                </p>
+                  <button
+                    className="btn btn-sm btn-outline-danger ml-2"
+                    name="btn3"
+                    onClick={() => {
+                      setIsShown3(false);
+                      setStartDate3(null);
+                      setEndDate3(null);
+                      setInputDay(inputDay - 1);
+                    }}
+                  >
+                    &times;
+                  </button>
+                </div>
 
                 <hr />
               </div>
             )}
 
-            {inputDay >= 4 && (
+            {inputDay >= 4 && isShown4 && (
               <div className="picker">
-                <p>
+                <div>
                   Start:
                   <DatePicker
                     selected={startDate4}
@@ -238,9 +265,9 @@ const Schedule = ({
                     timeCaption="time"
                     dateFormat="MMMM d, yyyy h:mm"
                   />
-                </p>
+                </div>
 
-                <p>
+                <div>
                   End:{" "}
                   <DatePicker
                     selected={endDate4}
@@ -252,15 +279,27 @@ const Schedule = ({
                     timeCaption="time"
                     dateFormat="MMMM d, yyyy h:mm"
                   />
-                </p>
+                  <button
+                    className="btn btn-sm btn-outline-danger ml-2"
+                    name="btn4"
+                    onClick={() => {
+                      setIsShown4(false);
+                      setStartDate4(null);
+                      setEndDate4(null);
+                      setInputDay(inputDay - 1);
+                    }}
+                  >
+                    &times;
+                  </button>
+                </div>
 
                 <hr />
               </div>
             )}
 
-            {inputDay >= 5 && (
+            {inputDay >= 5 && isShown5 && (
               <div className="picker">
-                <p>
+                <div>
                   Start:
                   <DatePicker
                     selected={startDate5}
@@ -272,9 +311,9 @@ const Schedule = ({
                     timeCaption="time"
                     dateFormat="MMMM d, yyyy h:mm"
                   />
-                </p>
+                </div>
 
-                <p>
+                <div>
                   End:{" "}
                   <DatePicker
                     selected={endDate5}
@@ -286,15 +325,27 @@ const Schedule = ({
                     timeCaption="time"
                     dateFormat="MMMM d, yyyy h:mm"
                   />
-                </p>
+                  <button
+                    className="btn btn-sm btn-outline-danger ml-2"
+                    name="btn5"
+                    onClick={() => {
+                      setIsShown5(false);
+                      setStartDate5(null);
+                      setEndDate5(null);
+                      setInputDay(inputDay - 1);
+                    }}
+                  >
+                    &times;
+                  </button>
+                </div>
 
                 <hr />
               </div>
             )}
 
-            {inputDay >= 6 && (
+            {inputDay >= 6 && isShown6 && (
               <div className="picker">
-                <p>
+                <div>
                   Start:
                   <DatePicker
                     selected={startDate3}
@@ -306,9 +357,9 @@ const Schedule = ({
                     timeCaption="time"
                     dateFormat="MMMM d, yyyy h:mm"
                   />
-                </p>
+                </div>
 
-                <p>
+                <div>
                   End:{" "}
                   <DatePicker
                     selected={endDate6}
@@ -320,15 +371,27 @@ const Schedule = ({
                     timeCaption="time"
                     dateFormat="MMMM d, yyyy h:mm"
                   />
-                </p>
+                  <button
+                    className="btn btn-sm btn-outline-danger ml-2"
+                    name="btn6"
+                    onClick={() => {
+                      setIsShown6(false);
+                      setStartDate6(null);
+                      setEndDate6(null);
+                      setInputDay(inputDay - 1);
+                    }}
+                  >
+                    &times;
+                  </button>
+                </div>
 
                 <hr />
               </div>
             )}
 
-            {inputDay >= 7 && (
+            {inputDay >= 7 && isShown7 && (
               <div className="picker">
-                <p>
+                <div>
                   Start:
                   <DatePicker
                     selected={startDate7}
@@ -340,9 +403,9 @@ const Schedule = ({
                     timeCaption="time"
                     dateFormat="MMMM d, yyyy h:mm"
                   />
-                </p>
+                </div>
 
-                <p>
+                <div>
                   End:{" "}
                   <DatePicker
                     selected={endDate7}
@@ -354,7 +417,19 @@ const Schedule = ({
                     timeCaption="time"
                     dateFormat="MMMM d, yyyy h:mm"
                   />
-                </p>
+                  <button
+                    className="btn btn-sm btn-outline-danger ml-2"
+                    name="btn7"
+                    onClick={() => {
+                      setIsShown7(false);
+                      setStartDate7(null);
+                      setEndDate7(null);
+                      setInputDay(inputDay - 1);
+                    }}
+                  >
+                    &times;
+                  </button>
+                </div>
 
                 <hr />
               </div>
@@ -362,7 +437,16 @@ const Schedule = ({
 
             <button
               className="btn btn-outline-info"
-              onClick={() => setInputDay(inputDay + 1)}
+              onClick={() => {
+                setInputDay(inputDay + 1);
+                let a = "";
+                a = inputDay == 2 ? setIsShown2(true) : "";
+                a = inputDay == 3 ? setIsShown3(true) : "";
+                a = inputDay == 4 ? setIsShown4(true) : "";
+                a = inputDay == 5 ? setIsShown5(true) : "";
+                a = inputDay == 6 ? setIsShown6(true) : "";
+                a = inputDay == 7 ? setIsShown7(true) : "";
+              }}
             >
               Add day +
             </button>
@@ -390,7 +474,12 @@ const Schedule = ({
         </div>
       </div>
 
-      <input type="submit" className="btn btn-primary mt-4" value="Submit" />
+      <button
+        className="btn btn-primary my-3"
+        onClick={() => console.log(newEv)}
+      >
+        Save
+      </button>
     </div>
   );
 };
