@@ -68,7 +68,7 @@ const App = () => {
               <Route exact path="/recovery" component={Recovery} />
               <Route exact path="/recovery/reset" component={Reset_Password} />
               <PrivateRoute exact path="/dashboard" component={Dashboard} />
-              <PrivateRoute exact path="/schedule" component={Schedule} />
+              <Route exact path="/schedule" component={Schedule} />
               <PrivateRoute
                 exact
                 path="/student-dashboard"

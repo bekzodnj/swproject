@@ -11,11 +11,15 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout, user }) => {
       list-unstyled text-white ml-md-auto"
     >
       <Link to="/dashboard" className="p-2 text-white">
-        <i className="fas fa-user"></i> Dashboard
+        Dashboard
       </Link>
 
-      <a onClick={logout} href="#!" className="p-2 text-white">
-        <i className="fas fa-sign-out-alt"></i> <span>Logout</span>
+      <Link to="/schedule" className="p-2 text-white">
+        Schedule
+      </Link>
+
+      <a onClick={logout} href="#!" className="p-2 btn btn-outline-light">
+        <span>Logout</span>
       </a>
     </ul>
   );
