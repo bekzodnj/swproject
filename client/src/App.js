@@ -25,6 +25,8 @@ import AddClass from "./components/calendar/AddClass";
 import EditClass from "./components/calendar/EditClass";
 import EditEvent from "./components/calendar/EditEvent";
 import Schedule from "./components/schedule/Schedule";
+import Services from "./components/service/Services";
+import CreateService from "./components/service/CreateService";
 
 // import "./App.css";
 // import "./bootstrap.min.css";
@@ -68,7 +70,15 @@ const App = () => {
               <Route exact path="/recovery" component={Recovery} />
               <Route exact path="/recovery/reset" component={Reset_Password} />
               <PrivateRoute exact path="/dashboard" component={Dashboard} />
-              <Route exact path="/schedule" component={Schedule} />
+
+              <PrivateRoute exact path="/schedule" component={Schedule} />
+              <PrivateRoute exact path="/services" component={Services} />
+              <PrivateRoute
+                exact
+                path="/create-service"
+                component={CreateService}
+              />
+
               <PrivateRoute
                 exact
                 path="/student-dashboard"

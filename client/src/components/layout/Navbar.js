@@ -18,6 +18,10 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout, user }) => {
         Schedule
       </Link>
 
+      <Link to="/services" className="p-2 text-white">
+        Schedule
+      </Link>
+
       <a onClick={logout} href="#!" className="p-2 btn btn-outline-light">
         <span>Logout</span>
       </a>

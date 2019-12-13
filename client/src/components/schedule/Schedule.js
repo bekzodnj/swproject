@@ -5,6 +5,7 @@ import { Calendar, Views, momentLocalizer } from "react-big-calendar";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
+import "moment-recur";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "moment/locale/en-gb";
 
@@ -113,6 +114,8 @@ const Schedule = ({
   const onEventClick = e => {
     alert(e.start);
   };
+
+  // console.log(start_next);
 
   /// console.log("Obj", start_next._d);
   return (
