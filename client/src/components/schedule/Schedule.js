@@ -67,7 +67,7 @@ const Schedule = ({
   const [endDate7, setEndDate7] = useState(null);
   const [isShown7, setIsShown7] = useState(false);
 
-  const [inputDay, setInputDay] = useState(1);
+  const [inputDay, setInputDay] = useState(2);
   const [isHidden, setIsHidden] = useState("");
 
   let newEv = [

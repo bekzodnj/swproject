@@ -19,7 +19,7 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout, user }) => {
       </Link>
 
       <Link to="/services" className="p-2 text-white">
-        Schedule
+        Services
       </Link>
 
       <a onClick={logout} href="#!" className="p-2 btn btn-outline-light">

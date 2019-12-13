@@ -171,7 +171,7 @@ const CreateService = ({
 
           <div className="col-md-4">
             <div className="form-group">
-              <label htmlFor="cost">Expected duration (mins)</label>
+              <label htmlFor="duration">Expected duration (mins)</label>
               <input
                 type="text"
                 className="form-control"
