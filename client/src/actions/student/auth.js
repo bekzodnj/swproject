@@ -13,6 +13,7 @@ import {
 } from "../student/types";
 
 import setAuthToken from "../../utils/setAuthToken";
+import { CLEAR_PROFILE } from "../types";
 
 //
 export const loadUser = () => async dispatch => {
@@ -179,6 +180,7 @@ export const reset_password = (
 
 // Logout / Clear Profile
 export const logout = () => dispatch => {
+  dispatch({ type: CLEAR_PROFILE });
   dispatch({ type: STUDENT_CLEAR_PROFILE });
   dispatch({ type: STUDENT_LOGOUT });
 };

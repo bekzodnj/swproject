@@ -21,54 +21,35 @@ export const getServices = () => async dispatch => {
 };
 
 // Create an event=update events object
-// export const updateServices = (
-//   formData,
-//   start,
-//   end,
-//   history
-// ) => async dispatch => {
-//   try {
-//     // const title = window.prompt("New Event name");
+export const updateServices = (formData, history) => async dispatch => {
+  try {
+    const config = {
+      headers: {
+        "Content-Type": "application/json"
+      }
+    };
 
-//     //if not empty then create new event
-//     if (formData.title) {
-//       const data = {
-//         ...formData,
-//         start,
-//         end
-//       };
-//       const config = {
-//         headers: {
-//           "Content-Type": "application/json"
-//         }
-//       };
+    const res = await axios.post("/api/services", formData, config);
 
-//       const res = await axios.post("/api/services", data, config);
+    dispatch({
+      type: UPDATE_SERVICES,
+      payload: res.data
+    });
 
-//       dispatch({
-//         type: UPDATE_SERVICES,
-//         payload: res.data
-//       });
+    history.push("/services");
+    dispatch(setAlert("Event created", "success"));
 
-//       history.push("/dashboard");
-//       dispatch(setAlert("Event created", "success"));
+    dispatch({
+      type: GET_SERVICES
+    });
+  } catch (err) {
+    const errors = err.response.data.errors;
 
-//       dispatch({
-//         type: CLEAR_NEW_EVENTS
-//       });
-
-//       dispatch({
-//         type: GET_EVENTS
-//       });
-//     }
-//   } catch (err) {
-//     const errors = err.response.data.errors;
-
-//     if (errors) {
-//       errors.forEach(el => dispatch(setAlert(el.msg, "danger")));
-//     }
-//   }
-// };
+    if (errors) {
+      errors.forEach(el => dispatch(setAlert(el.msg, "danger")));
+    }
+  }
+};
 
 // export const editServices = (formData, event_id, history) => async dispatch => {
 //   try {
@@ -110,26 +91,30 @@ export const getServices = () => async dispatch => {
 //   }
 // };
 
-// // delete event
-// export const deleteEvent = (id, history) => async dispatch => {
-//   try {
-//     const res = await axios.delete(`/api/services/${id}`);
+// delete event
+export const deleteService = id => async dispatch => {
+  try {
+    let res = window.confirm("Are you sure?");
 
-//     dispatch({
-//       type: GET_SERVICES,
-//       payload: res.data
-//     });
+    if (res) {
+      await axios.delete(`/api/services/${id}`);
+      const res = await axios.get("/api/services/me");
 
-//     history.push("/dashboard");
-//     dispatch(setAlert("Event deleted", "success"));
-//   } catch (err) {
-//     const errors = err.response.data.errors;
+      dispatch({
+        type: GET_SERVICES,
+        payload: res.data
+      });
 
-//     if (errors) {
-//       errors.forEach(el => dispatch(setAlert(el.msg, "danger")));
-//     }
-//   }
-// };
+      dispatch(setAlert("Event deleted", "success"));
+    }
+  } catch (err) {
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach(el => dispatch(setAlert(el.msg, "danger")));
+    }
+  }
+};
 
 // // temp buffer events in calendar
 // export const getNewEvents = () => async dispatch => {

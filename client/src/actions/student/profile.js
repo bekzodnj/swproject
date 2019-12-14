@@ -66,7 +66,7 @@ export const createProfile = (
     });
 
     if (!edit) {
-      history.push("/studentDashboard");
+      history.push("/student-dashboard");
     }
     dispatch(setAlert(edit ? "Profile edited" : "Profile created", "success"));
   } catch (err) {

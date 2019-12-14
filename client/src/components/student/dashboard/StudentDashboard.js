@@ -13,15 +13,17 @@ import MyCalendar from "../../calendar/MyCalendar";
 
 const StudentDashboard = ({
   getCurrentProfile,
-  auth: { user },
-  profile: { profile, loading },
+  // auth: { user },
+  // profile: { profile, loading },
+  auth,
+  profile,
   history
 }) => {
   useEffect(() => {
     getCurrentProfile();
   }, [getCurrentProfile]);
 
-  return loading && profile === null ? (
+  return auth.loading && profile === null ? (
     <Spinner />
   ) : (
     <Fragment>
@@ -37,7 +39,7 @@ const StudentDashboard = ({
           )} */}
         </div>
 
-        <span className="f2 fw1 mt2">Welcome, {user && user.name}</span>
+        <span className="f2 fw1 mt2">Welcome, {profile.name}</span>
       </div>
 
       {profile !== null ? (
@@ -71,8 +73,8 @@ StudentDashboard.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  auth: state.student_auth,
-  profile: state.student_profile
+  auth: state.auth,
+  profile: state.student_profile.profile
 });
 
 export default connect(mapStateToProps, { getCurrentProfile })(

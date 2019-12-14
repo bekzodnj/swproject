@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 
 const StudentProfileSchema = new mongoose.Schema({
-  student: {
+  user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "student"
+    ref: "user"
   },
   lastname: {
     type: String,

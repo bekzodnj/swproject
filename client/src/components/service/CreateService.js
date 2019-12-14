@@ -10,26 +10,12 @@ import "moment-recur";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "moment/locale/en-gb";
 
-import {
-  getEvents,
-  getNewEvents,
-  updateNewEvents,
-  updateEvents
-} from "../../actions/events";
+import { getServices, updateServices } from "../../actions/services";
 
-const CreateService = ({
-  events,
-  new_events,
-  getEvents,
-  updateEvents,
-  getNewEvents,
-  updateNewEvents,
-  history
-}) => {
+const CreateService = ({ getServices, updateServices, history }) => {
   useEffect(() => {
-    getEvents();
-    getNewEvents();
-  }, [getEvents]);
+    getServices();
+  }, [getServices]);
 
   // local state for storing form data
   const [formData, setFormData] = useState({
@@ -38,8 +24,8 @@ const CreateService = ({
     subject: "",
     duration: "",
     category: "",
-    min_no_of_students: 1,
-    max_no_of_students: 1,
+    min_no_of_students: 0,
+    max_no_of_students: 0,
     address: "",
     cost: "",
     valid_from: "",
@@ -70,29 +56,12 @@ const CreateService = ({
     //console.log("New", new_events[0].start, new_events[0].end);
     //console.log(formData);
 
-    updateEvents(formData, new_events[0].start, new_events[0].end, history);
+    updateServices(formData2, history);
   };
 
   const onChange = e => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-
-  const classes = new_events.map(el => (
-    <article className="mw5 bg-white br3 pa4 mv2 ba b--black-10">
-      <div className="">
-        <h1 className="f3 mb2">{el.title}</h1>
-        <h2 className="f5 fw4 gray mt0">
-          {moment(el.start).format("MMMM Do")}
-        </h2>
-        <h2 className="f5 fw4 gray mt0">
-          From: {moment(el.start).format("h:mm a")}
-        </h2>
-        <h2 className="f5 fw4 gray mt0">
-          To: {moment(el.end).format("h:mm a")}
-        </h2>
-      </div>
-    </article>
-  ));
 
   ///////////////////////////////
   // starting time for a calendar 8:00am morning
@@ -178,6 +147,18 @@ const CreateService = ({
     alert(e.start);
   };
 
+  const [isChecked, setIsChecked] = useState(true);
+  //   console.log(isChecked);
+  const events = [...newEv];
+
+  let is_published = isChecked;
+  const formData2 = {
+    ...formData,
+    is_published,
+    events
+  };
+
+  //   console.log(formData2);
   /////////////////////
   return (
     <div>
@@ -380,6 +361,20 @@ const CreateService = ({
           <input type="file" placeholder="Event materials" name="materials" />
         </div>
 
+        <div className="form-check">
+          <input
+            className="form-check-input"
+            type="checkbox"
+            value="1"
+            checked={isChecked}
+            onChange={() => setIsChecked(!isChecked)}
+            id="defaultCheck1"
+          />
+          <label className="form-check-label" htmlFor="defaultCheck1">
+            Publish to website?
+          </label>
+        </div>
+
         <p className="text-primary">
           Choose a suitable day from calendar &darr;
         </p>
@@ -387,7 +382,6 @@ const CreateService = ({
         <input type="submit" className="btn btn-primary mt-4" value="Submit" />
       </form>
       <h2 className="mt2">Preview</h2>
-      <div className="bt pt3 mt3">{classes}</div>
 
       <div className="row">
         <div className="col-md-4 col-12" style={{ minHeight: "150px" }}>
@@ -726,7 +720,7 @@ const CreateService = ({
               defaultDate={new Date()}
               onSelectEvent={onEventClick}
               onSelectSlot={({ start, end }) => {
-                updateNewEvents(start, end);
+                // updateNewEvents(start, end);
               }}
               style={{ height: "400px" }}
               step={15}
@@ -748,13 +742,10 @@ const CreateService = ({
 };
 
 const mapStateToProps = state => ({
-  events: state.events,
-  new_events: state.new_events
+  services: state.services
 });
 
 export default connect(mapStateToProps, {
-  getEvents,
-  updateEvents,
-  getNewEvents,
-  updateNewEvents
+  getServices,
+  updateServices
 })(withRouter(CreateService));

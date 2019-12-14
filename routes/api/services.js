@@ -45,7 +45,9 @@ router.post(
       valid_from,
       expiry_date,
       info,
-      detailed_info
+      detailed_info,
+      is_published,
+      events
     } = req.body;
 
     const eventFields = {};
@@ -53,7 +55,9 @@ router.post(
     eventFields.user = req.user.id;
 
     if (title) eventFields.title = title;
+    eventFields.is_published = is_published;
     if (logo) eventFields.logo = logo;
+    if (events.length !== 0) eventFields.events = events;
     if (category) eventFields.category = category;
     if (subject) eventFields.subject = subject;
     if (duration) eventFields.duration = duration;

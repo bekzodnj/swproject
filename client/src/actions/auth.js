@@ -14,7 +14,7 @@ import {
   CLEAR_NEW_EVENTS
 } from "./types";
 
-import { STUDENT_LOGOUT } from "./student/types";
+import { STUDENT_CLEAR_PROFILE, STUDENT_LOGOUT } from "./student/types";
 
 import setAuthToken from "../utils/setAuthToken";
 
@@ -190,4 +190,5 @@ export const logout = () => dispatch => {
   dispatch({ type: CLEAR_NEW_EVENTS });
   dispatch({ type: LOGOUT });
   dispatch({ type: STUDENT_LOGOUT });
+  dispatch({ type: STUDENT_CLEAR_PROFILE });
 };

@@ -3,15 +3,18 @@ import { Link, withRouter } from "react-router-dom";
 
 import { connect } from "react-redux";
 
-import { getServices } from "../../actions/services";
+import { getServices, deleteService } from "../../actions/services";
 
-export const Services = ({ services, getServices }) => {
+export const Services = ({ services, getServices, deleteService }) => {
   useEffect(() => {
     getServices();
   }, [getServices]);
 
-  console.log(services);
+  const handleDelete = id => {
+    // let res = confirm("Are you sure?");
 
+    deleteService(id);
+  };
   return (
     <section>
       <div className="d-flex justify-content-between ">
@@ -39,11 +42,20 @@ export const Services = ({ services, getServices }) => {
                 <td>{el.subject}</td>
                 <td>{el.category}</td>
                 <td>
-                  <span className="badge badge-success">Published</span>
+                  {el.is_published ? (
+                    <span className="badge badge-success">Published</span>
+                  ) : (
+                    <span className="badge badge-secondary">Hidden</span>
+                  )}
                 </td>
                 <td>
-                  <button className="btn btn-outline-primary mr-2">Edit</button>
-                  <button className="btn btn-outline-danger">Delete</button>
+                  <button className="btn btn-primary mr-2">Edit</button>
+                  <button
+                    onClick={() => handleDelete(el._id)}
+                    className="btn btn-danger"
+                  >
+                    Delete
+                  </button>
                 </td>
               </tr>
             ))}
@@ -58,5 +70,6 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, {
-  getServices
+  getServices,
+  deleteService
 })(Services);

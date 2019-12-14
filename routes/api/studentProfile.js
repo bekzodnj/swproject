@@ -12,8 +12,8 @@ const { check, validationResult } = require("express-validator");
 router.get("/me", auth, async (req, res) => {
   try {
     const profile = await StudentProfile.findOne({
-      student: req.user.id
-    }).populate("student", ["name", "avatar"]);
+      user: req.user.id
+    }).populate("user", ["name"]);
 
     if (!profile) {
       return res.status(400).json({ msg: "There is no profile for this user" });
@@ -70,7 +70,7 @@ router.post(
     } = req.body;
 
     const profileFields = {};
-    profileFields.student = req.user.id;
+    profileFields.user = req.user.id;
 
     if (lastname) profileFields.lastname = lastname;
     if (name) profileFields.name = name;
@@ -90,12 +90,12 @@ router.post(
     if (instagram) profileFields.social.instagram = instagram;
 
     try {
-      let profile = await StudentProfile.findOne({ student: req.user.id });
+      let profile = await StudentProfile.findOne({ user: req.user.id });
 
       //if exists update
       if (profile) {
         profile = await StudentProfile.findOneAndUpdate(
-          { student: req.user.id },
+          { user: req.user.id },
           { $set: profileFields },
           { new: true }
         );
@@ -137,8 +137,8 @@ router.get("/", async (req, res) => {
 router.get("/student/:student_id", async (req, res) => {
   try {
     const profile = await StudentProfile.find({
-      student: req.params.student_id
-    }).populate("students", ["name", "avatar"]);
+      user: req.params.student_id
+    }).populate("user", ["name"]);
 
     if (!profile) return res.status(400).json({ msg: "Student is not found" });
 
