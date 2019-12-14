@@ -22,7 +22,7 @@ const AddClass = ({
   useEffect(() => {
     getEvents();
     getNewEvents();
-  }, [getEvents]);
+  }, [getEvents, getNewEvents]);
 
   // local state for storing form data
   const [formData, setFormData] = useState({

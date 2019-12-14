@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { useState } from "react";
 import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -25,9 +25,9 @@ const Login = ({ login, isAuthenticated, user }) => {
   // }
   if (isAuthenticated) {
     if (user !== null) {
-      if (user.role == "teacher") {
+      if (user.role === "teacher") {
         return <Redirect to="/dashboard" />;
-      } else if (user.role == "student") {
+      } else if (user.role === "student") {
         return <Redirect to="/student-dashboard" />;
       }
     }

@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { useState } from "react";
 import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { setAlert } from "../../actions/alert";
@@ -46,9 +46,9 @@ const Register = ({ setAlert, register, isAuthenticated, user }) => {
   if (isAuthenticated) {
     // return <Redirect to="/dashboard" />;
     if (user !== null) {
-      if (user.role == "teacher") {
+      if (user.role === "teacher") {
         return <Redirect to="/dashboard" />;
-      } else if (user.role == "student") {
+      } else if (user.role === "student") {
         return <Redirect to="/student-dashboard" />;
       }
     }

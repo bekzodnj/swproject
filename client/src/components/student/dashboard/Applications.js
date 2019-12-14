@@ -1,17 +1,18 @@
-import React, { useEffect, useState } from "react";
-import { Link, withRouter } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 import { connect } from "react-redux";
 
 import { getEnrolled } from "../../../actions/services";
 
-export const Applications = ({ services, enrolled, getEnrolled }) => {
+export const Applications = ({ enrolled, getEnrolled }) => {
   useEffect(() => {
     getEnrolled();
   }, [getEnrolled]);
 
   return (
     <section>
+      <Link to="/student-dashboard">Go Back</Link>
       <div className="d-flex justify-content-between ">
         <h2>My Applications</h2>
       </div>
@@ -48,7 +49,6 @@ export const Applications = ({ services, enrolled, getEnrolled }) => {
 };
 
 const mapStateToProps = state => ({
-  services: state.services,
   enrolled: state.enrolled
 });
 

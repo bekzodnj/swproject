@@ -35,9 +35,9 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout, user }) => {
   let isTeacher = true;
   if (isAuthenticated) {
     if (user !== null) {
-      if (user.role == "teacher") {
+      if (user.role === "teacher") {
         isTeacher = true;
-      } else if (user.role == "student") {
+      } else if (user.role === "student") {
         isTeacher = false;
       }
     }

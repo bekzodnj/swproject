@@ -24,7 +24,7 @@ export const ViewCourse = ({
 
   const course_id = match.params.service_id;
 
-  const service = services.filter(el => el._id == course_id);
+  const service = services.filter(el => el._id === course_id);
 
   //   console.log("courseid", course_id);
   //   console.log("service", service);

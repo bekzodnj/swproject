@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Link, withRouter } from "react-router-dom";
-import MyCalendar from "../calendar/MyCalendar";
 import { Calendar, Views, momentLocalizer } from "react-big-calendar";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -30,7 +29,7 @@ const Schedule = ({
   useEffect(() => {
     getEvents();
     getNewEvents();
-  }, [getEvents]);
+  }, [getEvents, getNewEvents]);
 
   // starting time for a calendar 8:00am morning
   const min_time = new Date();

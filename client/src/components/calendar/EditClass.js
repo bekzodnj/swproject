@@ -75,7 +75,7 @@ const EditClass = ({
         ? 2
         : event.max_no_of_students
     });
-  }, []);
+  }, [getEvents, getNewEvents]);
 
   const {
     title,
