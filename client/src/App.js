@@ -27,6 +27,7 @@ import EditEvent from "./components/calendar/EditEvent";
 import Schedule from "./components/schedule/Schedule";
 import Services from "./components/service/Services";
 import CreateService from "./components/service/CreateService";
+import Notifications from "./components/dashboard/Notifications";
 
 //student part
 import CourseList from "./components/student/dashboard/CourseList";
@@ -77,6 +78,11 @@ const App = () => {
               <PrivateRoute exact path="/dashboard" component={Dashboard} />
 
               <PrivateRoute exact path="/schedule" component={Schedule} />
+              <PrivateRoute
+                exact
+                path="/notifications"
+                component={Notifications}
+              />
               <PrivateRoute exact path="/services" component={Services} />
               <PrivateRoute
                 exact
@@ -99,7 +105,7 @@ const App = () => {
 
               <PrivateRoute
                 exact
-                path="applications"
+                path="/applications"
                 component={Applications}
               />
 

@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 
 import { getEnrolled } from "../../../actions/services";
 
-export const Applications = ({ services, enrolled, getServices }) => {
+export const Applications = ({ services, enrolled, getEnrolled }) => {
   useEffect(() => {
     getEnrolled();
   }, [getEnrolled]);
@@ -19,39 +19,29 @@ export const Applications = ({ services, enrolled, getServices }) => {
       <table className="table table-striped mt-3">
         <thead>
           <tr>
-            <th scope="col">Service Title</th>
+            <th scope="col">Title</th>
             <th scope="col">Subject</th>
             <th scope="col">Category</th>
             <th scope="col">Status</th>
-            <th scope="col">Actions</th>
           </tr>
         </thead>
-        {/* <tbody>
-          {services.length !== 0 &&
-            services.map(el => (
+        <tbody>
+          {enrolled.length !== 0 &&
+            enrolled.map(el => (
               <tr key={el._id}>
-                <td>{el.title}</td>
-                <td>{el.subject}</td>
-                <td>{el.category}</td>
+                <td>{el.service.title}</td>
+                <td>{el.service.subject}</td>
+                <td>{el.service.category}</td>
                 <td>
-                  {el.is_published ? (
-                    <span className="badge badge-success">Published</span>
+                  {el.is_approved ? (
+                    <span className="badge badge-success">Approved</span>
                   ) : (
-                    <span className="badge badge-secondary">Hidden</span>
+                    <span className="badge badge-secondary">Pending</span>
                   )}
-                </td>
-                <td>
-                  <button className="btn btn-primary mr-2">Edit</button>
-                  <button
-                    onClick={() => handleDelete(el._id)}
-                    className="btn btn-danger"
-                  >
-                    Delete
-                  </button>
                 </td>
               </tr>
             ))}
-        </tbody> */}
+        </tbody>
       </table>
     </section>
   );
@@ -63,6 +53,5 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, {
-  getServices,
   getEnrolled
 })(Applications);

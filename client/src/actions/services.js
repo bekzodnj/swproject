@@ -193,6 +193,24 @@ export const getEnrolled = () => async dispatch => {
   }
 };
 
+// teacher view enrols by him
+export const getEnrolledTeacher = () => async dispatch => {
+  try {
+    const res = await axios.get("/api/enrolled/teacher/me");
+
+    dispatch({
+      type: GET_ENROLLED,
+      payload: res.data
+    });
+  } catch (err) {
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach(el => dispatch(setAlert(el.msg, "danger")));
+    }
+  }
+};
+
 // // temp buffer events in calendar
 // export const getNewEvents = () => async dispatch => {
 //   try {
