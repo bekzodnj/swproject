@@ -47,6 +47,7 @@ const Login = ({ login, isAuthenticated, user }) => {
                 type="email"
                 placeholder="Email Address"
                 name="email"
+                className="form-control"
                 value={email}
                 onChange={e => onChange(e)}
               />
@@ -57,6 +58,7 @@ const Login = ({ login, isAuthenticated, user }) => {
                 placeholder="Password"
                 name="password"
                 minLength="6"
+                className="form-control"
                 value={password}
                 onChange={e => onChange(e)}
               />

@@ -47,7 +47,25 @@ const ServiceSchema = mongoose.Schema({
   },
   detailed_info: {
     type: String
-  }
+  },
+  created_at: {
+    type: Date,
+    default: Date.now
+  },
+  is_published: {
+    type: Boolean,
+    default: true
+  },
+  events: [
+    {
+      start: {
+        type: Date
+      },
+      end: {
+        type: Date
+      }
+    }
+  ]
 });
 
-module.exports = Service = mongoose.model("service", EventSchema);
+module.exports = Service = mongoose.model("service", ServiceSchema);
