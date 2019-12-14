@@ -3,9 +3,21 @@ import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { Button, Modal } from "react-bootstrap";
 
-import { getAllServices } from "../../../actions/services";
+import {
+  getAllServices,
+  createEnrolled,
+  getEnrolled
+} from "../../../actions/services";
 
-export const ViewCourse = ({ services, user, getAllServices, match }) => {
+export const ViewCourse = ({
+  history,
+  services,
+  user,
+  getAllServices,
+  getEnrolled,
+  createEnrolled,
+  match
+}) => {
   useEffect(() => {
     getAllServices();
   }, [getAllServices]);
@@ -28,7 +40,10 @@ export const ViewCourse = ({ services, user, getAllServices, match }) => {
       service: service[0]._id,
       is_approved: false
     };
-    console.log(formData);
+
+    createEnrolled(formData, history);
+
+    //console.log(formData);
   };
   return (
     <section>
@@ -138,5 +153,7 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, {
-  getAllServices
-})(ViewCourse);
+  getAllServices,
+  createEnrolled,
+  getEnrolled
+})(withRouter(ViewCourse));

@@ -27,8 +27,11 @@ import EditEvent from "./components/calendar/EditEvent";
 import Schedule from "./components/schedule/Schedule";
 import Services from "./components/service/Services";
 import CreateService from "./components/service/CreateService";
+
+//student part
 import CourseList from "./components/student/dashboard/CourseList";
 import ViewCourse from "./components/student/dashboard/ViewCourse";
+import Applications from "./components/student/dashboard/Applications";
 
 // import "./App.css";
 // import "./bootstrap.min.css";
@@ -92,6 +95,12 @@ const App = () => {
                 exact
                 path="/services/:service_id"
                 component={ViewCourse}
+              />
+
+              <PrivateRoute
+                exact
+                path="applications"
+                component={Applications}
               />
 
               <PrivateRoute

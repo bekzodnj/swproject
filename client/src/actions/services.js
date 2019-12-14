@@ -1,6 +1,12 @@
 import axios from "axios";
 import { setAlert } from "./alert";
-import { GET_SERVICES, UPDATE_SERVICES } from "./types";
+import {
+  GET_SERVICES,
+  UPDATE_SERVICES,
+  GET_ENROLLED,
+  UPDATE_ENROLLED,
+  CLEAR_ENROLLED
+} from "./types";
 
 // get all events
 export const getServices = () => async dispatch => {
@@ -20,6 +26,7 @@ export const getServices = () => async dispatch => {
   }
 };
 
+// for student viewing
 export const getAllServices = () => async dispatch => {
   try {
     const res = await axios.get("/api/services");
@@ -124,6 +131,59 @@ export const deleteService = id => async dispatch => {
 
       dispatch(setAlert("Event deleted", "success"));
     }
+  } catch (err) {
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach(el => dispatch(setAlert(el.msg, "danger")));
+    }
+  }
+};
+
+/////////////////// enrolled
+
+// Create an event=update events object
+export const createEnrolled = (formData, history) => async dispatch => {
+  try {
+    const config = {
+      headers: {
+        "Content-Type": "application/json"
+      }
+    };
+
+    // console.log(formData);
+
+    const res = await axios.post("/api/enrolled", formData, config);
+
+    dispatch({
+      type: UPDATE_ENROLLED,
+      payload: res.data
+    });
+
+    history.push("/student-dashboard");
+    dispatch(setAlert("Enrollment created", "success"));
+
+    dispatch({
+      type: GET_ENROLLED
+    });
+  } catch (err) {
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach(el => dispatch(setAlert(el.msg, "danger")));
+    }
+  }
+};
+
+// student view enrols by him
+export const getEnrolled = () => async dispatch => {
+  try {
+    const res = await axios.get("/api/enrolled/me");
+
+    dispatch({
+      type: GET_ENROLLED,
+      payload: res.data
+    });
   } catch (err) {
     const errors = err.response.data.errors;
 

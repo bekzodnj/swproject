@@ -39,10 +39,10 @@ router.post(
 
     eventFields.student = req.user.id;
     eventFields.teacher = teacher;
-    eventFields.subject = subject;
+    eventFields.service = service;
 
     try {
-      enrolled = new Service(eventFields);
+      enrolled = new Enrolled(eventFields);
 
       await enrolled.save();
       res.json(enrolled);
@@ -148,14 +148,14 @@ router.post(
   }
 );
 
-// @route   GET api/services/me
+// @route   GET api/enrolled/me
 // @desc    Get current enrolls created by student
 // @access  Private
 router.get("/me", auth, async (req, res) => {
   try {
-    const enrolled = await Enrolled.find({ user: req.user.id })
-      .populate("user", ["name"])
-      .populate("service");
+    const enrolled = await Enrolled.find({
+      student: req.user.id
+    }).populate("service");
 
     if (!enrolled) {
       return res.status(400).json({ msg: "There is service for this user" });
