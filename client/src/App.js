@@ -27,6 +27,8 @@ import EditEvent from "./components/calendar/EditEvent";
 import Schedule from "./components/schedule/Schedule";
 import Services from "./components/service/Services";
 import CreateService from "./components/service/CreateService";
+import CourseList from "./components/student/dashboard/CourseList";
+import ViewCourse from "./components/student/dashboard/ViewCourse";
 
 // import "./App.css";
 // import "./bootstrap.min.css";
@@ -84,6 +86,14 @@ const App = () => {
                 path="/student-dashboard"
                 component={StudentDashboard}
               />
+
+              <PrivateRoute exact path="/course-list" component={CourseList} />
+              <PrivateRoute
+                exact
+                path="/services/:service_id"
+                component={ViewCourse}
+              />
+
               <PrivateRoute
                 exact
                 path="/create-profile"

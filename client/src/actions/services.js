@@ -20,6 +20,23 @@ export const getServices = () => async dispatch => {
   }
 };
 
+export const getAllServices = () => async dispatch => {
+  try {
+    const res = await axios.get("/api/services");
+
+    dispatch({
+      type: GET_SERVICES,
+      payload: res.data
+    });
+  } catch (err) {
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach(el => dispatch(setAlert(el.msg, "danger")));
+    }
+  }
+};
+
 // Create an event=update events object
 export const updateServices = (formData, history) => async dispatch => {
   try {

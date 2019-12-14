@@ -38,12 +38,11 @@ const StudentDashboard = ({
             />
           )} */}
         </div>
-
-        <span className="f2 fw1 mt2">Welcome, {profile.name}</span>
       </div>
 
       {profile !== null ? (
         <Fragment>
+          <span className="f2 fw1 mt2">Welcome, {profile.name}</span>
           <DashboardActions />
           <div className="f2 lh-title fw1 mt4 bt pt4">Your schedule</div>
 

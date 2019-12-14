@@ -21,6 +21,7 @@ app.use("/api/studentProfile", require("./routes/api/studentProfile"));
 app.use("/api/posts", require("./routes/api/posts"));
 app.use("/api/events", require("./routes/api/events"));
 app.use("/api/services", require("./routes/api/services"));
+app.use("/api/enrolled", require("./routes/api/enrolled"));
 app.use("/api/students", require("./routes/api/studentRegister"));
 app.use("/api/studentsAuth", require("./routes/api/studentsAuth"));
 

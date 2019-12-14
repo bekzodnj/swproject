@@ -22,6 +22,10 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout, user }) => {
         Services
       </Link>
 
+      <Link to="/notifications" className="p-2 text-white">
+        Notifications
+      </Link>
+
       <a onClick={logout} href="#!" className="p-2 btn btn-outline-light">
         <span>Logout</span>
       </a>
@@ -46,6 +50,12 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout, user }) => {
     >
       <Link to="/student-dashboard" className="p-2 text-white">
         <i className="fas fa-user"></i> My Dashboard
+      </Link>
+      <Link to="/course-list" className="p-2 text-white">
+        <i className="fas fa-user"></i> Browse Courses
+      </Link>
+      <Link to="/my-applications" className="p-2 text-white">
+        <i className="fas fa-user"></i> My Applications
       </Link>
 
       <a onClick={logout} href="#!" className="p-2 text-white">
