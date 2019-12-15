@@ -7,6 +7,7 @@ const config = require("config");
 const jwt = require("jsonwebtoken");
 
 const User = require("../../models/User");
+const Profile = require("../../models/Profile");
 
 // @route   POST api/users
 // @desc    Register user
@@ -117,8 +118,24 @@ router.get("/admin", async (req, res) => {
   }
 });
 
+// @route   GET api/users/teacher/:teacher_id
+// @desc    Activate
+// @access  Public
+router.get("/teacher/:teacher_id", async (req, res) => {
+  try {
+    const teacher = await Profile.findOne({
+      user: req.params.teacher_id
+    }).populate("user", ["_id", "name", "email"]);
+
+    res.json(teacher);
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).send("Server error");
+  }
+});
+
 // @route   GET api/users/admin
-// @desc    Get all teachers
+// @desc    Activate
 // @access  Public
 router.post("/admin/activate/:teacher_id", async (req, res) => {
   try {
@@ -138,7 +155,7 @@ router.post("/admin/activate/:teacher_id", async (req, res) => {
 });
 
 // @route   GET api/users/admin
-// @desc    Get all teachers
+// @desc    Deactivate
 // @access  Public
 router.post("/admin/deactivate/:teacher_id", async (req, res) => {
   try {

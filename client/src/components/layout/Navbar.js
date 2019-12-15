@@ -7,26 +7,30 @@ import { logout } from "../../actions/auth";
 const Navbar = ({ auth: { isAuthenticated, loading }, logout, user }) => {
   const authLinks = (
     <ul
-      className="d-flex my-2 my-md-0 mr-md-3
+      className="d-flex flex-column flex-md-row my-2 my-md-0 mr-md-3
       list-unstyled text-white ml-md-auto"
     >
-      <Link to="/dashboard" className="p-2 text-white">
+      <Link to="/dashboard" className="p-2 mx-1 text-white">
         Dashboard
       </Link>
 
-      <Link to="/schedule" className="p-2 text-white">
+      <Link to="/schedule" className="p-2 mx-1 text-white">
         Schedule
       </Link>
 
-      <Link to="/services" className="p-2 text-white">
+      <Link to="/services" className="p-2 mx-1 text-white">
         Services
       </Link>
 
-      <Link to="/notifications" className="p-2 text-white">
+      <Link to="/notifications" className="p-2 mx-1 text-white">
         Notifications
       </Link>
 
-      <a onClick={logout} href="#!" className="p-2 btn btn-outline-light">
+      <Link to="/my-profile" className="p-2 mx-1 text-white">
+        My Profile
+      </Link>
+
+      <a onClick={logout} href="#!" className="p-2 mx-1 btn btn-outline-light">
         <span>Logout</span>
       </a>
     </ul>
@@ -45,20 +49,30 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout, user }) => {
 
   const studentLinks = (
     <ul
-      className="d-flex my-2 my-md-0 mr-md-3
+      className="d-flex flex-column flex-md-row my-2 my-md-0 mr-md-3
       list-unstyled text-white ml-md-auto"
     >
-      <Link to="/student-dashboard" className="p-2 text-white">
-        <i className="fas fa-user"></i> My Dashboard
+      <Link to="/student-dashboard" className="p-2 mx-1 text-white">
+        My Dashboard
       </Link>
-      <Link to="/course-list" className="p-2 text-white">
-        <i className="fas fa-user"></i> Browse Courses
+      <Link to="/course-list" className="p-2 mx-1 text-white">
+        Browse Courses
       </Link>
-      <Link to="/applications" className="p-2 text-white">
-        <i className="fas fa-user"></i> My Applications
+      <Link to="/view-teachers" className="p-2 mx-1 text-white">
+        Teachers
+      </Link>
+      <Link to="/applications" className="p-2 mx-1 text-white">
+        My Applications
+      </Link>
+      <Link to="/" className="p-2 mx-1 text-white">
+        About
       </Link>
 
-      <a onClick={logout} href="#!" className="p-2 text-white">
+      <Link to="/my-student-profile" className="p-2 mx-1 text-white">
+        My Profile
+      </Link>
+
+      <a onClick={logout} href="#!" className="p-2 mx-1 text-white">
         <i className="fas fa-sign-out-alt"></i> <span>Logout</span>
       </a>
     </ul>
@@ -69,15 +83,15 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout, user }) => {
       className="d-flex my-2 my-md-0 mr-md-3
     list-unstyled text-white ml-md-auto"
     >
-      <a href="#!" className="p-2 text-white">
+      <a href="#!" className="p-2 mx-1 text-white">
         News
       </a>
 
-      <Link to="/register" className="p-2 text-white">
+      <Link to="/register" className="p-2 mx-1 text-white">
         Register
       </Link>
 
-      <Link to="/login" className="p-2 text-white">
+      <Link to="/login" className="p-2 mx-1 text-white">
         Login
       </Link>
     </ul>

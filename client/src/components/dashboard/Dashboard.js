@@ -7,8 +7,7 @@ import Spinner from "../layout/Spinner";
 import DashboardActions from "../dashboard/DashboardActions";
 
 import { Calendar, Views, momentLocalizer } from "react-big-calendar";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+
 import moment from "moment";
 import "moment-recur";
 import "react-big-calendar/lib/css/react-big-calendar.css";
@@ -75,21 +74,71 @@ const Dashboard = ({
     <Spinner />
   ) : (
     <Fragment>
-      <h3 className="">Welcome, {user && user.name}</h3>
-      <div className="lead">
-        <div className="">
-          {profile != null && (
-            <img
-              src={profile.user.avatar}
-              className="br-100 pa1 ba b--black-10 h3 w3"
-              alt="avatar"
-            />
-          )}
-        </div>
-      </div>
-
       {profile !== null ? (
         <Fragment>
+          <div className="row my-2">
+            <div className="col-md-6 mb-4">
+              <ul className="list-group mb-3">
+                <li className="list-group-item lh-condensed d-flex justify-content-center">
+                  <div>
+                    <img
+                      className="br-100"
+                      width="100"
+                      height="100"
+                      src="https://www.laserfiche.com/wp-content/uploads/2016/04/programmer-849858410-rs.jpg"
+                    />
+                  </div>
+                </li>
+                <li className="list-group-item lh-condensed">
+                  <div>
+                    <h6 className="my-1 text-bold">Teacher Name</h6>
+                    <p className="text-secondary">
+                      {profile.name} {profile.lastname}
+                    </p>
+                  </div>
+                </li>
+
+                <li className="list-group-item lh-condensed">
+                  <div>
+                    <h6 className="my-1 text-bold">Academic Title</h6>
+                    <p className="text-secondary"> {profile.ac_title}</p>
+                  </div>
+                </li>
+
+                <li className="list-group-item lh-condensed">
+                  <div>
+                    <h6 className="my-1 text-bold">Academic Degree</h6>
+                    <p className="text-secondary"> {profile.ac_degree}</p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+
+            <div className="col-md-6 mb-4">
+              <ul className="list-group mb-3">
+                <li className="list-group-item lh-condensed">
+                  <div>
+                    <h6 className="my-1 text-bold">Phone</h6>
+                    <p className="text-secondary">{profile.phone}</p>
+                  </div>
+                </li>
+
+                <li className="list-group-item lh-condensed">
+                  <div>
+                    <h6 className="my-1 text-bold">Email</h6>
+                    <p className="text-secondary"> {}</p>
+                  </div>
+                </li>
+                <li className="list-group-item lh-condensed">
+                  <div>
+                    <h6 className="my-1 text-bold">Genral Info</h6>
+                    <p className="text-secondary"> {profile.general_info}</p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+
           <DashboardActions />
           <h4 className="">Your schedule</h4>
 

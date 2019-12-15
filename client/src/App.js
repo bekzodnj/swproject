@@ -35,6 +35,8 @@ import Admin from "./components/auth/Admin";
 import CourseList from "./components/student/dashboard/CourseList";
 import ViewCourse from "./components/student/dashboard/ViewCourse";
 import Applications from "./components/student/dashboard/Applications";
+import ViewTeachers from "./components/student/dashboard/ViewTeachers";
+import TeacherInfo from "./components/student/dashboard/TeacherInfo";
 
 // import "./App.css";
 // import "./bootstrap.min.css";
@@ -104,6 +106,18 @@ const App = () => {
                 exact
                 path="/services/:service_id"
                 component={ViewCourse}
+              />
+
+              <PrivateRoute
+                exact
+                path="/view-teachers"
+                component={ViewTeachers}
+              />
+
+              <PrivateRoute
+                exact
+                path="/view-teachers/:teacher_id"
+                component={TeacherInfo}
               />
 
               <PrivateRoute

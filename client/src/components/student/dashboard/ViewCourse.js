@@ -45,6 +45,23 @@ export const ViewCourse = ({
 
     //console.log(formData);
   };
+  let newEv = [];
+  let events = [];
+  if (service[0] !== undefined) {
+    // events = [...newEv[0].service.events];
+    //console.log("events", events);
+    if (service[0].events !== undefined) {
+      events = service[0].events.map(el => ({
+        ...el,
+        start: new Date(el.start),
+        end: new Date(el.end)
+      }));
+    }
+  } else {
+  }
+
+  console.log(events);
+
   return (
     <section>
       <Link class="btn btn-outline-info my-1" to="/course-list">
