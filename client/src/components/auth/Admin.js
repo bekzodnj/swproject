@@ -10,7 +10,9 @@ export const Admin = ({ getAllTeachers, teachers }) => {
     getAllTeachers();
   }, [getAllTeachers]);
 
+  const handleChange = ( id) => {
 
+  };
   return (
     <section>
       <div className="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded shadow-sm">
@@ -30,28 +32,24 @@ export const Admin = ({ getAllTeachers, teachers }) => {
       <table className="table table-hover table-dark">
         <thead>
           <tr>
-           
             <th scope="col">Name</th>
             <th scope="col">Email</th>
             <th scope="col">Activate / Deactivate</th>
           </tr>
         </thead>
         <tbody>
-           {teachers !== undefined && teachers.length > 0 && teachers.map(el=>(
-             <tr>
-            
-             <td>{el.name}</td>
-             <td>{el.email}</td>
-             <td>
-               <Form.Check
-                 type="switch"
-                 id="custom-switch"
-                 label="Click to change"
-                 onClick={()=>handleChange(el._id)}
-               />
-             </td>
-           </tr>
-           ))}
+          {teachers !== undefined &&
+            teachers.length > 0 &&
+            teachers.map(el => (
+              <tr>
+                <td>{el.name}</td>
+                <td>{el.email}</td>
+                <td>
+                  <button btn="btn btn-success">Activate</button>
+                  <button btn="btn btn-secondary">Deactivate</button>
+                </td>
+              </tr>
+            ))}
         </tbody>
       </table>
     </section>
