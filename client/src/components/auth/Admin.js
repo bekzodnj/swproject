@@ -1,17 +1,29 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Modal, Button, Form } from "react-bootstrap";
 import { connect } from "react-redux";
 
-import { getAllTeachers } from "../../actions/auth";
+import {
+  getAllTeachers,
+  activateTeacher,
+  deactivateTeacher
+} from "../../actions/auth";
 
-export const Admin = ({ getAllTeachers, teachers }) => {
+export const Admin = ({
+  getAllTeachers,
+  activateTeacher,
+  deactivateTeacher,
+  teachers
+}) => {
   useEffect(() => {
     getAllTeachers();
   }, [getAllTeachers]);
 
-  const handleChange = ( id) => {
+  const handleActivate = id => {
+    activateTeacher(id);
+  };
 
+  const handleDeactivate = id => {
+    deactivateTeacher(id);
   };
   return (
     <section>
@@ -34,6 +46,7 @@ export const Admin = ({ getAllTeachers, teachers }) => {
           <tr>
             <th scope="col">Name</th>
             <th scope="col">Email</th>
+            <th scope="col">Status</th>
             <th scope="col">Activate / Deactivate</th>
           </tr>
         </thead>
@@ -45,8 +58,25 @@ export const Admin = ({ getAllTeachers, teachers }) => {
                 <td>{el.name}</td>
                 <td>{el.email}</td>
                 <td>
-                  <button btn="btn btn-success">Activate</button>
-                  <button btn="btn btn-secondary">Deactivate</button>
+                  {el.is_teacher ? (
+                    <span className="badge badge-success">Active</span>
+                  ) : (
+                    <span className="badge badge-secondary">Not active</span>
+                  )}
+                </td>
+                <td>
+                  <button
+                    className="btn btn-success mr-2"
+                    onClick={() => handleActivate(el._id)}
+                  >
+                    Activate
+                  </button>
+                  <button
+                    className="btn btn-secondary"
+                    onClick={() => handleDeactivate(el._id)}
+                  >
+                    Deactivate
+                  </button>
                 </td>
               </tr>
             ))}
@@ -60,4 +90,8 @@ const mapStateToProps = state => ({
   teachers: state.teachers
 });
 
-export default connect(mapStateToProps, { getAllTeachers })(Admin);
+export default connect(mapStateToProps, {
+  getAllTeachers,
+  activateTeacher,
+  deactivateTeacher
+})(Admin);

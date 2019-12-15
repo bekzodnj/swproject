@@ -120,9 +120,9 @@ export const login = (email, password) => async dispatch => {
   }
 };
 
-/////ADMIN
+///// ADMIN BEGIN
 
-// for student viewing
+// get all teachers
 export const getAllTeachers = () => async dispatch => {
   try {
     const res = await axios.get("/api/users/admin");
@@ -139,6 +139,46 @@ export const getAllTeachers = () => async dispatch => {
     }
   }
 };
+
+// activate teacher
+export const activateTeacher = id => async dispatch => {
+  try {
+    await axios.post(`/api/users/admin/activate/${id}`);
+    const res = await axios.get("/api/users/admin");
+
+    dispatch({
+      type: GET_TEACHERS,
+      payload: res.data
+    });
+  } catch (err) {
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach(el => dispatch(setAlert(el.msg, "danger")));
+    }
+  }
+};
+
+// deactivate teacher
+export const deactivateTeacher = id => async dispatch => {
+  try {
+    await axios.post(`/api/users/admin/deactivate/${id}`);
+    const res = await axios.get("/api/users/admin");
+
+    dispatch({
+      type: GET_TEACHERS,
+      payload: res.data
+    });
+  } catch (err) {
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach(el => dispatch(setAlert(el.msg, "danger")));
+    }
+  }
+};
+
+/////////// ADMIN END
 
 // password recovery
 export const pass_recovery = (

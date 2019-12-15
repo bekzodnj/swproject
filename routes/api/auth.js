@@ -59,6 +59,10 @@ router.post(
           .json({ errors: [{ msg: "Invalid credentials" }] });
       }
 
+      if (!user.is_teacher && user.role !== "student") {
+        return res.status(400).json({ errors: [{ msg: "Not activated yet" }] });
+      }
+
       const payload = {
         user: {
           id: user.id

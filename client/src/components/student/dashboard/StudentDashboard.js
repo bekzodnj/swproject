@@ -27,25 +27,34 @@ const StudentDashboard = ({
     <Spinner />
   ) : (
     <Fragment>
-      <h1 className="f2">Dashboard Student</h1>
-      <div className="lead">
-        <div className="">
-          {/* {profile != null && (
-            <img
-              src={profile.user.avatar}
-              className="br-100 pa1 ba b--black-10 h3 w3"
-              alt="avatar"
-            />
-          )} */}
-        </div>
-      </div>
-
       {profile !== null ? (
         <Fragment>
-          <span className="f2 fw1 mt2">Welcome, {profile.name}</span>
-          <DashboardActions />
-          <div className="f2 lh-title fw1 mt4 bt pt4">Your schedule</div>
+          <div className="row">
+            <div className="col-md-6 mb-4">
+              <ul className="list-group mb-3">
+                <li className="list-group-item lh-condensed">
+                  <div>
+                    <h6 className="my-1 text-bold">Student Name</h6>
+                    <p className="text-secondary">Bekzodjon Norkuziev</p>
+                  </div>
+                </li>
 
+                <li className="list-group-item lh-condensed">
+                  <div>
+                    <h6 className="my-1 text-bold">Date of birth</h6>
+                    <p className="text-secondary"> 1998 March</p>
+                  </div>
+                </li>
+
+                <li className="list-group-item lh-condensed">
+                  <div>
+                    <h6 className="my-1 text-bold">Place of study</h6>
+                    <p className="text-secondary"> Harvard University</p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
           <MyCalendar
             editable={false}
             onEventClick={event => history.push(`/edit-class/${event._id}`)}

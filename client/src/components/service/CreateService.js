@@ -31,7 +31,8 @@ const CreateService = ({ getServices, updateServices, history }) => {
     valid_from: "",
     expiry_date: "",
     info: "",
-    detailed_info: ""
+    detailed_info: "",
+    no_of_weeks: 1
   });
 
   const {
@@ -47,7 +48,8 @@ const CreateService = ({ getServices, updateServices, history }) => {
     valid_from,
     expiry_date,
     info,
-    detailed_info
+    detailed_info,
+    no_of_weeks
   } = formData;
 
   const onSubmit = e => {
@@ -147,6 +149,24 @@ const CreateService = ({ getServices, updateServices, history }) => {
     alert(e.start);
   };
 
+  if (no_of_weeks > 1) {
+    // for (let i = 0; i < newEv.length; i++) {
+    //   for (let j = 1; j <= no_of_weeks; j++) {
+    //     let start_next = moment(newEv[i].start).add(j, "weeks");
+    //     let end_next = moment(newEv[i].end).add(j, "weeks");
+
+    //     let newObj = {
+    //       start: start_next,
+    //       end: end_next
+    //     };
+
+    //     newEv = [...newEv, newObj];
+    //   }
+    // }
+  }
+
+  console.log(newEv);
+
   const [isChecked, setIsChecked] = useState(true);
   //   console.log(isChecked);
   const events = [...newEv];
@@ -161,7 +181,7 @@ const CreateService = ({ getServices, updateServices, history }) => {
   //   console.log(formData2);
   /////////////////////
   return (
-    <div>
+    <div className="mb-5">
       <Link className="btn btn-outline-secondary" to="/services">
         &larr; Go Back
       </Link>
@@ -169,7 +189,7 @@ const CreateService = ({ getServices, updateServices, history }) => {
 
       <form onSubmit={e => onSubmit(e)}>
         <div className="row">
-          <div className="col-md-4">
+          <div className="col-md-6">
             <div className="form-group">
               <label htmlFor="title">Enter Service title</label>
               <input
@@ -183,21 +203,7 @@ const CreateService = ({ getServices, updateServices, history }) => {
             </div>
           </div>
 
-          <div className="col-md-4">
-            <div className="form-group">
-              <label htmlFor="title">Enter service subject</label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Service subject"
-                value={subject}
-                name="subject"
-                onChange={e => onChange(e)}
-              />
-            </div>
-          </div>
-
-          <div className="col-md-4">
+          <div className="col-md-6">
             <div className="form-group">
               <label htmlFor="category">Category of event</label>
               <select
@@ -214,7 +220,35 @@ const CreateService = ({ getServices, updateServices, history }) => {
             </div>
           </div>
         </div>
+        <div className="row">
+          <div className="col-md-6">
+            <div className="form-group">
+              <label htmlFor="title">Enter service subject</label>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Service subject"
+                value={subject}
+                name="subject"
+                onChange={e => onChange(e)}
+              />
+            </div>
+          </div>
 
+          <div className="col-md-6">
+            <div className="form-group">
+              <label htmlFor="title">Number of weeks</label>
+              <input
+                type="number"
+                className="form-control"
+                placeholder="Number of weeks"
+                value={no_of_weeks}
+                name="no_of_weeks"
+                onChange={e => onChange(e)}
+              />
+            </div>
+          </div>
+        </div>
         <div className="row">
           <div className="col-md-4">
             <div className="form-group">
@@ -375,361 +409,359 @@ const CreateService = ({ getServices, updateServices, history }) => {
           </label>
         </div>
 
-        <p className="text-primary">
-          Choose a day(s) and time for this event &darr;
-        </p>
+        <input type="submit" className="btn btn-primary mt-4" value="Submit" />
+      </form>
 
-        <div className="row">
-          <div className="col-md-4 col-12" style={{ minHeight: "150px" }}>
+      <p className="text-primary my-2">
+        Choose a day(s) and time for this event &darr;
+      </p>
+      <div className="row my-2">
+        <div className="col-md-4 col-12" style={{ minHeight: "150px" }}>
+          <div className="picker">
+            <div>
+              Start:
+              <DatePicker
+                localizer
+                selected={startDate}
+                onChange={date => setStartDate(date)}
+                showTimeSelect
+                placeholderText={"Please select start time"}
+                timeFormat="HH:mm"
+                timeIntervals={15}
+                timeCaption="time"
+                dateFormat="MMMM d, yyyy HH:mm"
+              />
+            </div>
+
+            <div>
+              End:{" "}
+              <DatePicker
+                selected={endDate}
+                onChange={date => setEndDate(date)}
+                placeholderText={"Please select end time"}
+                showTimeSelect
+                timeFormat="HH:mm"
+                timeIntervals={15}
+                timeCaption="time"
+                dateFormat="MMMM d, yyyy HH:mm"
+              />
+            </div>
+
+            <hr />
+          </div>
+
+          {inputDay >= 2 && isShown2 && (
             <div className="picker">
               <div>
                 Start:
                 <DatePicker
-                  localizer
-                  selected={startDate}
-                  onChange={date => setStartDate(date)}
-                  showTimeSelect
+                  selected={startDate2}
                   placeholderText={"Please select start time"}
+                  onChange={date => setStartDate2(date)}
+                  showTimeSelect
                   timeFormat="HH:mm"
                   timeIntervals={15}
                   timeCaption="time"
-                  dateFormat="MMMM d, yyyy h:mm"
+                  dateFormat="MMMM d, yyyy HH:mm"
                 />
               </div>
 
               <div>
                 End:{" "}
                 <DatePicker
-                  selected={endDate}
-                  onChange={date => setEndDate(date)}
+                  selected={endDate2}
                   placeholderText={"Please select end time"}
+                  onChange={date => setEndDate2(date)}
                   showTimeSelect
                   timeFormat="HH:mm"
                   timeIntervals={15}
                   timeCaption="time"
-                  dateFormat="MMMM d, yyyy h:mm"
+                  dateFormat="MMMM d, yyyy HH:mm"
                 />
+                <button
+                  className="btn btn-sm btn-outline-danger ml-2"
+                  name="btn2"
+                  onClick={() => {
+                    setIsShown2(false);
+                    setStartDate2(null);
+                    setEndDate2(null);
+                    setInputDay(inputDay - 1);
+                  }}
+                >
+                  &times;
+                </button>
               </div>
 
               <hr />
             </div>
+          )}
 
-            {inputDay >= 2 && isShown2 && (
-              <div className="picker">
-                <div>
-                  Start:
-                  <DatePicker
-                    selected={startDate2}
-                    placeholderText={"Please select start time"}
-                    onChange={date => setStartDate2(date)}
-                    showTimeSelect
-                    timeFormat="HH:mm"
-                    timeIntervals={15}
-                    timeCaption="time"
-                    dateFormat="MMMM d, yyyy h:mm"
-                  />
-                </div>
-
-                <div>
-                  End:{" "}
-                  <DatePicker
-                    selected={endDate2}
-                    placeholderText={"Please select end time"}
-                    onChange={date => setEndDate2(date)}
-                    showTimeSelect
-                    timeFormat="HH:mm"
-                    timeIntervals={15}
-                    timeCaption="time"
-                    dateFormat="MMMM d, yyyy h:mm"
-                  />
-                  <button
-                    className="btn btn-sm btn-outline-danger ml-2"
-                    name="btn2"
-                    onClick={() => {
-                      setIsShown2(false);
-                      setStartDate2(null);
-                      setEndDate2(null);
-                      setInputDay(inputDay - 1);
-                    }}
-                  >
-                    &times;
-                  </button>
-                </div>
-
-                <hr />
+          {inputDay >= 3 && isShown3 && (
+            <div className="picker">
+              <div>
+                Start:
+                <DatePicker
+                  selected={startDate3}
+                  placeholderText={"Please select start time"}
+                  onChange={date => setStartDate3(date)}
+                  showTimeSelect
+                  timeFormat="HH:mm"
+                  timeIntervals={15}
+                  timeCaption="time"
+                  dateFormat="MMMM d, yyyy HH:mm"
+                />
               </div>
-            )}
 
-            {inputDay >= 3 && isShown3 && (
-              <div className="picker">
-                <div>
-                  Start:
-                  <DatePicker
-                    selected={startDate3}
-                    placeholderText={"Please select start time"}
-                    onChange={date => setStartDate3(date)}
-                    showTimeSelect
-                    timeFormat="HH:mm"
-                    timeIntervals={15}
-                    timeCaption="time"
-                    dateFormat="MMMM d, yyyy h:mm"
-                  />
-                </div>
-
-                <div>
-                  End:{" "}
-                  <DatePicker
-                    selected={endDate3}
-                    placeholderText={"Please select end time"}
-                    onChange={date => setEndDate3(date)}
-                    showTimeSelect
-                    timeFormat="HH:mm"
-                    timeIntervals={15}
-                    timeCaption="time"
-                    dateFormat="MMMM d, yyyy h:mm"
-                  />
-                  <button
-                    className="btn btn-sm btn-outline-danger ml-2"
-                    name="btn3"
-                    onClick={() => {
-                      setIsShown3(false);
-                      setStartDate3(null);
-                      setEndDate3(null);
-                      setInputDay(inputDay - 1);
-                    }}
-                  >
-                    &times;
-                  </button>
-                </div>
-
-                <hr />
+              <div>
+                End:{" "}
+                <DatePicker
+                  selected={endDate3}
+                  placeholderText={"Please select end time"}
+                  onChange={date => setEndDate3(date)}
+                  showTimeSelect
+                  timeFormat="HH:mm"
+                  timeIntervals={15}
+                  timeCaption="time"
+                  dateFormat="MMMM d, yyyy HH:mm"
+                />
+                <button
+                  className="btn btn-sm btn-outline-danger ml-2"
+                  name="btn3"
+                  onClick={() => {
+                    setIsShown3(false);
+                    setStartDate3(null);
+                    setEndDate3(null);
+                    setInputDay(inputDay - 1);
+                  }}
+                >
+                  &times;
+                </button>
               </div>
-            )}
 
-            {inputDay >= 4 && isShown4 && (
-              <div className="picker">
-                <div>
-                  Start:
-                  <DatePicker
-                    selected={startDate4}
-                    placeholderText={"Please select start time"}
-                    onChange={date => setStartDate4(date)}
-                    showTimeSelect
-                    timeFormat="HH:mm"
-                    timeIntervals={15}
-                    timeCaption="time"
-                    dateFormat="MMMM d, yyyy h:mm"
-                  />
-                </div>
-
-                <div>
-                  End:{" "}
-                  <DatePicker
-                    selected={endDate4}
-                    placeholderText={"Please select end time"}
-                    onChange={date => setEndDate4(date)}
-                    showTimeSelect
-                    timeFormat="HH:mm"
-                    timeIntervals={15}
-                    timeCaption="time"
-                    dateFormat="MMMM d, yyyy h:mm"
-                  />
-                  <button
-                    className="btn btn-sm btn-outline-danger ml-2"
-                    name="btn4"
-                    onClick={() => {
-                      setIsShown4(false);
-                      setStartDate4(null);
-                      setEndDate4(null);
-                      setInputDay(inputDay - 1);
-                    }}
-                  >
-                    &times;
-                  </button>
-                </div>
-
-                <hr />
-              </div>
-            )}
-
-            {inputDay >= 5 && isShown5 && (
-              <div className="picker">
-                <div>
-                  Start:
-                  <DatePicker
-                    selected={startDate5}
-                    placeholderText={"Please select start time"}
-                    onChange={date => setStartDate5(date)}
-                    showTimeSelect
-                    timeFormat="HH:mm"
-                    timeIntervals={15}
-                    timeCaption="time"
-                    dateFormat="MMMM d, yyyy h:mm"
-                  />
-                </div>
-
-                <div>
-                  End:{" "}
-                  <DatePicker
-                    selected={endDate5}
-                    placeholderText={"Please select end time"}
-                    onChange={date => setEndDate5(date)}
-                    showTimeSelect
-                    timeFormat="HH:mm"
-                    timeIntervals={15}
-                    timeCaption="time"
-                    dateFormat="MMMM d, yyyy h:mm"
-                  />
-                  <button
-                    className="btn btn-sm btn-outline-danger ml-2"
-                    name="btn5"
-                    onClick={() => {
-                      setIsShown5(false);
-                      setStartDate5(null);
-                      setEndDate5(null);
-                      setInputDay(inputDay - 1);
-                    }}
-                  >
-                    &times;
-                  </button>
-                </div>
-
-                <hr />
-              </div>
-            )}
-
-            {inputDay >= 6 && isShown6 && (
-              <div className="picker">
-                <div>
-                  Start:
-                  <DatePicker
-                    selected={startDate3}
-                    placeholderText={"Please select start time"}
-                    onChange={date => setStartDate6(date)}
-                    showTimeSelect
-                    timeFormat="HH:mm"
-                    timeIntervals={15}
-                    timeCaption="time"
-                    dateFormat="MMMM d, yyyy h:mm"
-                  />
-                </div>
-
-                <div>
-                  End:{" "}
-                  <DatePicker
-                    selected={endDate6}
-                    placeholderText={"Please select end time"}
-                    onChange={date => setEndDate6(date)}
-                    showTimeSelect
-                    timeFormat="HH:mm"
-                    timeIntervals={15}
-                    timeCaption="time"
-                    dateFormat="MMMM d, yyyy h:mm"
-                  />
-                  <button
-                    className="btn btn-sm btn-outline-danger ml-2"
-                    name="btn6"
-                    onClick={() => {
-                      setIsShown6(false);
-                      setStartDate6(null);
-                      setEndDate6(null);
-                      setInputDay(inputDay - 1);
-                    }}
-                  >
-                    &times;
-                  </button>
-                </div>
-
-                <hr />
-              </div>
-            )}
-
-            {inputDay >= 7 && isShown7 && (
-              <div className="picker">
-                <div>
-                  Start:
-                  <DatePicker
-                    selected={startDate7}
-                    placeholderText={"Please select start time"}
-                    onChange={date => setStartDate7(date)}
-                    showTimeSelect
-                    timeFormat="HH:mm"
-                    timeIntervals={15}
-                    timeCaption="time"
-                    dateFormat="MMMM d, yyyy h:mm"
-                  />
-                </div>
-
-                <div>
-                  End:{" "}
-                  <DatePicker
-                    selected={endDate7}
-                    placeholderText={"Please select end time"}
-                    onChange={date => setEndDate7(date)}
-                    showTimeSelect
-                    timeFormat="HH:mm"
-                    timeIntervals={15}
-                    timeCaption="time"
-                    dateFormat="MMMM d, yyyy h:mm"
-                  />
-                  <button
-                    className="btn btn-sm btn-outline-danger ml-2"
-                    name="btn7"
-                    onClick={() => {
-                      setIsShown7(false);
-                      setStartDate7(null);
-                      setEndDate7(null);
-                      setInputDay(inputDay - 1);
-                    }}
-                  >
-                    &times;
-                  </button>
-                </div>
-
-                <hr />
-              </div>
-            )}
-
-            <button
-              className="btn btn-outline-info"
-              onClick={() => {
-                setInputDay(inputDay + 1);
-                let a = "";
-                a = inputDay == 2 ? setIsShown2(true) : "";
-                a = inputDay == 3 ? setIsShown3(true) : "";
-                a = inputDay == 4 ? setIsShown4(true) : "";
-                a = inputDay == 5 ? setIsShown5(true) : "";
-                a = inputDay == 6 ? setIsShown6(true) : "";
-                a = inputDay == 7 ? setIsShown7(true) : "";
-              }}
-            >
-              Add day +
-            </button>
-          </div>
-
-          <div className="col-md-8 col-12">
-            <div className="">
-              <Calendar
-                localizer={localizer}
-                events={newEv}
-                defaultView={"week"}
-                defaultDate={new Date()}
-                onSelectEvent={onEventClick}
-                onSelectSlot={({ start, end }) => {
-                  // updateNewEvents(start, end);
-                }}
-                style={{ height: "400px" }}
-                step={15}
-                popup={true}
-                min={min_time}
-                dayLayoutAlgorithm={"no-overlap"}
-              />
+              <hr />
             </div>
+          )}
+
+          {inputDay >= 4 && isShown4 && (
+            <div className="picker">
+              <div>
+                Start:
+                <DatePicker
+                  selected={startDate4}
+                  placeholderText={"Please select start time"}
+                  onChange={date => setStartDate4(date)}
+                  showTimeSelect
+                  timeFormat="HH:mm"
+                  timeIntervals={15}
+                  timeCaption="time"
+                  dateFormat="MMMM d, yyyy HH:mm"
+                />
+              </div>
+
+              <div>
+                End:{" "}
+                <DatePicker
+                  selected={endDate4}
+                  placeholderText={"Please select end time"}
+                  onChange={date => setEndDate4(date)}
+                  showTimeSelect
+                  timeFormat="HH:mm"
+                  timeIntervals={15}
+                  timeCaption="time"
+                  dateFormat="MMMM d, yyyy HH:mm"
+                />
+                <button
+                  className="btn btn-sm btn-outline-danger ml-2"
+                  name="btn4"
+                  onClick={() => {
+                    setIsShown4(false);
+                    setStartDate4(null);
+                    setEndDate4(null);
+                    setInputDay(inputDay - 1);
+                  }}
+                >
+                  &times;
+                </button>
+              </div>
+
+              <hr />
+            </div>
+          )}
+
+          {inputDay >= 5 && isShown5 && (
+            <div className="picker">
+              <div>
+                Start:
+                <DatePicker
+                  selected={startDate5}
+                  placeholderText={"Please select start time"}
+                  onChange={date => setStartDate5(date)}
+                  showTimeSelect
+                  timeFormat="HH:mm"
+                  timeIntervals={15}
+                  timeCaption="time"
+                  dateFormat="MMMM d, yyyy HH:mm"
+                />
+              </div>
+
+              <div>
+                End:{" "}
+                <DatePicker
+                  selected={endDate5}
+                  placeholderText={"Please select end time"}
+                  onChange={date => setEndDate5(date)}
+                  showTimeSelect
+                  timeFormat="HH:mm"
+                  timeIntervals={15}
+                  timeCaption="time"
+                  dateFormat="MMMM d, yyyy HH:mm"
+                />
+                <button
+                  className="btn btn-sm btn-outline-danger ml-2"
+                  name="btn5"
+                  onClick={() => {
+                    setIsShown5(false);
+                    setStartDate5(null);
+                    setEndDate5(null);
+                    setInputDay(inputDay - 1);
+                  }}
+                >
+                  &times;
+                </button>
+              </div>
+
+              <hr />
+            </div>
+          )}
+
+          {inputDay >= 6 && isShown6 && (
+            <div className="picker">
+              <div>
+                Start:
+                <DatePicker
+                  selected={startDate3}
+                  placeholderText={"Please select start time"}
+                  onChange={date => setStartDate6(date)}
+                  showTimeSelect
+                  timeFormat="HH:mm"
+                  timeIntervals={15}
+                  timeCaption="time"
+                  dateFormat="MMMM d, yyyy HH:mm"
+                />
+              </div>
+
+              <div>
+                End:{" "}
+                <DatePicker
+                  selected={endDate6}
+                  placeholderText={"Please select end time"}
+                  onChange={date => setEndDate6(date)}
+                  showTimeSelect
+                  timeFormat="HH:mm"
+                  timeIntervals={15}
+                  timeCaption="time"
+                  dateFormat="MMMM d, yyyy HH:mm"
+                />
+                <button
+                  className="btn btn-sm btn-outline-danger ml-2"
+                  name="btn6"
+                  onClick={() => {
+                    setIsShown6(false);
+                    setStartDate6(null);
+                    setEndDate6(null);
+                    setInputDay(inputDay - 1);
+                  }}
+                >
+                  &times;
+                </button>
+              </div>
+
+              <hr />
+            </div>
+          )}
+
+          {inputDay >= 7 && isShown7 && (
+            <div className="picker">
+              <div>
+                Start:
+                <DatePicker
+                  selected={startDate7}
+                  placeholderText={"Please select start time"}
+                  onChange={date => setStartDate7(date)}
+                  showTimeSelect
+                  timeFormat="HH:mm"
+                  timeIntervals={15}
+                  timeCaption="time"
+                  dateFormat="MMMM d, yyyy HH:mm"
+                />
+              </div>
+
+              <div>
+                End:{" "}
+                <DatePicker
+                  selected={endDate7}
+                  placeholderText={"Please select end time"}
+                  onChange={date => setEndDate7(date)}
+                  showTimeSelect
+                  timeFormat="HH:mm"
+                  timeIntervals={15}
+                  timeCaption="time"
+                  dateFormat="MMMM d, yyyy HH:mm"
+                />
+                <button
+                  className="btn btn-sm btn-outline-danger ml-2"
+                  name="btn7"
+                  onClick={() => {
+                    setIsShown7(false);
+                    setStartDate7(null);
+                    setEndDate7(null);
+                    setInputDay(inputDay - 1);
+                  }}
+                >
+                  &times;
+                </button>
+              </div>
+
+              <hr />
+            </div>
+          )}
+
+          <button
+            className="btn btn-outline-info"
+            onClick={() => {
+              setInputDay(inputDay + 1);
+              let a = "";
+              a = inputDay == 2 ? setIsShown2(true) : "";
+              a = inputDay == 3 ? setIsShown3(true) : "";
+              a = inputDay == 4 ? setIsShown4(true) : "";
+              a = inputDay == 5 ? setIsShown5(true) : "";
+              a = inputDay == 6 ? setIsShown6(true) : "";
+              a = inputDay == 7 ? setIsShown7(true) : "";
+            }}
+          >
+            Add day +
+          </button>
+        </div>
+        <div className="col-md-8 col-12">
+          <div className="">
+            <Calendar
+              localizer={localizer}
+              events={newEv}
+              defaultView={"week"}
+              defaultDate={new Date()}
+              onSelectEvent={onEventClick}
+              onSelectSlot={({ start, end }) => {
+                // updateNewEvents(start, end);
+              }}
+              style={{ height: "400px" }}
+              step={15}
+              popup={true}
+              min={min_time}
+              dayLayoutAlgorithm={"no-overlap"}
+            />
           </div>
         </div>
-
-        <input type="submit" className="btn btn-primary mt-4" value="Submit" />
-      </form>
+      </div>
     </div>
   );
 };

@@ -117,4 +117,44 @@ router.get("/admin", async (req, res) => {
   }
 });
 
+// @route   GET api/users/admin
+// @desc    Get all teachers
+// @access  Public
+router.post("/admin/activate/:teacher_id", async (req, res) => {
+  try {
+    const teacher = await User.findOne({
+      role: "teacher",
+      _id: req.params.teacher_id
+    });
+
+    teacher.is_teacher = true;
+    await teacher.save();
+
+    res.json(teacher);
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).send("Server error");
+  }
+});
+
+// @route   GET api/users/admin
+// @desc    Get all teachers
+// @access  Public
+router.post("/admin/deactivate/:teacher_id", async (req, res) => {
+  try {
+    const teacher = await User.findOne({
+      role: "teacher",
+      _id: req.params.teacher_id
+    });
+
+    teacher.is_teacher = false;
+    await teacher.save();
+
+    res.json(teacher);
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).send("Server error");
+  }
+});
+
 module.exports = router;

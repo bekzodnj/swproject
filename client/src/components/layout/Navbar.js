@@ -82,12 +82,18 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout, user }) => {
       </Link>
     </ul>
   );
+  let color = "linear-gradient(to left, #614385, #516395)";
+  let color2 = "linear-gradient(to right, #0575e6, #021b79)";
 
+  const active_color = isTeacher ? color : color2;
   return (
     <nav
       className="d-flex flex-column 
-    flex-md-row align-items-center p-3 
-    px-md-4 mb-3 bg-dark border-bottom shadow-sm"
+    flex-md-row align-items-center 
+    px-md-4 mb-3  border-bottom shadow-md"
+      style={{
+        background: `${active_color}`
+      }}
     >
       <h1>
         <Link to="/" className="text-white my-0 font-weight-normal">
