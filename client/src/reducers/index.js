@@ -5,6 +5,7 @@ import profile from "./profile";
 import events from "./events";
 import services from "./services";
 import enrolled from "./enrolled";
+import teachers from "./teachers";
 
 import new_events from "./new_events";
 import student_auth from "./student/auth";
@@ -17,6 +18,7 @@ export default combineReducers({
   events,
   services,
   enrolled,
+  teachers,
 
   new_events,
   student_auth,

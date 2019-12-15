@@ -109,7 +109,7 @@ router.post(
 // @access  Public
 router.get("/admin", async (req, res) => {
   try {
-    const teachers = await User.find({role: "teacher"}).sort({date: -1});
+    const teachers = await User.find({ role: "teacher" }).sort({ date: -1 });
     res.json(teachers);
   } catch (err) {
     console.log(err.message);

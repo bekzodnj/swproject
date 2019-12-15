@@ -13,7 +13,9 @@ import {
   CLEAR_EVENTS,
   CLEAR_NEW_EVENTS,
   CLEAR_SERVICES,
-  CLEAR_ENROLLED
+  CLEAR_ENROLLED,
+  CLEAR_TEACHERS,
+  GET_TEACHERS
 } from "./types";
 
 import { STUDENT_CLEAR_PROFILE, STUDENT_LOGOUT } from "./student/types";
@@ -118,6 +120,26 @@ export const login = (email, password) => async dispatch => {
   }
 };
 
+/////ADMIN
+
+// for student viewing
+export const getAllTeachers = () => async dispatch => {
+  try {
+    const res = await axios.get("/api/users/admin");
+
+    dispatch({
+      type: GET_TEACHERS,
+      payload: res.data
+    });
+  } catch (err) {
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach(el => dispatch(setAlert(el.msg, "danger")));
+    }
+  }
+};
+
 // password recovery
 export const pass_recovery = (
   email,
@@ -195,5 +217,5 @@ export const logout = () => dispatch => {
   dispatch({ type: STUDENT_CLEAR_PROFILE });
   dispatch({ type: CLEAR_SERVICES });
   dispatch({ type: CLEAR_ENROLLED });
-  
+  dispatch({ type: CLEAR_TEACHERS });
 };
