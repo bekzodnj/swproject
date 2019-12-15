@@ -47,7 +47,8 @@ router.post(
       info,
       detailed_info,
       is_published,
-      events
+      events,
+      no_of_weeks
     } = req.body;
 
     const eventFields = {};
@@ -61,6 +62,7 @@ router.post(
     if (category) eventFields.category = category;
     if (subject) eventFields.subject = subject;
     if (duration) eventFields.duration = duration;
+    if (no_of_weeks) eventFields.no_of_weeks = no_of_weeks;
 
     if (min_no_of_students) eventFields.min_no_of_students = min_no_of_students;
     if (max_no_of_students) eventFields.max_no_of_students = max_no_of_students;

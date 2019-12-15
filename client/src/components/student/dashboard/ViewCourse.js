@@ -3,6 +3,13 @@ import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { Button, Modal } from "react-bootstrap";
 
+import { Calendar, Views, momentLocalizer } from "react-big-calendar";
+
+import moment from "moment";
+import "moment-recur";
+import "react-big-calendar/lib/css/react-big-calendar.css";
+import "moment/locale/en-gb";
+
 import {
   getAllServices,
   createEnrolled,
@@ -45,6 +52,14 @@ export const ViewCourse = ({
 
     //console.log(formData);
   };
+
+  const localizer = momentLocalizer(moment);
+
+  const min_time = new Date();
+  min_time.setHours(8);
+  min_time.setMinutes(0);
+  min_time.setSeconds(0);
+
   let newEv = [];
   let events = [];
   if (service[0] !== undefined) {
@@ -59,8 +74,6 @@ export const ViewCourse = ({
     }
   } else {
   }
-
-  console.log(events);
 
   return (
     <section>
@@ -157,8 +170,33 @@ export const ViewCourse = ({
               </div>
               <span className="text-muted">{service[0].info}</span>
             </li>
+
+            <li className="list-group-item d-flex justify-content-between lh-condensed">
+              <div>
+                <h6 className="my-0">Number of weeks</h6>
+              </div>
+              <span className="text-muted">{service[0].no_of_weeks}</span>
+            </li>
           </ul>
         </div>
+
+        <div className="mt4 bb pt4"></div>
+      </div>
+      <div className="">
+        <Calendar
+          localizer={localizer}
+          events={events}
+          defaultView={"week"}
+          defaultDate={events[0].start}
+          onSelectEvent={() => {}}
+          onSelectSlot={({ start, end }) => {
+            // updateNewEvents(start, end);
+          }}
+          style={{ height: "400px" }}
+          step={15}
+          popup={true}
+          min={min_time}
+        />
       </div>
     </section>
   );

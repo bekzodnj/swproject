@@ -23,6 +23,9 @@ const ServiceSchema = mongoose.Schema({
   min_no_of_students: {
     type: Number
   },
+ no_of_weeks: {
+    type: Number
+  },
   max_no_of_students: {
     type: Number
   },
