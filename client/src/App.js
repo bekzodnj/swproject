@@ -29,6 +29,8 @@ import Services from "./components/service/Services";
 import CreateService from "./components/service/CreateService";
 import Notifications from "./components/dashboard/Notifications";
 
+import Admin from "./components/auth/Admin";
+
 //student part
 import CourseList from "./components/student/dashboard/CourseList";
 import ViewCourse from "./components/student/dashboard/ViewCourse";
@@ -67,6 +69,7 @@ const App = () => {
             <Switch>
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
+              <Route exact path="/admin" component={Admin} />
               <Route exact path="/studentLogin" component={StudentLogin} />
               <Route
                 exact

@@ -73,8 +73,33 @@ router.get("/me", auth, async (req, res) => {
   }
 });
 
+// @route   POST api/enrolled/:enroll_id
+// @desc    Change enroll to approved = add event
+// @access  Private
+router.post("/:enroll_id", auth, async (req, res) => {
+  try {
+    const enrolled = await Enrolled.findOne({
+      teacher: req.user.id,
+      _id: req.params.enroll_id
+    });
+
+    if (!enrolled) {
+      return res.status(400).json({ msg: "There is service for this user" });
+    }
+
+    enrolled.is_approved = true;
+
+    await enrolled.save();
+
+    res.json(enrolled);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server error");
+  }
+});
+
 // @route   GET api/enrolled/teacher/me
-// @desc    Get current enrolls created by student
+// @desc    Get current enrolls created, view by teacher
 // @access  Private
 router.get("/teacher/me", auth, async (req, res) => {
   try {
@@ -109,6 +134,28 @@ router.get("/me", auth, async (req, res) => {
     res.json(enrolled);
   } catch (err) {
     console.error(err.message);
+    res.status(500).send("Server error");
+  }
+});
+
+// @route   DELETE api/enrolled/:enroll_id
+// @desc    Delete enroll application by teacher
+// @access  Private
+router.delete("/:enroll_id", auth, async (req, res) => {
+  try {
+    // deletes the profile
+    await Enrolled.findOneAndRemove({
+      teacher: req.user.id,
+      _id: req.params.enroll_id
+    });
+
+    res.json({ msg: "Event deleted" });
+  } catch (err) {
+    console.error(err.message);
+
+    if (err.kind == "ObjectId") {
+      return res.status(404).json({ msg: "Post is not found" });
+    }
     res.status(500).send("Server error");
   }
 });

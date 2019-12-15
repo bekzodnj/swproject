@@ -104,4 +104,17 @@ router.post(
   }
 );
 
+// @route   GET api/users/admin
+// @desc    Get all teachers
+// @access  Public
+router.get("/admin", async (req, res) => {
+  try {
+    const teachers = await User.find({role: "teacher"}).sort({date: -1});
+    res.json(teachers);
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).send("Server error");
+  }
+});
+
 module.exports = router;

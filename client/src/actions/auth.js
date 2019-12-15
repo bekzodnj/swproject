@@ -11,7 +11,9 @@ import {
   LOGOUT,
   CLEAR_PROFILE,
   CLEAR_EVENTS,
-  CLEAR_NEW_EVENTS
+  CLEAR_NEW_EVENTS,
+  CLEAR_SERVICES,
+  CLEAR_ENROLLED
 } from "./types";
 
 import { STUDENT_CLEAR_PROFILE, STUDENT_LOGOUT } from "./student/types";
@@ -191,4 +193,7 @@ export const logout = () => dispatch => {
   dispatch({ type: LOGOUT });
   dispatch({ type: STUDENT_LOGOUT });
   dispatch({ type: STUDENT_CLEAR_PROFILE });
+  dispatch({ type: CLEAR_SERVICES });
+  dispatch({ type: CLEAR_ENROLLED });
+  
 };

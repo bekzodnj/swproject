@@ -61,7 +61,7 @@ export const updateServices = (formData, history) => async dispatch => {
     });
 
     history.push("/services");
-    dispatch(setAlert("Event created", "success"));
+    dispatch(setAlert("Service created", "success"));
 
     dispatch({
       type: GET_SERVICES
@@ -74,46 +74,6 @@ export const updateServices = (formData, history) => async dispatch => {
     }
   }
 };
-
-// export const editServices = (formData, event_id, history) => async dispatch => {
-//   try {
-//     if (formData.title) {
-//       const config = {
-//         headers: {
-//           "Content-Type": "application/json"
-//         }
-//       };
-
-//       const res = await axios.post(
-//         `/api/events/edit/${event_id}`,
-//         formData,
-//         config
-//       );
-
-//       dispatch({
-//         type: GET_EVENTS,
-//         payload: res.data
-//       });
-
-//       history.push("/dashboard");
-//       dispatch(setAlert("Event edited", "success"));
-
-//       dispatch({
-//         type: CLEAR_NEW_EVENTS
-//       });
-
-//       dispatch({
-//         type: GET_EVENTS
-//       });
-//     }
-//   } catch (err) {
-//     const errors = err.response.data.errors;
-
-//     if (errors) {
-//       errors.forEach(el => dispatch(setAlert(el.msg, "danger")));
-//     }
-//   }
-// };
 
 // delete event
 export const deleteService = id => async dispatch => {
@@ -129,7 +89,7 @@ export const deleteService = id => async dispatch => {
         payload: res.data
       });
 
-      dispatch(setAlert("Event deleted", "success"));
+      dispatch(setAlert("Service deleted", "success"));
     }
   } catch (err) {
     const errors = err.response.data.errors;
@@ -140,7 +100,7 @@ export const deleteService = id => async dispatch => {
   }
 };
 
-/////////////////// enrolled
+/////////////////// enrolled part
 
 // Create an event=update events object
 export const createEnrolled = (formData, history) => async dispatch => {
@@ -161,7 +121,7 @@ export const createEnrolled = (formData, history) => async dispatch => {
     });
 
     history.push("/student-dashboard");
-    dispatch(setAlert("Enrollment created", "success"));
+    dispatch(setAlert("Enrollment is added to your applications", "success"));
 
     dispatch({
       type: GET_ENROLLED
@@ -211,36 +171,47 @@ export const getEnrolledTeacher = () => async dispatch => {
   }
 };
 
-// // temp buffer events in calendar
-// export const getNewEvents = () => async dispatch => {
-//   try {
-//     dispatch({
-//       type: GET_NEW_EVENTS
-//     });
-//   } catch (err) {}
-// };
+// teacher approves enrollment, and and to his event list
+export const getEnrolledApprove = enroll_id => async dispatch => {
+  try {
+    await axios.post(`/api/enrolled/${enroll_id}`);
 
-// // temporary buffer events in calendar
-// export const updateNewEvents = (start, end) => async dispatch => {
-//   try {
-//     const title = "New Event";
+    const res = await axios.get("/api/enrolled/teacher/me");
+    dispatch({
+      type: GET_ENROLLED,
+      payload: res.data
+    });
 
-//     //if not empty then create new event
-//     if (title) {
-//       const res = {
-//         title,
-//         start,
-//         end
-//       };
-//       console.log("action", res);
-//       dispatch({
-//         type: UPDATE_NEW_EVENTS,
-//         payload: res
-//       });
+    dispatch(
+      setAlert("Enrollment approved, and added to your schedule", "success")
+    );
+  } catch (err) {
+    const errors = err.response.data.errors;
 
-//       dispatch({
-//         type: GET_NEW_EVENTS
-//       });
-//     }
-//   } catch (err) {}
-// };
+    if (errors) {
+      errors.forEach(el => dispatch(setAlert(el.msg, "danger")));
+    }
+  }
+};
+
+// teacher rejects enrollment, it will be deleted from db
+export const getEnrolledReject = enroll_id => async dispatch => {
+  try {
+    await axios.delete(`/api/enrolled/${enroll_id}`);
+
+    const res = await axios.get("/api/enrolled/teacher/me");
+
+    dispatch({
+      type: GET_ENROLLED,
+      payload: res.data
+    });
+
+    dispatch(setAlert("Enrollment deleted", "success"));
+  } catch (err) {
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach(el => dispatch(setAlert(el.msg, "danger")));
+    }
+  }
+};

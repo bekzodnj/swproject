@@ -1,20 +1,40 @@
-import React, { useEffect } from "react";
+import React, { Fragment, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import { connect } from "react-redux";
 
-import { getEnrolledTeacher } from "../../actions/services";
+import {
+  getEnrolledTeacher,
+  getEnrolledApprove,
+  getEnrolledReject
+} from "../../actions/services";
 
-export const Notifications = ({ enrolled, getEnrolledTeacher }) => {
+export const Notifications = ({
+  enrolled,
+  getEnrolledTeacher,
+  getEnrolledApprove,
+  getEnrolledReject
+}) => {
   useEffect(() => {
     getEnrolledTeacher();
   }, [getEnrolledTeacher]);
 
+  //collect from enroll list who is not approved, nor deleted
   let enrolls;
-  if (enrolled.length !== 0) {
+  if (enrolled.length !== 0 && enrolled !== null) {
     enrolls = enrolled.filter(el => el.is_approved !== true);
+  } else {
+    enrolls = [];
   }
-  console.log(enrolls);
+
+  const acceptHandle = id => {
+    getEnrolledApprove(id);
+  };
+
+  const rejectHandle = id => {
+    getEnrolledReject(id);
+  };
+
   return (
     <section>
       <div className="d-flex justify-content-between ">
@@ -31,7 +51,7 @@ export const Notifications = ({ enrolled, getEnrolledTeacher }) => {
           </tr>
         </thead>
         {enrolls === undefined ? (
-          <p>Loading</p>
+          <Fragment>It seems notification box is empty</Fragment>
         ) : (
           <tbody>
             {enrolls.length !== 0 &&
@@ -44,8 +64,18 @@ export const Notifications = ({ enrolled, getEnrolledTeacher }) => {
                     <Link to={`/student/${el.student}`}>{el.student}</Link>
                   </td>
                   <td>
-                    <button className="btn btn-primary mr-2">Accept</button>
-                    <button className="btn btn-danger mr-2">Reject</button>
+                    <button
+                      className="btn btn-primary mr-2"
+                      onClick={() => acceptHandle(`${el._id}`)}
+                    >
+                      Accept
+                    </button>
+                    <button
+                      className="btn btn-danger mr-2"
+                      onClick={() => rejectHandle(`${el._id}`)}
+                    >
+                      Reject
+                    </button>
                   </td>
                 </tr>
               ))}
@@ -61,5 +91,7 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, {
-  getEnrolledTeacher
+  getEnrolledTeacher,
+  getEnrolledApprove,
+  getEnrolledReject
 })(Notifications);

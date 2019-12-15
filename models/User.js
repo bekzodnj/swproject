@@ -30,6 +30,10 @@ const UserSchema = new mongoose.Schema({
   date: {
     type: Date,
     default: Date.now
+  },
+  is_teacher: {
+    type: Boolean,
+    default: false
   }
 });
 
