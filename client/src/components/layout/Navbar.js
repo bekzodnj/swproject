@@ -26,7 +26,7 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout, user }) => {
         Notifications
       </Link>
 
-      <Link to="/my-profile" className="p-2 mx-1 text-white">
+      <Link to="/edit-profile" className="p-2 mx-1 text-white">
         My Profile
       </Link>
 

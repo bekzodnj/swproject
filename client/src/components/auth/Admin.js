@@ -28,15 +28,8 @@ export const Admin = ({
   return (
     <section>
       <div className="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded shadow-sm">
-        <img
-          className="mr-3 br-100"
-          src="https://ih1.redbubble.net/image.738129631.6518/flat,800x800,070,f.jpg"
-          alt=""
-          width="48"
-          height="48"
-        />
         <div className="lh-100">
-          <h6 className="mb-0 text-white lh-100">Admin</h6>
+          <h2 className="mb-0 text-white lh-100">Admin</h2>
           <small>Manage the teacher accounts</small>
         </div>
       </div>

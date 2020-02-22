@@ -52,8 +52,8 @@ export const TeacherInfo = ({ match }) => {
 
               <li className="list-group-item lh-condensed">
                 <div>
-                  <h6 className="my-1 text-bold">Academic Degree</h6>
-                  <p className="text-secondary"> {formData.ac_degree}</p>
+                  <h6 className="my-1 text-bold">Academic Activities</h6>
+                  <p className="text-secondary"> {formData.ac_activities}</p>
                 </div>
               </li>
             </ul>
@@ -71,13 +71,13 @@ export const TeacherInfo = ({ match }) => {
               <li className="list-group-item lh-condensed">
                 <div>
                   <h6 className="my-1 text-bold">Email</h6>
-                  <p className="text-secondary"> {}</p>
+                  <p className="text-secondary">chris.martin1234@yahoo.com </p>
                 </div>
               </li>
               <li className="list-group-item lh-condensed">
                 <div>
                   <h6 className="my-1 text-bold">Genral Info</h6>
-                  <p className="text-secondary"> {formData.general_info}</p>
+                  <p className="text-secondary"> {formData.bio}</p>
                 </div>
               </li>
             </ul>

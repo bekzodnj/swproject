@@ -20,7 +20,7 @@ export const ViewTeachers = ({ teachers, getAllTeachers }) => {
         {teachers.length !== 0 &&
           teachers.map(el => (
             <div className="col-12 col-md-4">
-              <div class="card" style={{ minHeight: "120px" }}>
+              <div class="card m-2" style={{ minHeight: "120px" }}>
                 <div class="card-body">
                   <h5 class="card-title" style={{ height: "15px" }}>
                     Teacher

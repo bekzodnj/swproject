@@ -107,8 +107,8 @@ const Dashboard = ({
 
                 <li className="list-group-item lh-condensed">
                   <div>
-                    <h6 className="my-1 text-bold">Academic Degree</h6>
-                    <p className="text-secondary"> {profile.ac_degree}</p>
+                    <h6 className="my-1 text-bold">Academic Title</h6>
+                    <p className="text-secondary"> {profile.ac_activities}</p>
                   </div>
                 </li>
               </ul>
@@ -126,20 +126,20 @@ const Dashboard = ({
                 <li className="list-group-item lh-condensed">
                   <div>
                     <h6 className="my-1 text-bold">Email</h6>
-                    <p className="text-secondary"> {}</p>
+                    <p className="text-secondary"> johndoe22@gmail.com</p>
                   </div>
                 </li>
+
                 <li className="list-group-item lh-condensed">
                   <div>
                     <h6 className="my-1 text-bold">Genral Info</h6>
-                    <p className="text-secondary"> {profile.general_info}</p>
+                    <p className="text-secondary"> {profile.bio}</p>
                   </div>
                 </li>
               </ul>
             </div>
           </div>
 
-          <DashboardActions />
           <h4 className="">Your schedule</h4>
 
           <div className="">

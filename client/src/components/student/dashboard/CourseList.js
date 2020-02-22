@@ -45,7 +45,7 @@ export const CourseList = ({ services, getAllServices }) => {
         {services2.length !== 0 &&
           services2.map(el => (
             <div className="col-12 col-md-4">
-              <div class="card" style={{ minHeight: "250px" }}>
+              <div class="card m-2" style={{ minHeight: "250px" }}>
                 <div class="card-body">
                   <h5 class="card-title" style={{ height: "27px" }}>
                     {el.title}

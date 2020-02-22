@@ -60,14 +60,14 @@ export const createProfile = (
 
     const res = await axios.post("/api/profile", formData, config);
 
+    if (!edit) {
+      history.push("/dashboard");
+    }
     dispatch({
       type: GET_PROFILE,
       payload: res.data
     });
 
-    if (!edit) {
-      history.push("/dashboard");
-    }
     dispatch(setAlert(edit ? "Profile edited" : "Profile created", "success"));
   } catch (err) {
     const errors = err.response.data.errors;

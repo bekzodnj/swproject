@@ -61,7 +61,7 @@ export const Notifications = ({
                   <td>{el.service.title}</td>
                   <td>{el.service.subject}</td>
                   <td>
-                    <Link to={`/student/${el.student}`}>{el.student}</Link>
+                    <Link to={`/student/${el.student}`}>John Doe</Link>
                   </td>
                   <td>
                     <button
