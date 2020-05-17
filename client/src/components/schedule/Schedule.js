@@ -1,21 +1,21 @@
-import React, { useEffect, useState } from "react";
-import { Link, withRouter } from "react-router-dom";
-import { Calendar, Views, momentLocalizer } from "react-big-calendar";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import moment from "moment";
-import "moment-recur";
-import "react-big-calendar/lib/css/react-big-calendar.css";
-import "moment/locale/en-gb";
+import React, { useEffect, useState } from 'react';
+import { Link, withRouter } from 'react-router-dom';
+import { Calendar, Views, momentLocalizer } from 'react-big-calendar';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import moment from 'moment';
+import 'moment-recur';
+import 'react-big-calendar/lib/css/react-big-calendar.css';
+import 'moment/locale/en-gb';
 
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 
 import {
   getEvents,
   getNewEvents,
   updateNewEvents,
-  updateEvents
-} from "../../actions/events";
+  updateEvents,
+} from '../../actions/events';
 
 const Schedule = ({
   events,
@@ -24,7 +24,7 @@ const Schedule = ({
   updateEvents,
   getNewEvents,
   updateNewEvents,
-  history
+  history,
 }) => {
   useEffect(() => {
     getEvents();
@@ -67,50 +67,50 @@ const Schedule = ({
   const [isShown7, setIsShown7] = useState(false);
 
   const [inputDay, setInputDay] = useState(2);
-  const [isHidden, setIsHidden] = useState("");
+  const [isHidden, setIsHidden] = useState('');
 
   let newEv = [
     {
       start: startDate,
-      end: endDate
+      end: endDate,
     },
     {
       start: startDate2,
-      end: endDate2
+      end: endDate2,
     },
     {
       start: startDate3,
-      end: endDate3
+      end: endDate3,
     },
     {
       start: startDate4,
-      end: endDate4
+      end: endDate4,
     },
     {
       start: startDate5,
-      end: endDate5
+      end: endDate5,
     },
     {
       start: startDate6,
-      end: endDate6
+      end: endDate6,
     },
     {
       start: startDate7,
-      end: endDate7
-    }
+      end: endDate7,
+    },
   ];
 
-  newEv = newEv.filter(el => el.start !== null && el.end !== null);
+  newEv = newEv.filter((el) => el.start !== null && el.end !== null);
 
-  const onClickHandler = e => {
+  const onClickHandler = (e) => {
     // console.log(e.target.name);
     setIsHidden(e.target.name);
   };
 
   let isRecurring = false;
-  let start_next = moment(new Date()).add(1, "weeks");
+  let start_next = moment(new Date()).add(1, 'weeks');
 
-  const onEventClick = e => {
+  const onEventClick = (e) => {
     alert(e.start);
   };
 
@@ -119,42 +119,51 @@ const Schedule = ({
   /// console.log("Obj", start_next._d);
   return (
     <div>
-      <Link className="btn btn-outline-secondary mb-2" to="/dashboard">
+      <Link className='btn btn-outline-secondary mb-2' to='/dashboard'>
         &larr; Go Back
       </Link>
       <div>
-        <p className="lead text-secondary">
+        <p className='lead text-secondary'>
           Select working hours and it appears in your calendar
         </p>
-        <div className="row">
-          <div className="col-md-4 col-12" style={{ minHeight: "150px" }}>
-            <div className="picker">
+        <div className='form-group my-2 mb-3'>
+          <label htmlFor='no_of_weeks'>Recurring number of weeks:</label>
+          <input
+            name='no_of_weeks'
+            className='form-control'
+            type='number'
+            style={{ width: '100px' }}
+          />
+        </div>
+        <div className='row'>
+          <div className='col-md-4 col-12' style={{ minHeight: '150px' }}>
+            <div className='picker'>
               <div>
                 Start:
                 <DatePicker
                   localizer
                   selected={startDate}
-                  onChange={date => setStartDate(date)}
+                  onChange={(date) => setStartDate(date)}
                   showTimeSelect
-                  placeholderText={"Please select start time"}
-                  timeFormat="HH:mm"
+                  placeholderText={'Please select start time'}
+                  timeFormat='HH:mm'
                   timeIntervals={15}
-                  timeCaption="time"
-                  dateFormat="MMMM d, yyyy h:mm"
+                  timeCaption='time'
+                  dateFormat='MMMM d, yyyy hh:mm aa'
                 />
               </div>
 
               <div>
-                End:{" "}
+                End:{' '}
                 <DatePicker
                   selected={endDate}
-                  onChange={date => setEndDate(date)}
-                  placeholderText={"Please select end time"}
+                  onChange={(date) => setEndDate(date)}
+                  placeholderText={'Please select end time'}
                   showTimeSelect
-                  timeFormat="HH:mm"
+                  timeFormat='HH:mm'
                   timeIntervals={15}
-                  timeCaption="time"
-                  dateFormat="MMMM d, yyyy h:mm"
+                  timeCaption='time'
+                  dateFormat='MMMM d, yyyy hh:mm aa'
                 />
               </div>
 
@@ -162,36 +171,36 @@ const Schedule = ({
             </div>
 
             {inputDay >= 2 && isShown2 && (
-              <div className="picker">
+              <div className='picker'>
                 <div>
                   Start:
                   <DatePicker
                     selected={startDate2}
-                    placeholderText={"Please select start time"}
-                    onChange={date => setStartDate2(date)}
+                    placeholderText={'Please select start time'}
+                    onChange={(date) => setStartDate2(date)}
                     showTimeSelect
-                    timeFormat="HH:mm"
+                    timeFormat='HH:mm'
                     timeIntervals={15}
-                    timeCaption="time"
-                    dateFormat="MMMM d, yyyy h:mm"
+                    timeCaption='time'
+                    dateFormat='MMMM d, yyyy hh:mm aa'
                   />
                 </div>
 
                 <div>
-                  End:{" "}
+                  End:{' '}
                   <DatePicker
                     selected={endDate2}
-                    placeholderText={"Please select end time"}
-                    onChange={date => setEndDate2(date)}
+                    placeholderText={'Please select end time'}
+                    onChange={(date) => setEndDate2(date)}
                     showTimeSelect
-                    timeFormat="HH:mm"
+                    timeFormat='HH:mm'
                     timeIntervals={15}
-                    timeCaption="time"
-                    dateFormat="MMMM d, yyyy h:mm"
+                    timeCaption='time'
+                    dateFormat='MMMM d, yyyy hh:mm aa'
                   />
                   <button
-                    className="btn btn-sm btn-outline-danger ml-2"
-                    name="btn2"
+                    className='btn btn-sm btn-outline-danger ml-2'
+                    name='btn2'
                     onClick={() => {
                       setIsShown2(false);
                       setStartDate2(null);
@@ -208,36 +217,36 @@ const Schedule = ({
             )}
 
             {inputDay >= 3 && isShown3 && (
-              <div className="picker">
+              <div className='picker'>
                 <div>
                   Start:
                   <DatePicker
                     selected={startDate3}
-                    placeholderText={"Please select start time"}
-                    onChange={date => setStartDate3(date)}
+                    placeholderText={'Please select start time'}
+                    onChange={(date) => setStartDate3(date)}
                     showTimeSelect
-                    timeFormat="HH:mm"
+                    timeFormat='HH:mm'
                     timeIntervals={15}
-                    timeCaption="time"
-                    dateFormat="MMMM d, yyyy h:mm"
+                    timeCaption='time'
+                    dateFormat='MMMM d, yyyy hh:mm aa'
                   />
                 </div>
 
                 <div>
-                  End:{" "}
+                  End:{' '}
                   <DatePicker
                     selected={endDate3}
-                    placeholderText={"Please select end time"}
-                    onChange={date => setEndDate3(date)}
+                    placeholderText={'Please select end time'}
+                    onChange={(date) => setEndDate3(date)}
                     showTimeSelect
-                    timeFormat="HH:mm"
+                    timeFormat='HH:mm'
                     timeIntervals={15}
-                    timeCaption="time"
-                    dateFormat="MMMM d, yyyy h:mm"
+                    timeCaption='time'
+                    dateFormat='MMMM d, yyyy hh:mm aa'
                   />
                   <button
-                    className="btn btn-sm btn-outline-danger ml-2"
-                    name="btn3"
+                    className='btn btn-sm btn-outline-danger ml-2'
+                    name='btn3'
                     onClick={() => {
                       setIsShown3(false);
                       setStartDate3(null);
@@ -254,36 +263,36 @@ const Schedule = ({
             )}
 
             {inputDay >= 4 && isShown4 && (
-              <div className="picker">
+              <div className='picker'>
                 <div>
                   Start:
                   <DatePicker
                     selected={startDate4}
-                    placeholderText={"Please select start time"}
-                    onChange={date => setStartDate4(date)}
+                    placeholderText={'Please select start time'}
+                    onChange={(date) => setStartDate4(date)}
                     showTimeSelect
-                    timeFormat="HH:mm"
+                    timeFormat='HH:mm'
                     timeIntervals={15}
-                    timeCaption="time"
-                    dateFormat="MMMM d, yyyy h:mm"
+                    timeCaption='time'
+                    dateFormat='MMMM d, yyyy hh:mm aa'
                   />
                 </div>
 
                 <div>
-                  End:{" "}
+                  End:{' '}
                   <DatePicker
                     selected={endDate4}
-                    placeholderText={"Please select end time"}
-                    onChange={date => setEndDate4(date)}
+                    placeholderText={'Please select end time'}
+                    onChange={(date) => setEndDate4(date)}
                     showTimeSelect
-                    timeFormat="HH:mm"
+                    timeFormat='HH:mm'
                     timeIntervals={15}
-                    timeCaption="time"
-                    dateFormat="MMMM d, yyyy h:mm"
+                    timeCaption='time'
+                    dateFormat='MMMM d, yyyy hh:mm aa'
                   />
                   <button
-                    className="btn btn-sm btn-outline-danger ml-2"
-                    name="btn4"
+                    className='btn btn-sm btn-outline-danger ml-2'
+                    name='btn4'
                     onClick={() => {
                       setIsShown4(false);
                       setStartDate4(null);
@@ -300,36 +309,36 @@ const Schedule = ({
             )}
 
             {inputDay >= 5 && isShown5 && (
-              <div className="picker">
+              <div className='picker'>
                 <div>
                   Start:
                   <DatePicker
                     selected={startDate5}
-                    placeholderText={"Please select start time"}
-                    onChange={date => setStartDate5(date)}
+                    placeholderText={'Please select start time'}
+                    onChange={(date) => setStartDate5(date)}
                     showTimeSelect
-                    timeFormat="HH:mm"
+                    timeFormat='HH:mm'
                     timeIntervals={15}
-                    timeCaption="time"
-                    dateFormat="MMMM d, yyyy h:mm"
+                    timeCaption='time'
+                    dateFormat='MMMM d, yyyy hh:mm aa'
                   />
                 </div>
 
                 <div>
-                  End:{" "}
+                  End:{' '}
                   <DatePicker
                     selected={endDate5}
-                    placeholderText={"Please select end time"}
-                    onChange={date => setEndDate5(date)}
+                    placeholderText={'Please select end time'}
+                    onChange={(date) => setEndDate5(date)}
                     showTimeSelect
-                    timeFormat="HH:mm"
+                    timeFormat='HH:mm'
                     timeIntervals={15}
-                    timeCaption="time"
-                    dateFormat="MMMM d, yyyy h:mm"
+                    timeCaption='time'
+                    dateFormat='MMMM d, yyyy hh:mm aa'
                   />
                   <button
-                    className="btn btn-sm btn-outline-danger ml-2"
-                    name="btn5"
+                    className='btn btn-sm btn-outline-danger ml-2'
+                    name='btn5'
                     onClick={() => {
                       setIsShown5(false);
                       setStartDate5(null);
@@ -346,36 +355,36 @@ const Schedule = ({
             )}
 
             {inputDay >= 6 && isShown6 && (
-              <div className="picker">
+              <div className='picker'>
                 <div>
                   Start:
                   <DatePicker
                     selected={startDate3}
-                    placeholderText={"Please select start time"}
-                    onChange={date => setStartDate6(date)}
+                    placeholderText={'Please select start time'}
+                    onChange={(date) => setStartDate6(date)}
                     showTimeSelect
-                    timeFormat="HH:mm"
+                    timeFormat='HH:mm'
                     timeIntervals={15}
-                    timeCaption="time"
-                    dateFormat="MMMM d, yyyy h:mm"
+                    timeCaption='time'
+                    dateFormat='MMMM d, yyyy hh:mm aa'
                   />
                 </div>
 
                 <div>
-                  End:{" "}
+                  End:{' '}
                   <DatePicker
                     selected={endDate6}
-                    placeholderText={"Please select end time"}
-                    onChange={date => setEndDate6(date)}
+                    placeholderText={'Please select end time'}
+                    onChange={(date) => setEndDate6(date)}
                     showTimeSelect
-                    timeFormat="HH:mm"
+                    timeFormat='HH:mm'
                     timeIntervals={15}
-                    timeCaption="time"
-                    dateFormat="MMMM d, yyyy h:mm"
+                    timeCaption='time'
+                    dateFormat='MMMM d, yyyy hh:mm aa'
                   />
                   <button
-                    className="btn btn-sm btn-outline-danger ml-2"
-                    name="btn6"
+                    className='btn btn-sm btn-outline-danger ml-2'
+                    name='btn6'
                     onClick={() => {
                       setIsShown6(false);
                       setStartDate6(null);
@@ -392,36 +401,36 @@ const Schedule = ({
             )}
 
             {inputDay >= 7 && isShown7 && (
-              <div className="picker">
+              <div className='picker'>
                 <div>
                   Start:
                   <DatePicker
                     selected={startDate7}
-                    placeholderText={"Please select start time"}
-                    onChange={date => setStartDate7(date)}
+                    placeholderText={'Please select start time'}
+                    onChange={(date) => setStartDate7(date)}
                     showTimeSelect
-                    timeFormat="HH:mm"
+                    timeFormat='HH:mm'
                     timeIntervals={15}
-                    timeCaption="time"
-                    dateFormat="MMMM d, yyyy h:mm"
+                    timeCaption='time'
+                    dateFormat='MMMM d, yyyy hh:mm aa'
                   />
                 </div>
 
                 <div>
-                  End:{" "}
+                  End:{' '}
                   <DatePicker
                     selected={endDate7}
-                    placeholderText={"Please select end time"}
-                    onChange={date => setEndDate7(date)}
+                    placeholderText={'Please select end time'}
+                    onChange={(date) => setEndDate7(date)}
                     showTimeSelect
-                    timeFormat="HH:mm"
+                    timeFormat='HH:mm'
                     timeIntervals={15}
-                    timeCaption="time"
-                    dateFormat="MMMM d, yyyy h:mm"
+                    timeCaption='time'
+                    dateFormat='MMMM d, yyyy hh:mm aa'
                   />
                   <button
-                    className="btn btn-sm btn-outline-danger ml-2"
-                    name="btn7"
+                    className='btn btn-sm btn-outline-danger ml-2'
+                    name='btn7'
                     onClick={() => {
                       setIsShown7(false);
                       setStartDate7(null);
@@ -438,38 +447,38 @@ const Schedule = ({
             )}
 
             <button
-              className="btn btn-outline-info"
+              className='btn btn-outline-info'
               onClick={() => {
                 setInputDay(inputDay + 1);
-                let a = "";
-                a = inputDay == 2 ? setIsShown2(true) : "";
-                a = inputDay == 3 ? setIsShown3(true) : "";
-                a = inputDay == 4 ? setIsShown4(true) : "";
-                a = inputDay == 5 ? setIsShown5(true) : "";
-                a = inputDay == 6 ? setIsShown6(true) : "";
-                a = inputDay == 7 ? setIsShown7(true) : "";
+                let a = '';
+                a = inputDay == 2 ? setIsShown2(true) : '';
+                a = inputDay == 3 ? setIsShown3(true) : '';
+                a = inputDay == 4 ? setIsShown4(true) : '';
+                a = inputDay == 5 ? setIsShown5(true) : '';
+                a = inputDay == 6 ? setIsShown6(true) : '';
+                a = inputDay == 7 ? setIsShown7(true) : '';
               }}
             >
               Add day +
             </button>
           </div>
 
-          <div className="col-md-8 col-12">
-            <div className="">
+          <div className='col-md-8 col-12'>
+            <div className=''>
               <Calendar
                 localizer={localizer}
                 events={newEv}
-                defaultView={"week"}
+                defaultView={'week'}
                 defaultDate={new Date()}
                 onSelectEvent={onEventClick}
                 onSelectSlot={({ start, end }) => {
                   updateNewEvents(start, end);
                 }}
-                style={{ height: "400px" }}
+                style={{ height: '400px' }}
                 step={15}
                 popup={true}
                 min={min_time}
-                dayLayoutAlgorithm={"no-overlap"}
+                dayLayoutAlgorithm={'no-overlap'}
               />
             </div>
           </div>
@@ -477,7 +486,7 @@ const Schedule = ({
       </div>
 
       <button
-        className="btn btn-primary my-3"
+        className='btn btn-primary my-3'
         onClick={() => console.log(newEv)}
       >
         Save
@@ -486,14 +495,14 @@ const Schedule = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   events: state.events,
-  new_events: state.new_events
+  new_events: state.new_events,
 });
 
 export default connect(mapStateToProps, {
   getEvents,
   updateEvents,
   getNewEvents,
-  updateNewEvents
+  updateNewEvents,
 })(withRouter(Schedule));
