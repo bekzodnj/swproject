@@ -3,7 +3,6 @@ const auth = require('../../middleware/auth');
 const router = express.Router();
 const { check, validationResult } = require('express-validator');
 const User = require('../../models/User');
-const Service = require('../../models/Service');
 const BlogPost = require('../../models/BlogPost');
 
 // @route   POST api/blogpost/
@@ -15,7 +14,7 @@ router.post(
     auth,
     [
       check('title', 'Blogpost Title is required').not().isEmpty(),
-      check('Text Body', 'Body is required').not().isEmpty(),
+      check('textBody', 'Body is required').not().isEmpty(),
     ],
   ],
   async (req, res) => {
@@ -35,7 +34,6 @@ router.post(
     blog_obj.user = req.user.id;
     if (title) blog_obj.title = title;
     if (textBody) blog_obj.textBody = textBody;
-    blog_obj.date = Date.now();
 
     try {
       newBlog_obj = new BlogPost(blog_obj);
@@ -49,17 +47,16 @@ router.post(
   }
 );
 
-// @route   POST api/services/edit/:event_id
-// @desc    Edit an event with id
+// @route   POST api/blogpost/edit/:post_id
+// @desc    Edit a blogpost with id
 // @access  Private
 router.post(
-  '/edit/:service_id',
+  '/edit/:post_id',
   [
     auth,
     [
-      check('title', 'title is required').not().isEmpty(),
-      check('category', 'category is required').not().isEmpty(),
-      check('subject', 'Subject is required').not().isEmpty(),
+      check('title', 'Blogpost Title is required').not().isEmpty(),
+      check('textBody', 'Body is required').not().isEmpty(),
     ],
   ],
   async (req, res) => {
@@ -69,59 +66,34 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const {
-      title,
-      logo,
-      subject,
-      duration,
-      category,
-      min_no_of_students,
-      max_no_of_students,
-      address,
-      cost,
-      valid_from,
-      expiry_date,
-      info,
-      detailed_info,
-    } = req.body;
+    const { title, textBody } = req.body;
 
-    const eventFields = {};
+    //setting up a new blogpost object
+    const blog_obj = {};
 
-    eventFields.user = req.user.id;
-
-    if (title) eventFields.title = title;
-    if (logo) eventFields.logo = logo;
-    if (category) eventFields.category = category;
-    if (subject) eventFields.subject = subject;
-    if (duration) eventFields.duration = duration;
-
-    if (min_no_of_students) eventFields.min_no_of_students = min_no_of_students;
-    if (max_no_of_students) eventFields.max_no_of_students = max_no_of_students;
-
-    if (address) eventFields.address = address;
-    if (cost) eventFields.cost = cost;
-    if (valid_from) eventFields.valid_from = valid_from;
-    if (expiry_date) eventFields.expiry_date = expiry_date;
-    if (info) eventFields.info = info;
-    if (detailed_info) eventFields.detailed_info = detailed_info;
+    //required fields
+    //same as BlogPostSchema
+    blog_obj.user = req.user.id;
+    if (title) blog_obj.title = title;
+    if (textBody) blog_obj.textBody = textBody;
 
     try {
-      const service = await Service.findOne({
+      const new_blog_obj = await BlogPost.findOne({
         user: req.user.id,
-        _id: req.params.service_id,
+        _id: req.params.post_id,
       }).populate('user', ['name']);
 
-      if (!service)
-        return res.status(400).json({ msg: 'Service is not found' });
+      if (!new_blog_obj)
+        return res.status(400).json({ msg: 'Post is not found' });
 
-      if (service) {
-        const service2 = await Service.findOneAndUpdate(
-          { user: req.user.id, _id: req.params.service_id },
-          { $set: eventFields },
+      if (new_blog_obj) {
+        const new_blog_obj2 = await BlogPost.findOneAndUpdate(
+          { user: req.user.id, _id: req.params.post_id },
+          { $set: blog_obj },
           { new: true }
         );
 
-        return res.json(service2);
+        return res.json(new_blog_obj2);
       } else {
         return res.status(400).json({ msg: 'There is no event for this user' });
       }
@@ -143,33 +115,33 @@ router.post(
 // @access  Private
 router.get('/me', auth, async (req, res) => {
   try {
-    const service = await Service.find({ user: req.user.id }).populate('user', [
+    const posts = await BlogPost.find({ user: req.user.id }).populate('user', [
       'name',
     ]);
 
-    if (!service) {
-      return res.status(400).json({ msg: 'There is service for this user' });
+    if (!posts) {
+      return res.status(400).json({ msg: 'There is post for this user' });
     }
 
-    res.json(service);
+    res.json(posts);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server error');
   }
 });
 
-// @route   GET api/services/:service_id
-// @desc    Get specific service by id
+// @route   GET api/blogpost/:post_id
+// @desc    Get specific post by id
 // @access  Public
-router.get('/:service_id', async (req, res) => {
+router.get('/:post_id', async (req, res) => {
   try {
-    const service = await Service.findOne({
-      _id: req.params.service_id,
+    const post = await BlogPost.findOne({
+      _id: req.params.post_id,
     }).populate('user', ['name']);
 
-    if (!service) return res.status(400).json({ msg: 'Service is not found' });
+    if (!post) return res.status(400).json({ msg: 'Post is not found' });
 
-    return res.json(service);
+    return res.json(post);
     // create a new profile
     // profile = new Profile(profileFields);
 
@@ -181,14 +153,14 @@ router.get('/:service_id', async (req, res) => {
   }
 });
 
-// @route   GET api/services/
-// @desc    Get all services
+// @route   GET api/blogpost/
+// @desc    Get all posts
 // @access  Public
 router.get('/', async (req, res) => {
   try {
-    const services = await Service.find().sort({ created_at: -1 });
+    const posts = await BlogPost.find().sort({ date: -1 });
 
-    return res.json(services);
+    return res.json(posts);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
@@ -196,17 +168,17 @@ router.get('/', async (req, res) => {
 });
 
 // @route   DELETE api/services/:service_id
-// @desc    Delete service by its id
+// @desc    Delete post by its id
 // @access  Private
-router.delete('/:service_id', auth, async (req, res) => {
+router.delete('/:post_id', auth, async (req, res) => {
   try {
     // deletes the profile
-    await Service.findOneAndRemove({
+    await BlogPost.findOneAndRemove({
       user: req.user.id,
-      _id: req.params.service_id,
+      _id: req.params.post_id,
     });
 
-    res.json({ msg: 'Event deleted' });
+    res.json({ msg: 'Post deleted' });
   } catch (err) {
     console.error(err.message);
 

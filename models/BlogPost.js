@@ -18,4 +18,4 @@ const BlogPostSchema = new Schema({
   },
 });
 
-module.exports = BlogPost = mongoose.model('blogPost', BlogPostPostSchema);
+module.exports = BlogPost = mongoose.model('blogPost', BlogPostSchema);
