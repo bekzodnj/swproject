@@ -14,12 +14,18 @@ const CreatePost = () => {
   const onEditorStateChange = (editorState) => {
     setEditorState(editorState);
   };
-  const handleClick = (current) => {
-    console.log(current);
-  };
 
   const handleInputChange = (e) => {
     setTitle(e.target.value);
+  };
+
+  const handleClick = (currentEditorText) => {
+    const formData = {
+      title,
+      currentEditorText,
+    };
+
+    console.log(formData);
   };
 
   //const { editorState } = this.state;
@@ -31,11 +37,12 @@ const CreatePost = () => {
           <div className='w-50 my-3'>
             <label htmlFor='title'>1) Enter blog post title</label>
             <input
+              value={title}
               type='text'
               name='title'
               placeholder='Enter blog post title'
               className='form-control'
-              onChange={(e) => handleInputChange(e)}
+              onChange={(e) => setTitle(e.target.value)}
             />
           </div>
         </div>
