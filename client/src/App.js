@@ -42,6 +42,9 @@ import TeacherInfo from './components/student/dashboard/TeacherInfo';
 import Posts from './components/Post/Posts';
 import CreatePost from './components/Post/CreatePost';
 
+//News
+import News from './components/Post/News';
+
 // import "./App.css";
 // import "./bootstrap.min.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -84,6 +87,9 @@ const App = () => {
               />
               <Route exact path='/recovery' component={Recovery} />
               <Route exact path='/recovery/reset' component={Reset_Password} />
+
+              <Route exact path='/news' component={News} />
+
               <PrivateRoute exact path='/dashboard' component={Dashboard} />
 
               <PrivateRoute exact path='/schedule' component={Schedule} />

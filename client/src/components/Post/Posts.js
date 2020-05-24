@@ -3,16 +3,16 @@ import { Link } from 'react-router-dom';
 
 import { connect } from 'react-redux';
 
-import { getServices, deleteService } from '../../actions/services';
+import { getMyPosts, deletePost } from '../../actions/blogposts';
 
-export const Services = ({ services, getServices, deleteService }) => {
+export const Posts = ({ blogpost, getMyPosts, deletePost }) => {
   useEffect(() => {
-    getServices();
-  }, [getServices]);
+    getMyPosts();
+  }, [getMyPosts]);
 
   const handleDelete = (id) => {
     // let res = confirm("Are you sure?");
-    deleteService(id);
+    deletePost(id);
   };
   return (
     <section>
@@ -23,10 +23,10 @@ export const Services = ({ services, getServices, deleteService }) => {
         </Link>
       </div>
 
-      <table className='table table-striped mt-3'>
+      <table className='table table-hover table-striped mt-3'>
         <thead>
           <tr>
-            <th scope='col'>Service Title</th>
+            <th scope='col'>Service</th>
             <th scope='col'>Subject</th>
             <th scope='col'>Category</th>
             <th scope='col'>Status</th>
@@ -34,11 +34,12 @@ export const Services = ({ services, getServices, deleteService }) => {
           </tr>
         </thead>
         <tbody>
-          {services.length !== 0 &&
-            services.map((el) => (
+          {blogpost.length !== 0 &&
+            blogpost.map((el, idx) => (
               <tr key={el._id}>
-                <td>Title</td>
-                <td>Body</td>
+                <td>{idx}</td>
+                <td>{el.title}</td>
+                <td>Text</td>
                 <td>Updated Date</td>
                 <td>Is published:</td>
                 <td>
@@ -59,10 +60,9 @@ export const Services = ({ services, getServices, deleteService }) => {
 };
 
 const mapStateToProps = (state) => ({
-  services: state.services,
+  blogpost: state.blogpost,
 });
 
 export default connect(mapStateToProps, {
-  getServices,
-  deleteService,
-})(Services);
+  getMyPosts,
+})(Posts);

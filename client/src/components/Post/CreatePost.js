@@ -7,7 +7,12 @@ import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import draftToHtml from 'draftjs-to-html';
 
-const CreatePost = () => {
+import { createPost } from '../../actions/blogposts';
+
+const CreatePost = ({ createPost, history }) => {
+  // useEffect(() => {
+  //   }, []);
+
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [title, setTitle] = useState('');
 
@@ -15,23 +20,22 @@ const CreatePost = () => {
     setEditorState(editorState);
   };
 
-  const handleInputChange = (e) => {
-    setTitle(e.target.value);
-  };
-
-  const handleClick = (currentEditorText) => {
+  const handleSubmit = (currentEditorText) => {
     const formData = {
       title,
-      currentEditorText,
+      textBody: currentEditorText,
     };
 
-    console.log(formData);
+    createPost(formData, history);
   };
 
   //const { editorState } = this.state;
   return (
     <Fragment>
       <div>
+        <Link className='btn btn-outline-secondary' to='/posts'>
+          &larr; Go Back
+        </Link>
         <div className='my-3'>
           <div className='display-4'>Create a new blog post:</div>
           <div className='w-50 my-3'>
@@ -59,7 +63,7 @@ const CreatePost = () => {
         <button
           className='btn btn-primary my-2'
           onClick={() =>
-            handleClick(convertToRaw(editorState.getCurrentContent()))
+            handleSubmit(convertToRaw(editorState.getCurrentContent()))
           }
         >
           Save
@@ -68,5 +72,10 @@ const CreatePost = () => {
     </Fragment>
   );
 };
+const mapStateToProps = (state) => ({
+  blogpost: state.blogpost,
+});
 
-export default CreatePost;
+export default connect(mapStateToProps, {
+  createPost,
+})(withRouter(CreatePost));

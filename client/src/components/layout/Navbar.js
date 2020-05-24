@@ -27,7 +27,11 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout, user }) => {
       </Link>
 
       <Link to='/posts' className='p-2 mx-1 text-white'>
-        Posts
+        My Posts
+      </Link>
+
+      <Link to='/news' className='p-2 mx-1 text-white'>
+        News
       </Link>
 
       <Link to='/edit-profile' className='p-2 mx-1 text-white'>
@@ -59,6 +63,11 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout, user }) => {
       <Link to='/student-dashboard' className='p-2 mx-1 text-white'>
         My Dashboard
       </Link>
+
+      <Link to='/news' className='p-2 mx-1 text-white'>
+        News
+      </Link>
+
       <Link to='/course-list' className='p-2 mx-1 text-white'>
         Browse Courses
       </Link>
@@ -87,9 +96,9 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout, user }) => {
       className='d-flex my-2 my-md-0 mr-md-3
     list-unstyled text-white ml-md-auto'
     >
-      <a href='#!' className='p-2 mx-1 text-white'>
+      <Link to='/news' className='p-2 mx-1 text-white'>
         News
-      </a>
+      </Link>
 
       <Link to='/register' className='p-2 mx-1 text-white'>
         Register

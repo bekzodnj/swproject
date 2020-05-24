@@ -57,9 +57,9 @@ export const createPost = (formData, history) => async (dispatch) => {
     history.push('/posts');
     dispatch(setAlert('Post created', 'success'));
 
-    dispatch({
-      type: GET_POSTS,
-    });
+    // dispatch({
+    //   type: GET_POSTS,
+    // });
   } catch (err) {
     const errors = err.response.data.errors;
 
