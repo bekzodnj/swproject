@@ -26,7 +26,7 @@ app.post('/checkout', async (req, res) => {
   let error;
   let status;
   try {
-    const { product, token } = req.body;
+    const { course, token } = req.body;
 
     const customer = await stripe.customers.create({
       email: token.email,
@@ -36,11 +36,11 @@ app.post('/checkout', async (req, res) => {
     const idempotency_key = uuidv4();
     const charge = await stripe.charges.create(
       {
-        amount: product.price * 100,
+        amount: course.price * 100,
         currency: 'usd',
         customer: customer.id,
         receipt_email: token.email,
-        description: `Purchased the ${product.name}`,
+        description: `Purchased the ${course.name}`,
       },
       {
         idempotency_key,
@@ -63,6 +63,7 @@ app.use('/api/profile', require('./routes/api/profile'));
 app.use('/api/studentProfile', require('./routes/api/studentProfile'));
 app.use('/api/posts', require('./routes/api/posts'));
 app.use('/api/events', require('./routes/api/events'));
+app.use('/api/schedule', require('./routes/api/schedule'));
 
 app.use('/api/services', require('./routes/api/services'));
 app.use('/api/blogpost', require('./routes/api/blogPost'));

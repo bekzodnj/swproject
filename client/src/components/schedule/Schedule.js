@@ -39,6 +39,8 @@ const Schedule = ({
 
   const localizer = momentLocalizer(moment);
 
+  const [recurWeeks, setRecurWeeks] = useState(0);
+
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
 
@@ -133,6 +135,10 @@ const Schedule = ({
             className='form-control'
             type='number'
             style={{ width: '100px' }}
+            value={recurWeeks}
+            onChange={(event) =>
+              setRecurWeeks(event.target.value.replace(/\D/, ''))
+            }
           />
         </div>
         <div className='row'>
@@ -487,7 +493,27 @@ const Schedule = ({
 
       <button
         className='btn btn-primary my-3'
-        onClick={() => console.log(newEv)}
+        onClick={() => {
+          console.log(newEv);
+          //let start_next = moment(newEv[0].start).add(0, 'weeks');
+          // console.log(start_next._d);
+          // console.log(start_next._i);
+          var next_weeks = [];
+          const recurDates = newEv.map((item) => {
+            for (let i = 0; i <= 2; i++) {
+              let start_next = moment(item.start).add(i, 'weeks');
+              let end_next = moment(item.end).add(i, 'weeks');
+
+              let s_next = start_next._d;
+              let e_next = end_next._d;
+
+              //console.log({ start: s_next, end: e_next });
+              next_weeks.push({ start: s_next, end: e_next });
+            }
+          });
+
+          console.log(next_weeks);
+        }}
       >
         Save
       </button>

@@ -20,8 +20,6 @@ export const Applications = ({ enrolled, getEnrolled }) => {
     getEnrolled();
   }, [getEnrolled]);
 
-  const [course, setCourse] = React.useState({});
-
   const [product, setProduct] = React.useState({
     name: 'Tesla Roadster',
     price: 500,
@@ -40,7 +38,7 @@ export const Applications = ({ enrolled, getEnrolled }) => {
     }
   }
 
-  function handleOpen(idx) {
+  function setActiveProduct(idx) {
     setProduct({
       name: enrolled[idx].service.title,
       price: enrolled[idx].service.cost,
@@ -92,10 +90,33 @@ export const Applications = ({ enrolled, getEnrolled }) => {
                   {el.is_approved ? (
                     <StripeCheckout
                       stripeKey='pk_test_A4VaJeX43tYiN1IlReEPln7k00PIOgmm1x'
-                      token={handleToken}
+                      opened={() => {}}
+                      token={async (token) => {
+                        let course = {
+                          name: enrolled[idx].service.title,
+                          price: enrolled[idx].service.cost,
+                          description: enrolled[idx].service.info,
+                        };
+
+                        const response = await axios.post('/checkout', {
+                          token,
+                          course,
+                        });
+                        const { status } = response.data;
+
+                        console.log('Response:', response.data);
+                        if (status === 'success') {
+                          toast('Success! Check email for details', {
+                            type: 'success',
+                          });
+                        } else {
+                          toast('Something went wrong', { type: 'error' });
+                        }
+                      }}
                       amount={el.service.cost * 100}
                       name={el.service.title}
-                      opened={() => handleOpen(idx)}
+                      description={el.service.description}
+                      currency='USD'
                     />
                   ) : (
                     <span className=''>Not available</span>
