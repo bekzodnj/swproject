@@ -43,19 +43,19 @@ export const CourseList = ({ services, getAllServices }) => {
 
       <div className='row'>
         {services2.length !== 0 &&
-          services2.map((el) => (
-            <div className='col-12 col-md-4'>
+          services2.map((el, idx) => (
+            <div key={idx} className='col-12 col-md-4'>
               <div
-                class='card m-2'
+                className='card m-2'
                 style={{ minHeight: '250px', borderTop: '5px solid #748acd' }}
               >
-                <div class='card-body'>
-                  <h5 class='card-title'>{el.title}</h5>
+                <div className='card-body'>
+                  <h5 className='card-title'>{el.title}</h5>
                   <hr />
-                  <p class='card-text'>Category: {el.category}</p>
-                  <p class='card-text text-muted'>{el.info}</p>
+                  <p className='card-text'>Category: {el.category}</p>
+                  <p className='card-text text-muted'>{el.info}</p>
 
-                  <Link to={`/services/${el._id}`} class='btn btn-primary'>
+                  <Link to={`/services/${el._id}`} className='btn btn-primary'>
                     More
                   </Link>
                 </div>
