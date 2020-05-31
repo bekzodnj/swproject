@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 
-import { getAllServices } from "../../../actions/services";
+import { getAllServices } from '../../../actions/services';
 
 export const CourseList = ({ services, getAllServices }) => {
   useEffect(() => {
@@ -33,28 +33,29 @@ export const CourseList = ({ services, getAllServices }) => {
   //   "#F06292"
   // ];
 
-  let services2 = services.filter(el => el.is_published);
+  let services2 = services.filter((el) => el.is_published);
 
   return (
     <section>
-      <div className="d-flex justify-content-between ">
+      <div className='d-flex justify-content-between '>
         <h2>All Available Services</h2>
       </div>
 
-      <div className="row">
+      <div className='row'>
         {services2.length !== 0 &&
-          services2.map(el => (
-            <div className="col-12 col-md-4">
-              <div class="card m-2" style={{ minHeight: "250px" }}>
-                <div class="card-body">
-                  <h5 class="card-title" style={{ height: "27px" }}>
-                    {el.title}
-                  </h5>
+          services2.map((el) => (
+            <div className='col-12 col-md-4'>
+              <div
+                class='card m-2'
+                style={{ minHeight: '250px', borderTop: '5px solid #748acd' }}
+              >
+                <div class='card-body'>
+                  <h5 class='card-title'>{el.title}</h5>
                   <hr />
-                  <p class="card-text text-muted" style={{ height: "110px" }}>
-                    {el.info}
-                  </p>
-                  <Link to={`/services/${el._id}`} class="btn btn-primary">
+                  <p class='card-text'>Category: {el.category}</p>
+                  <p class='card-text text-muted'>{el.info}</p>
+
+                  <Link to={`/services/${el._id}`} class='btn btn-primary'>
                     More
                   </Link>
                 </div>
@@ -66,10 +67,10 @@ export const CourseList = ({ services, getAllServices }) => {
   );
 };
 
-const mapStateToProps = state => ({
-  services: state.services
+const mapStateToProps = (state) => ({
+  services: state.services,
 });
 
 export default connect(mapStateToProps, {
-  getAllServices
+  getAllServices,
 })(CourseList);

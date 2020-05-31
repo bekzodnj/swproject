@@ -1,22 +1,32 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const EnrolledSchema = mongoose.Schema({
   teacher: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "user"
+    ref: 'user',
   },
   student: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "user"
+    ref: 'user',
   },
   service: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "service"
+    ref: 'service',
   },
+  requestedDates: [
+    {
+      start: {
+        type: Date,
+      },
+      end: {
+        type: Date,
+      },
+    },
+  ],
   is_approved: {
     type: Boolean,
-    default: false
-  }
+    default: false,
+  },
 });
 
-module.exports = Enrolled = mongoose.model("enrolled", EnrolledSchema);
+module.exports = Enrolled = mongoose.model('enrolled', EnrolledSchema);

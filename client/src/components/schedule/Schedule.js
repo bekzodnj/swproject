@@ -17,6 +17,7 @@ import {
   updateEvents,
 } from '../../actions/events';
 
+import { getTeacherSchedule, createSchedule } from '../../actions/schedule';
 const Schedule = ({
   events,
   new_events,
@@ -25,6 +26,9 @@ const Schedule = ({
   getNewEvents,
   updateNewEvents,
   history,
+
+  getTeacherSchedule,
+  createSchedule,
 }) => {
   useEffect(() => {
     getEvents();
@@ -118,12 +122,12 @@ const Schedule = ({
 
   const handleSubmit = () => {
     //newEv = array of events for Calendar
-    //onsole.log(newEv);
+    //console.log(newEv);
 
     //result of recurring weeks
     var next_weeks = [];
-    const recurDates = newEv.map((item) => {
-      for (let i = 0; i <= 2; i++) {
+    newEv.map((item) => {
+      for (let i = 0; i <= recurWeeks; i++) {
         let start_next = moment(item.start).add(i, 'weeks');
         let end_next = moment(item.end).add(i, 'weeks');
 
@@ -132,6 +136,15 @@ const Schedule = ({
 
         next_weeks.push({ start: s_next, end: e_next });
       }
+    });
+
+    // console.log({
+    //   recur_weeks: recurWeeks,
+    //   working_times: next_weeks,
+    // });
+    createSchedule({
+      recur_weeks: recurWeeks,
+      working_times: next_weeks,
     });
   };
 
@@ -517,6 +530,7 @@ const Schedule = ({
 const mapStateToProps = (state) => ({
   events: state.events,
   new_events: state.new_events,
+  schedule: state.schedule,
 });
 
 export default connect(mapStateToProps, {
@@ -524,4 +538,7 @@ export default connect(mapStateToProps, {
   updateEvents,
   getNewEvents,
   updateNewEvents,
+
+  getTeacherSchedule,
+  createSchedule,
 })(withRouter(Schedule));

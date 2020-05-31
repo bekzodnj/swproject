@@ -122,10 +122,6 @@ export const createEnrolled = (formData, history) => async (dispatch) => {
 
     history.push('/student-dashboard');
     dispatch(setAlert('Enrollment is added to your applications', 'success'));
-
-    dispatch({
-      type: GET_ENROLLED,
-    });
   } catch (err) {
     const errors = err.response.data.errors;
 
