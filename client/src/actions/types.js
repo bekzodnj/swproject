@@ -49,3 +49,6 @@ export const GET_POSTS = 'GET_POSTS';
 export const UPDATE_POST = 'UPDATE_POST';
 export const DELETE_POST = 'DELETE_POST';
 export const CLEAR_POSTS = 'CLEAR_POSTS';
+
+export const GET_SCHEDULE = 'GET_SCHEDULE';
+export const CREATE_SCHEDULE = 'CREATE_SCHEDULE';

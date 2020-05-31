@@ -116,9 +116,25 @@ const Schedule = ({
     alert(e.start);
   };
 
-  // console.log(start_next);
+  const handleSubmit = () => {
+    //newEv = array of events for Calendar
+    //onsole.log(newEv);
 
-  /// console.log("Obj", start_next._d);
+    //result of recurring weeks
+    var next_weeks = [];
+    const recurDates = newEv.map((item) => {
+      for (let i = 0; i <= 2; i++) {
+        let start_next = moment(item.start).add(i, 'weeks');
+        let end_next = moment(item.end).add(i, 'weeks');
+
+        let s_next = start_next._d;
+        let e_next = end_next._d;
+
+        next_weeks.push({ start: s_next, end: e_next });
+      }
+    });
+  };
+
   return (
     <div>
       <Link className='btn btn-outline-secondary mb-2' to='/dashboard'>
@@ -491,30 +507,7 @@ const Schedule = ({
         </div>
       </div>
 
-      <button
-        className='btn btn-primary my-3'
-        onClick={() => {
-          console.log(newEv);
-          //let start_next = moment(newEv[0].start).add(0, 'weeks');
-          // console.log(start_next._d);
-          // console.log(start_next._i);
-          var next_weeks = [];
-          const recurDates = newEv.map((item) => {
-            for (let i = 0; i <= 2; i++) {
-              let start_next = moment(item.start).add(i, 'weeks');
-              let end_next = moment(item.end).add(i, 'weeks');
-
-              let s_next = start_next._d;
-              let e_next = end_next._d;
-
-              //console.log({ start: s_next, end: e_next });
-              next_weeks.push({ start: s_next, end: e_next });
-            }
-          });
-
-          console.log(next_weeks);
-        }}
-      >
+      <button className='btn btn-primary my-3' onClick={() => handleSubmit()}>
         Save
       </button>
     </div>
