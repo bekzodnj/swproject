@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Button, Modal } from 'react-bootstrap';
+import { Button, Modal, Alert } from 'react-bootstrap';
 
 import { Calendar, Views, momentLocalizer } from 'react-big-calendar';
 
@@ -24,6 +24,8 @@ export const ViewCourse = ({
   history,
   services,
   user,
+  schedule,
+
   getAllServices,
   getEnrolled,
   createEnrolled,
@@ -31,13 +33,13 @@ export const ViewCourse = ({
   match,
 }) => {
   useEffect(() => {
+    if (service[0] !== undefined) getTeacherSchedule(service[0].user);
     getAllServices();
-  }, [getAllServices]);
+  }, [getAllServices, getTeacherSchedule]);
 
   const course_id = match.params.service_id;
   const service = services.filter((el) => el._id === course_id);
-
-  if (service[0] !== undefined) getTeacherSchedule(service[0].user);
+  //console.log(schedule.working_times);
 
   //for Modal
   const [show, setShow] = useState(false);
@@ -48,14 +50,21 @@ export const ViewCourse = ({
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  const [isScheduleErrorShown, setIsScheduleErrorShown] = useState(false);
+
   const handeApply = () => {
     const formData = {
       teacher: service[0].user,
       student: user._id,
       service: service[0]._id,
       is_approved: false,
+      requestedDates: {
+        start: startDate,
+        end: endDate,
+      },
     };
 
+    console.log(formData);
     createEnrolled(formData, history);
 
     //console.log(formData);
@@ -83,6 +92,42 @@ export const ViewCourse = ({
   } else {
   }
 
+  let newSchedule = [];
+  if (schedule.working_times !== undefined) {
+    newSchedule = schedule.working_times.map((el) => ({
+      ...el,
+      start: new Date(el.start),
+      end: new Date(el.end),
+    }));
+
+    //console.log(newSchedule);
+  }
+
+  let isStartMatches = false;
+  let isEndMatches = false;
+  const handleStart = (startTime) => {
+    if (newSchedule.length > 0) {
+      isStartMatches = newSchedule.some((item) => item.start <= startTime);
+    }
+    isStartMatches
+      ? setIsScheduleErrorShown(true)
+      : setIsScheduleErrorShown(false);
+
+    setStartDate(startTime);
+    //console.log(isStartMatches);
+  };
+  const handleEnd = (endTime) => {
+    if (newSchedule.length > 0) {
+      isEndMatches = newSchedule.some((item) => item.end >= endTime);
+    }
+    isEndMatches
+      ? setIsScheduleErrorShown(true)
+      : setIsScheduleErrorShown(false);
+
+    setEndDate(endTime);
+    //console.log(isEndMatches);
+  };
+
   return (
     <section>
       <Link class='btn btn-outline-info my-1' to='/course-list'>
@@ -90,7 +135,7 @@ export const ViewCourse = ({
       </Link>
 
       {service[0] !== undefined && (
-        <div className='parent'>
+        <div className='parent mb-4'>
           <Modal show={show} onHide={handleClose}>
             <Modal.Header style={{ height: '60px' }} closeButton>
               <Modal.Title>Please confirm</Modal.Title>
@@ -215,60 +260,78 @@ export const ViewCourse = ({
           />
         </div>
       )}
+
       {service[0] !== undefined && service[0].category === 'consultation' && (
-        <div className='row'>
-          <div className='col-md-4 col-12' style={{ minHeight: '150px' }}>
-            <div className='picker'>
-              <div>
-                Start:
-                <DatePicker
-                  localizer
-                  selected={startDate}
-                  onChange={(date) => setStartDate(date)}
-                  showTimeSelect
-                  placeholderText={'Please select start time'}
-                  timeFormat='HH:mm'
-                  timeIntervals={15}
-                  timeCaption='time'
-                  dateFormat='MMMM d, yyyy hh:mm aa'
-                />
-              </div>
+        <div>
+          <h1 className='display-4'>Please request a day for consultation</h1>
+          <div className='row'>
+            <div className='col-md-4 col-12'>
+              <div className='picker'>
+                <Alert variant='primary'>
+                  Choose time according to teacher's schedule on the right
+                </Alert>
+                <div className='mb-2'>
+                  Start:
+                  <DatePicker
+                    localizer
+                    selected={startDate}
+                    onChange={(date) => handleStart(date)}
+                    showTimeSelect
+                    placeholderText={'Please select start time'}
+                    timeFormat='HH:mm'
+                    timeIntervals={15}
+                    timeCaption='time'
+                    dateFormat='MMMM d, yyyy hh:mm aa'
+                  />
+                </div>
 
-              <div>
-                End:{' '}
-                <DatePicker
-                  selected={endDate}
-                  onChange={(date) => setEndDate(date)}
-                  placeholderText={'Please select end time'}
-                  showTimeSelect
-                  timeFormat='HH:mm'
-                  timeIntervals={15}
-                  timeCaption='time'
-                  dateFormat='MMMM d, yyyy hh:mm aa'
-                />
-              </div>
+                <div>
+                  End:{' '}
+                  <DatePicker
+                    selected={endDate}
+                    onChange={(date) => handleEnd(date)}
+                    placeholderText={'Please select end time'}
+                    showTimeSelect
+                    timeFormat='HH:mm'
+                    timeIntervals={15}
+                    timeCaption='time'
+                    dateFormat='MMMM d, yyyy hh:mm aa'
+                  />
+                </div>
 
-              <hr />
+                <hr />
+                {!isScheduleErrorShown && (
+                  <Alert variant='danger'>
+                    Choose matching time with teacher's schedule
+                  </Alert>
+                )}
+                <Button variant='primary' onClick={handleShow} size='lg'>
+                  Apply
+                </Button>
+              </div>
             </div>
-          </div>
 
-          <div className='col-md-8 col-12'>
-            <div className=''>
-              <Calendar
-                localizer={localizer}
-                events={newEv}
-                defaultView={'week'}
-                defaultDate={new Date()}
-                style={{ height: '400px' }}
-                step={15}
-                popup={true}
-                min={min_time}
-                dayLayoutAlgorithm={'no-overlap'}
-              />
+            <div className='col-md-8 col-12'>
+              <div className=''>
+                <p>Teacher's schedule</p>
+                <Calendar
+                  localizer={localizer}
+                  events={newSchedule}
+                  defaultView={'week'}
+                  defaultDate={new Date()}
+                  style={{ height: '400px' }}
+                  step={15}
+                  popup={true}
+                  min={min_time}
+                  dayLayoutAlgorithm={'no-overlap'}
+                />
+              </div>
             </div>
           </div>
         </div>
       )}
+
+      <div style={{ height: '200px' }}></div>
     </section>
   );
 };
@@ -276,6 +339,7 @@ export const ViewCourse = ({
 const mapStateToProps = (state) => ({
   services: state.services,
   user: state.auth.user,
+  schedule: state.schedule,
 });
 
 export default connect(mapStateToProps, {

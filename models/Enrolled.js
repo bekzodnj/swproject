@@ -13,19 +13,21 @@ const EnrolledSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'service',
   },
-  requestedDates: [
-    {
-      start: {
-        type: Date,
-      },
-      end: {
-        type: Date,
-      },
+  requestedDates: {
+    start: {
+      type: Date,
     },
-  ],
+    end: {
+      type: Date,
+    },
+  },
   is_approved: {
     type: Boolean,
     default: false,
+  },
+  created_at: {
+    type: Date,
+    default: Date.now,
   },
 });
 
