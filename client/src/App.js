@@ -42,7 +42,7 @@ import TeacherInfo from './components/student/dashboard/TeacherInfo';
 import Posts from './components/Post/Posts';
 import CreatePost from './components/Post/CreatePost';
 
-//News
+//News - blogpost
 //import News from './components/Post/News';
 import Blog from './components/Post/Blog';
 
@@ -52,9 +52,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'tachyons';
 import { loadUser } from './actions/auth';
 import setAuthToken from './utils/setAuthToken';
-//Redux
+//Redux import
 import { Provider } from 'react-redux';
 import store from './store';
+
+// student
 import StudentRegister from './components/student/StudentRegister';
 
 if (localStorage.token) {

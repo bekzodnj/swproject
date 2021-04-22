@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+// non-used model
 const EventSchema = mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
