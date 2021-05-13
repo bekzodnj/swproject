@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@paypal/react-paypal-js": "^6.0.0",
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "dotenv": "^9.0.2",
     "draft-js": "^0.11.5",
     "draftjs-to-html": "^0.9.1",
