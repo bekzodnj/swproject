@@ -49,7 +49,7 @@ router.post(
 );
 
 // @route   GET api/enrolled/me
-// @desc    Get current enrolls created by student
+// @desc    Get enrolled classess by a student
 // @access  Private
 router.get('/me', auth, async (req, res) => {
   try {
@@ -58,7 +58,9 @@ router.get('/me', auth, async (req, res) => {
     }).populate('service');
 
     if (!enrolled) {
-      return res.status(400).json({ msg: 'There is service for this user' });
+      return res
+        .status(400)
+        .json({ msg: 'There are no classes for this user' });
     }
 
     res.json(enrolled);

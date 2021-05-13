@@ -1,0 +1,247 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Management System for Tutors and Students - API Documentation",
+    "description": "API documentations for backend endpoints",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "host": "localhost:5000",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "Management System for Tutors and Students",
+      "description": "API documentation for the system"
+    }
+  ],
+  "schemes": ["http"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "paths": {
+    "/api/services/": {
+      "post": {
+        "tags": ["Services"],
+        "summary": "Create a new service",
+        "description": "Create a new service by a teacher",
+        "parameters": [
+          {
+            "name": "service",
+            "in": "body",
+            "description": "Service that we want to create",
+            "schema": {
+              "$ref": "#/definitions/Service"
+            }
+          },
+          {
+            "in": "header",
+            "name": "x-auth-token",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "New service is created",
+            "schema": {
+              "$ref": "#/definitions/Service"
+            }
+          }
+        }
+      }
+    },
+    "/api/services": {
+      "get": {
+        "tags": ["Services"],
+        "summary": "Get all services",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Services"
+            }
+          }
+        }
+      }
+    },
+    "/api/services/edit/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "ID of the service that we want to find",
+          "type": "string"
+        },
+        {
+          "name": "service",
+          "in": "body",
+          "description": "Service that we want to create",
+          "schema": {
+            "$ref": "#/definitions/Service"
+          }
+        },
+        {
+          "in": "header",
+          "name": "x-auth-token",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "get": {
+        "tags": ["Services"],
+        "summary": "Get a service details",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Service"
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete the service with given ID",
+        "tags": ["Services"],
+        "responses": {
+          "200": {
+            "description": "Service is deleted",
+            "schema": {
+              "$ref": "#/definitions/Service"
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update the service with give ID",
+        "tags": ["Services"],
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "Service with new values of properties",
+            "schema": {
+              "$ref": "#/definitions/Service"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Service is updated",
+            "schema": {
+              "$ref": "#/definitions/Service"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Service": {
+      "required": ["title", "category", "subject"],
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "subject": {
+          "type": "string"
+        },
+        "category": {
+          "type": "string"
+        },
+        "duration": {
+          "type": "number"
+        },
+        "logo": {
+          "type": "string"
+        },
+        "min_no_of_students": {
+          "type": "number"
+        },
+        "max_no_of_students": {
+          "type": "number"
+        },
+        "address": {
+          "type": "string"
+        },
+        "cost": {
+          "type": "number"
+        },
+        "no_of_weeks": {
+          "type": "number"
+        },
+        "valid_from": {
+          "type": "string"
+        },
+        "expiry_date": {
+          "type": "string"
+        },
+        "info": {
+          "type": "string"
+        },
+        "detailed_info": {
+          "type": "string"
+        },
+        "is_published": {
+          "type": "boolean"
+        },
+        "isPublic": {
+          "type": "boolean"
+        },
+
+        "events": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "start": {
+                "type": "string"
+              },
+              "end": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "updateUser": {
+      "required": ["name", "companies"],
+      "properties": {
+        "isPublic": {
+          "type": "boolean"
+        },
+        "name": {
+          "type": "string"
+        },
+        "books": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "amount": {
+                "type": "number"
+              }
+            }
+          }
+        },
+        "companies": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "Services": {
+      "type": "array",
+      "$ref": "#/definitions/Service"
+    }
+  }
+}

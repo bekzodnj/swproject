@@ -52,8 +52,14 @@ export const CourseList = ({ services, getAllServices }) => {
                 <div className='card-body'>
                   <h5 className='card-title'>{el.title}</h5>
                   <hr />
+                  <p className='card-text'>Subject: {el.subject}</p>
                   <p className='card-text'>Category: {el.category}</p>
-                  <p className='card-text text-muted'>{el.info}</p>
+                  <p className='card-text text-muted'>
+                    Info:{' '}
+                    {el.info.length > 70
+                      ? el.info.slice(0, 70) + '...'
+                      : el.info}
+                  </p>
 
                   <Link to={`/services/${el._id}`} className='btn btn-primary'>
                     More

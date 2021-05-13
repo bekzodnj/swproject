@@ -64,9 +64,9 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout, user }) => {
         My Dashboard
       </Link>
 
-      <Link to='/news' className='p-2 mx-1 text-white'>
+      {/* <Link to='/news' className='p-2 mx-1 text-white'>
         News
-      </Link>
+      </Link> */}
 
       <Link to='/course-list' className='p-2 mx-1 text-white'>
         Browse Courses

@@ -25,6 +25,10 @@ const EnrolledSchema = mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  is_paid: {
+    type: Boolean,
+    default: false,
+  },
   created_at: {
     type: Date,
     default: Date.now,

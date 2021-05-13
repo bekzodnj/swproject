@@ -1,13 +1,15 @@
 const express = require('express');
 const connectDB = require('./config/db');
-
 const cors = require('cors');
-const stripe = require('stripe')('sk_test_8u4lx6sxZZsiwVwCevgjx6wf00XPIWNkXF');
-const { v4: uuidv4 } = require('uuid');
-
 const app = express();
 
-connectDB();
+const swaggerUi = require('swagger-ui-express'),
+  swaggerDocument = require('./swagger.json');
+
+require('dotenv').config();
+
+//
+connectDB(process.env.MONGO_URI);
 
 // init Middleware
 app.use(express.json({ extended: false }));
@@ -16,44 +18,6 @@ app.use(cors());
 // mapping to main
 app.get('/', (req, res) => {
   res.send('API is running');
-});
-
-// Stripe Payment
-// POST /checkout
-app.post('/checkout', async (req, res) => {
-  console.log('Request:', req.body);
-
-  let error;
-  let status;
-  try {
-    const { course, token } = req.body;
-
-    const customer = await stripe.customers.create({
-      email: token.email,
-      source: token.id,
-    });
-
-    const idempotency_key = uuidv4();
-    const charge = await stripe.charges.create(
-      {
-        amount: course.price * 100,
-        currency: 'usd',
-        customer: customer.id,
-        receipt_email: token.email,
-        description: `Purchased the ${course.name}`,
-      },
-      {
-        idempotency_key,
-      }
-    );
-    console.log('Charge:', { charge });
-    status = 'success';
-  } catch (error) {
-    console.error('Error:', error);
-    status = 'failure';
-  }
-
-  res.json({ error, status });
 });
 
 // define routes
@@ -74,6 +38,7 @@ app.use('/api/studentsAuth', require('./routes/api/studentsAuth'));
 // get deployment port or default
 const PORT = process.env.PORT || 5000;
 
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.listen(PORT, () => {
   console.log(`Server started on port: ${PORT}`);
 });

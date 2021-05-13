@@ -1,25 +1,28 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const auth = require("../../middleware/auth");
-const bcrypt = require("bcryptjs");
-const { check, validationResult } = require("express-validator");
-const config = require("config");
-const jwt = require("jsonwebtoken");
-const User = require("../../models/User");
-const Student = require("../../models/Student");
+const auth = require('../../middleware/auth');
+const bcrypt = require('bcryptjs');
+const { check, validationResult } = require('express-validator');
+const config = require('config');
+const jwt = require('jsonwebtoken');
+const User = require('../../models/User');
+const Student = require('../../models/Student');
 
-const nodemailer = require("nodemailer");
+const nodemailer = require('nodemailer');
+
+require('dotenv').config();
+const jwtSecret = process.env.JWT_SECRET;
 
 // @route   GET api/auth
 // @desc    Test Route
 // @access  Public
-router.get("/", auth, async (req, res) => {
+router.get('/', auth, async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).select("-password");
+    const user = await User.findById(req.user.id).select('-password');
     res.json(user);
   } catch (err) {
     console.log(err.message);
-    res.status(500).send("Server error");
+    res.status(500).send('Server error');
   }
 });
 
@@ -27,10 +30,10 @@ router.get("/", auth, async (req, res) => {
 // @desc    Login user
 // @access  Public
 router.post(
-  "/",
+  '/',
   [
-    check("email", "Please enter a valid email").isEmail(),
-    check("password", "Password is required").exists()
+    check('email', 'Please enter a valid email').isEmail(),
+    check('password', 'Password is required').exists(),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -47,7 +50,7 @@ router.post(
       if (!user) {
         return res
           .status(400)
-          .json({ errors: [{ msg: "Invalid credentials" }] });
+          .json({ errors: [{ msg: 'Invalid credentials' }] });
       }
 
       // comparing
@@ -56,24 +59,24 @@ router.post(
       if (!isMatch) {
         return res
           .status(400)
-          .json({ errors: [{ msg: "Invalid credentials" }] });
+          .json({ errors: [{ msg: 'Invalid credentials' }] });
       }
 
-      if (!user.is_teacher && user.role !== "student") {
-        return res.status(400).json({ errors: [{ msg: "Not activated yet" }] });
+      if (!user.is_teacher && user.role !== 'student') {
+        return res.status(400).json({ errors: [{ msg: 'Not activated yet' }] });
       }
 
       const payload = {
         user: {
-          id: user.id
-        }
+          id: user.id,
+        },
       };
 
       jwt.sign(
         payload,
-        config.get("jwtSecret"),
+        jwtSecret,
         {
-          expiresIn: 360000
+          expiresIn: 360000,
         },
         (err, token) => {
           if (err) throw err;
@@ -83,7 +86,7 @@ router.post(
       );
     } catch (error) {
       console.error(error.message);
-      res.status(500).send("Server error");
+      res.status(500).send('Server error');
     }
   }
 );
@@ -92,15 +95,11 @@ router.post(
 // @desc    Password Recovery
 // @access  Public
 router.post(
-  "/recovery",
+  '/recovery',
   [
-    check("email", "Please enter a valid email").isEmail(),
-    check("secretQuestion", "Secret question is required")
-      .not()
-      .isEmpty(),
-    check("secretAnswer", "Secret answer is required")
-      .not()
-      .isEmpty()
+    check('email', 'Please enter a valid email').isEmail(),
+    check('secretQuestion', 'Secret question is required').not().isEmpty(),
+    check('secretAnswer', 'Secret answer is required').not().isEmpty(),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -135,36 +134,36 @@ router.post(
           if (!user) {
             return res
               .status(400)
-              .json({ errors: [{ msg: "Incorrect credentials" }] });
+              .json({ errors: [{ msg: 'Incorrect credentials' }] });
           }
 
           var transporter = nodemailer.createTransport({
-            service: "gmail",
+            service: 'gmail',
             auth: {
-              user: "bekzodlev@gmail.com",
-              pass: "zzome.ru"
-            }
+              user: 'bekzodlev@gmail.com',
+              pass: 'zzome.ru',
+            },
           });
 
           const message_text = `<h2>Dear Teacher, You requested password recovery.</h2>
         <br>Here is the password (hash):<br> <b>${user.password}</b>`;
 
           var mailOptions = {
-            from: "bekzodlev@gmail.com",
+            from: 'bekzodlev@gmail.com',
             to: email,
-            subject: "Password Recovery",
-            html: message_text
+            subject: 'Password Recovery',
+            html: message_text,
           };
 
-          transporter.sendMail(mailOptions, function(error, info) {
+          transporter.sendMail(mailOptions, function (error, info) {
             if (error) {
               console.log(error);
             } else {
-              console.log("Email sent: " + info.response);
+              console.log('Email sent: ' + info.response);
             }
           });
 
-          res.json("Email sent");
+          res.json('Email sent');
         } else if (isStudent) {
           //res.json("Student");
 
@@ -173,47 +172,47 @@ router.post(
           if (!user) {
             return res
               .status(400)
-              .json({ errors: [{ msg: "Incorrect credentials" }] });
+              .json({ errors: [{ msg: 'Incorrect credentials' }] });
           }
 
           var transporter = nodemailer.createTransport({
-            service: "gmail",
+            service: 'gmail',
             auth: {
-              user: "bekzodlev@gmail.com",
-              pass: "zzome.ru"
-            }
+              user: 'bekzodlev@gmail.com',
+              pass: 'zzome.ru',
+            },
           });
 
           const message_text = `<h2>Dear Student, You requested password recovery.</h2>
         <br>Here is the password (hash):</br> <b>${user.password}</b>`;
 
           var mailOptions = {
-            from: "bekzodlev@gmail.com",
+            from: 'bekzodlev@gmail.com',
             to: email,
-            subject: "Password Recovery",
-            html: message_text
+            subject: 'Password Recovery',
+            html: message_text,
           };
 
-          transporter.sendMail(mailOptions, function(error, info) {
+          transporter.sendMail(mailOptions, function (error, info) {
             if (error) {
               console.log(error);
             } else {
-              console.log("Email sent: " + info.response);
+              console.log('Email sent: ' + info.response);
             }
           });
 
-          res.json("Email sent");
+          res.json('Email sent');
         }
 
         //res.json("Email sent");
       } else {
         return res
           .status(400)
-          .json({ errors: [{ msg: "This user do not exist" }] });
+          .json({ errors: [{ msg: 'This user do not exist' }] });
       }
     } catch (error) {
       console.error(error.message);
-      res.status(500).send("Server error");
+      res.status(500).send('Server error');
     }
   }
 );
@@ -222,17 +221,11 @@ router.post(
 // @desc    Password Setting new password
 // @access  Public
 router.post(
-  "/recovery/set",
+  '/recovery/set',
   [
-    check("hash", "Please enter a valid hash value")
-      .not()
-      .isEmpty(),
-    check("new_password", "New password is required")
-      .not()
-      .isEmpty(),
-    check("confirm_new_password", "Confirmation is required")
-      .not()
-      .isEmpty()
+    check('hash', 'Please enter a valid hash value').not().isEmpty(),
+    check('new_password', 'New password is required').not().isEmpty(),
+    check('confirm_new_password', 'Confirmation is required').not().isEmpty(),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -245,7 +238,7 @@ router.post(
     if (new_password !== confirm_new_password) {
       return res
         .status(400)
-        .json({ errors: [{ msg: "Passwords does not match" }] });
+        .json({ errors: [{ msg: 'Passwords does not match' }] });
     }
 
     try {
@@ -255,7 +248,7 @@ router.post(
       if (!user) {
         return res
           .status(400)
-          .json({ errors: [{ msg: "This hash do not exist" }] });
+          .json({ errors: [{ msg: 'This hash do not exist' }] });
       }
 
       // updating one sample
@@ -268,10 +261,10 @@ router.post(
 
       await user.save();
 
-      res.json("Success");
+      res.json('Success');
     } catch (error) {
       console.error(error.message);
-      res.status(500).send("Server error");
+      res.status(500).send('Server error');
     }
   }
 );
