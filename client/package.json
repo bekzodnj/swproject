@@ -10,7 +10,7 @@
     "draftjs-to-html": "^0.9.1",
     "htm": "^3.0.4",
     "markdown-to-jsx": "^6.11.4",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "moment-recur": "^1.0.7",
     "react": "^16.10.2",
     "react-big-calendar": "^0.22.1",
