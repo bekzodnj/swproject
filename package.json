@@ -15,7 +15,7 @@
     "@material-ui/pickers": "^3.2.8",
     "bcryptjs": "^2.4.3",
     "bootstrap": "^4.4.1",
-    "config": "^3.2.2",
+    "config": "^3.3.8",
     "cors": "^2.8.5",
     "dotenv": "^9.0.2",
     "express": "^4.17.1",
